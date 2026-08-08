@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   build:
@@ -20,23 +20,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Security audit
         run: npm audit --audit-level=high
 
       - name: Build
         run: npm run build
-
-      - name: Persist lockfile
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && !cancelled()
-        run: |
-          if [ -f package-lock.json ] && ! git diff --quiet -- package-lock.json; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add package-lock.json
-            git commit -m "chore: add npm lockfile"
-            git push
-          fi
