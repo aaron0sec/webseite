@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #fafafa;
+  --surface: #ffffff;
+  --surface-2: #f4f4f5;
+  --text: #09090b;
+  --muted: #71717a;
+  --border: #e4e4e7;
+  --accent: #16a34a;
+  --accent-soft: #dcfce7;
+}
+
+.dark {
+  --bg: #050505;
+  --surface: #0b0b0c;
+  --surface-2: #111113;
+  --text: #f4f4f5;
+  --muted: #a1a1aa;
+  --border: #27272a;
+  --accent: #4ade80;
+  --accent-soft: #052e16;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: Arial, Helvetica, sans-serif; }
+a { color: inherit; text-decoration: none; }
+::selection { background: var(--accent-soft); color: var(--text); }
+
+.container { width: min(1120px, calc(100% - 32px)); margin-inline: auto; }
+.grid-bg { background-image: linear-gradient(to right, color-mix(in srgb, var(--border) 55%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in srgb, var(--border) 55%, transparent) 1px, transparent 1px); background-size: 44px 44px; }
+.hero-glow { background: radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 42%); }
+
+.prose { line-height: 1.75; color: var(--muted); }
+.prose h2, .prose h3 { color: var(--text); margin-top: 2rem; }
+.prose code { border: 1px solid var(--border); background: var(--surface-2); padding: .15rem .35rem; border-radius: .35rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
