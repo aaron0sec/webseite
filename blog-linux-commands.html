@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>100+ Linux-Befehle für IT, Cybersecurity und OSINT | Joscha Aaron Schmidt</title>
+<meta name="description" content="Praxisleitfaden mit 100+ wichtigen Linux-Befehlen für IT-Administration, Cybersecurity, OSINT, Netzwerkdiagnose, Forensik und Systemmonitoring.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://hexsec.netlify.app/blog-linux-commands.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="100+ Linux-Befehle für IT, Cybersecurity und OSINT">
+<meta property="og:description" content="Praxisleitfaden mit wichtigen Linux-Kommandos für Administration, Netzwerkdiagnose, Security und Systemanalyse.">
+<meta property="og:url" content="https://hexsec.netlify.app/blog-linux-commands.html">
+<meta property="og:site_name" content="Joscha Aaron Schmidt — IT Security">
+<meta name="twitter:card" content="summary">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="responsive.css">
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"TechArticle",
+  "headline":"100+ Linux-Befehle für IT, Cybersecurity und OSINT",
+  "description":"Praxisleitfaden mit wichtigen Linux-Kommandos für Administration, Netzwerkdiagnose, Security und Systemanalyse.",
+  "author":{"@type":"Person","name":"Joscha Aaron Schmidt"},
+  "publisher":{"@type":"Person","name":"Joscha Aaron Schmidt"},
+  "mainEntityOfPage":{"@type":"WebPage","@id":"https://hexsec.netlify.app/blog-linux-commands.html"},
+  "keywords":"Linux Befehle, Linux Commands, Cybersecurity, OSINT, Netzwerkdiagnose, Bash, IT Security"
+}
+</script>
+</head>
+<body>
+<header>
+<nav>
+<a href="index.html" class="brand"><span class="dot"></span>Joscha Aaron Schmidt</a>
+<div class="nav-links">
+<a href="index.html#leistungen">Leistungen</a>
+<a href="grundlagen.html">IT-Grundlagen</a>
+<a href="blog-linux-commands.html">Blog</a>
+<a href="index.html#kontakt">Kontakt</a>
+</div>
+<div class="nav-right"><a href="https://github.com/aaron0sec" target="_blank" rel="noopener noreferrer" class="nav-cta">GitHub</a></div>
+</nav>
+</header>
+
+<main>
+<section class="article-hero">
+<div class="wrap">
+<div class="eyebrow">BLOG · LINUX · CYBERSECURITY</div>
+<h1>100+ Linux-Befehle, die IT- und Security-Profis kennen sollten</h1>
+<p class="lede">Ein kompakter Praxisleitfaden für Administration, Netzwerkdiagnose, OSINT, Security-Analyse, Scripting und Systemmonitoring. Die Übersicht basiert auf dem bereitgestellten „Essential Linux Commands [+100]“-Dokument und wurde für den Blog strukturiert.</p>
+</div>
+</section>
+
+<article class="prose">
+<p class="article-intro"><strong>Linux ist für IT-Security, Administration und OSINT besonders leistungsfähig, weil viele Diagnose- und Analysefunktionen direkt über die Shell erreichbar sind.</strong> Die folgenden Befehle bilden einen praktischen Werkzeugkasten. Vor allem bei produktiven Systemen gilt: Befehle mit destruktiver Wirkung oder hoher Systemlast nur auf dafür vorgesehenen Testsystemen ausführen.</p>
+
+<h2>1. Dateien und Verzeichnisse</h2>
+<p>Die tägliche Arbeit beginnt mit Navigation, Dateisuche und Dateiverwaltung. Besonders nützlich für Analyseaufgaben sind <code>find</code>, <code>file</code>, <code>lsof</code> und die Varianten von <code>ls</code>.</p>
+<pre><code>ls                 # Dateien und Verzeichnisse anzeigen
+ls -la             # inklusive versteckter Dateien und Details
+cd /pfad            # Verzeichnis wechseln
+cd ..               # eine Ebene zurück
+pwd                 # aktuelles Arbeitsverzeichnis anzeigen
+cat datei           # Datei ausgeben
+touch datei         # Datei anlegen/aktualisieren
+cp quelle ziel      # kopieren
+mv quelle ziel      # verschieben/umbenennen
+rm datei            # Datei löschen
+find / -name datei  # nach Namen suchen
+file datei          # Dateityp bestimmen
+less datei          # Datei seitenweise lesen
+head datei          # erste Zeilen
+ tail datei         # letzte Zeilen
+lsof                # geöffnete Dateien und zugehörige Prozesse
+
+du -h --max-depth=1 # Verzeichnisgrößen
+fdisk               # Partitionen verwalten</code></pre>
+
+<h2>2. Verzeichnisoperationen</h2>
+<pre><code>mkdir projekt
+rmdir projekt
+cp -r quelle ziel
+mv altes-verzeichnis neues-verzeichnis
+find / -type d -name "name"</code></pre>
+
+<h2>3. Prozesse und Jobs</h2>
+<p>Für Troubleshooting und Security-Analyse ist die Prozesssicht zentral. Sie zeigt, was auf einem System tatsächlich läuft und welche Prozesse beendet oder priorisiert werden können.</p>
+<pre><code>ps
+ps aux
+top
+htop
+kill PID
+pkill NAME
+bg
+fg
+fg N
+renice +N PID
+command &amp;&gt; logfile
+command 1&gt;stdout.log
+command 2&gt;stderr.log</code></pre>
+
+<h2>4. Dateirechte und Eigentümer</h2>
+<pre><code>chmod 640 datei
+chown user datei
+chgrp gruppe datei</code></pre>
+<p>Die Rechteverwaltung ist ein Kernbestandteil von Linux-Sicherheit. Änderungen sollten nach dem Prinzip der geringsten notwendigen Berechtigung erfolgen.</p>
+
+<h2>5. Netzwerkdiagnose und OSINT</h2>
+<p>Diese Befehle sind besonders relevant für Netzwerkadministration, OSINT und Security-Analysen. <code>ss</code> ist auf modernen Linux-Systemen in vielen Fällen die bevorzugte Alternative zu <code>netstat</code>.</p>
+<pre><code>ping host
+whois domain
+dig domain
+netstat -pnltu
+ifconfig
+ip addr
+ssh user@host
+scp datei user@host:/ziel
+wget https://example.org/datei
+curl -I https://example.org
+traceroute domain
+mtr domain
+ss -tulpn
+nmap -sV host</code></pre>
+<p><strong>Hinweis:</strong> Port- und Netzwerk-Scans wie <code>nmap</code> ausschließlich gegen Systeme durchführen, für die eine entsprechende Berechtigung besteht.</p>
+
+<h2>6. Archive und Kompression</h2>
+<pre><code>tar cf archiv.tar dateien/
+tar xf archiv.tar
+gzip datei
+gzip -d datei.gz
+zip -r archiv.zip dateien/
+unzip archiv.zip
+tar -cvf archiv.tar verzeichnis/
+tar -xvf archiv.tar
+tar -jcvf archiv.tar.bz2 verzeichnis/
+tar -jxvf archiv.tar.bz2</code></pre>
+
+<h2>7. Textverarbeitung und Log-Analyse</h2>
+<p>Textfilter sind ein wichtiger Bestandteil der Linux-Forensik und Incident Response. Mit Pipes lassen sich mehrere Werkzeuge zu reproduzierbaren Analyseketten verbinden.</p>
+<pre><code>grep "pattern" datei
+grep -r "pattern" verzeichnis
+command | grep "pattern"
+echo "text"
+sed 's/alt/neu/g' datei
+sed -i 's/alt/neu/g' datei
+diff datei1 datei2
+wc datei
+awk '{print $1}' datei
+cut -d':' -f1 /etc/passwd</code></pre>
+
+<h2>8. Speicher- und Ressourcenverbrauch</h2>
+<pre><code>df
+df -h
+du
+du -sh .
+free
+free -m
+whereis programm</code></pre>
+
+<h2>9. Systeminformationen</h2>
+<pre><code>date
+cal
+uptime
+w
+whoami
+uname -a
+df -h
+du -sh
+free -m</code></pre>
+
+<h2>10. Paketverwaltung</h2>
+<p>Für Debian- und Ubuntu-basierte Systeme sind die folgenden Befehle typisch:</p>
+<pre><code>sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install paketname
+sudo apt-get remove paketname</code></pre>
+
+<h2>11. Shell-Operatoren</h2>
+<pre><code>command1 ; command2   # beide Befehle ausführen
+command1 &amp;&amp; command2 # zweiter Befehl nur bei Erfolg
+command1 || command2 # zweiter Befehl nur bei Fehler
+command &amp;             # im Hintergrund starten</code></pre>
+
+<h2>12. Git und Versionskontrolle</h2>
+<p>Git ist für reproduzierbare Änderungen an Code, Konfigurationen und Dokumentation unverzichtbar.</p>
+<pre><code>git init
+git clone URL
+git add datei
+git commit -m "Beschreibung"
+git status
+git pull
+git push
+git branch
+git branch neuer-branch
+git checkout neuer-branch
+git merge neuer-branch
+git stash
+git stash apply
+git log
+git reset
+git rm datei
+git rebase
+git revert COMMIT_ID
+git cherry-pick COMMIT_ID</code></pre>
+
+<h2>13. Umgebungsvariablen</h2>
+<pre><code>env
+echo $VARIABLE
+export VARIABLE=value
+alias ll='ls -la'
+echo $PATH
+export PATH=$PATH:/neuer/pfad</code></pre>
+
+<h2>14. Cron und zeitgesteuerte Jobs</h2>
+<pre><code>crontab -l
+crontab -e
+crontab -r
+crontab -v
+crontab datei
+@reboot command</code></pre>
+
+<h2>15. Python-Pakete</h2>
+<pre><code>pip install paketname
+pip uninstall paketname
+pip freeze &gt; requirements.txt
+pip install -r requirements.txt</code></pre>
+
+<h2>16. Bash-Scripting</h2>
+<pre><code>#!/bin/bash
+$0, $1, ..., $9
+if [ condition ]; then ... fi
+for i in {1..10}; do ... done
+while [ condition ]; do ... done
+function name() { ... }</code></pre>
+
+<h2>17. Systemmonitoring und Performance</h2>
+<pre><code>iostat
+vmstat
+htop
+top
+free -m
+uptime</code></pre>
+<p><code>iostat</code> hilft bei CPU- und I/O-Analysen, <code>vmstat</code> liefert Informationen unter anderem zu Prozessen, Speicher und I/O, während <code>htop</code> eine interaktive Prozessübersicht bietet.</p>
+
+<h2>18. Suche nach Programmen und Dateien</h2>
+<pre><code>locate dateiname
+updatedb
+whereis programmname
+which befehl
+find / -type f -name "dateiname"</code></pre>
+
+<h2>19. Datenträger und Performance-Tests</h2>
+<pre><code>dd if=/dev/zero of=/tmp/output.img bs=8k count=256k
+hdparm -Tt /dev/sda</code></pre>
+<p>Diese Befehle können hohe I/O-Last erzeugen. Nicht unkontrolliert auf Produktivsystemen einsetzen.</p>
+
+<h2>20. Gefährliche Testbefehle</h2>
+<p>Das Ausgangsdokument enthält auch Befehle, die ein System absichtlich stark belasten können, darunter <code>yes &gt; /dev/null &amp;</code> und eine sogenannte Fork Bomb. Solche Beispiele gehören ausschließlich in isolierte Testumgebungen. Sie sind <strong>nicht</strong> für Produktivsysteme geeignet.</p>
+<pre><code># Nicht auf Produktivsystemen ausführen:
+yes &gt; /dev/null &amp;
+:(){ :|:&amp; };;</code></pre>
+
+<h2>Praxisregel: zuerst lesen, dann handeln</h2>
+<p>Ein sicherer Linux-Workflow besteht häufig aus drei Schritten: Zustand erfassen, Ergebnis bewerten, Änderung durchführen. Für unbekannte Befehle und Optionen ist die lokale Dokumentation die erste Anlaufstelle:</p>
+<pre><code>man ls
+man ss
+man find
+man grep</code></pre>
+<p>Die vollständige Übersicht des bereitgestellten PDFs umfasst zahlreiche weitere Beispiele aus Dateioperationen, Netzwerkdiagnose, Git, Cron, Bash und Systemmonitoring. Die Befehle auf dieser Seite wurden redaktionell geordnet, damit sie als praktischer Blog- und Lernartikel genutzt werden können.</p>
+
+<div class="article-callout">
+<strong>Security-Hinweis:</strong> Verwende Netzwerk- und Security-Werkzeuge nur auf eigenen Systemen oder mit ausdrücklicher Autorisierung. Gute Security beginnt nicht mit einem Tool, sondern mit einem klar definierten Scope.
+</div>
+</article>
+</main>
+
+<footer>
+<div class="wrap">
+<div class="footer-bottom">
+<span>© 2026 Joscha Aaron Schmidt — IT Security &amp; Netzwerktechnik</span>
+<div class="right"><a href="index.html">Startseite</a><a href="https://github.com/aaron0sec" target="_blank" rel="noopener noreferrer">GitHub</a><a href="impressum.html">Impressum</a></div>
+</div>
+</div>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
