@@ -47,3 +47,69 @@ button, a { -webkit-tap-highlight-color: transparent; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }
+
+/* ---------- Indigo / Cyber-Blue theme ---------- */
+:root,
+html[data-theme="dark"] {
+  --bg: #0b1020;
+  --bg-elevated: #111936;
+  --bg-panel: #121a32;
+  --border: #263258;
+  --border-strong: #34447a;
+  --text: #e5e7eb;
+  --text-dim: #a5b4cc;
+  --text-faint: #7180a3;
+  --accent: #6366f1;
+  --accent-dim: #4338ca;
+  --accent-soft: #818cf8;
+}
+
+html[data-theme="light"] {
+  --bg: #eef2ff;
+  --bg-elevated: #f8f9ff;
+  --bg-panel: #ffffff;
+  --border: #c7d2fe;
+  --border-strong: #a5b4fc;
+  --text: #172033;
+  --text-dim: #4b5875;
+  --text-faint: #6b7896;
+  --accent: #4f46e5;
+  --accent-dim: #4338ca;
+  --accent-soft: #6366f1;
+}
+
+::selection { background: var(--accent-dim); color: #fff; }
+
+body { background: var(--bg); color: var(--text); }
+
+.brand .dot { background: var(--accent); box-shadow: 0 0 12px var(--accent); }
+.nav-links a:hover,
+.social-icons a:hover,
+.theme-toggle:hover,
+.footer-cols a:hover,
+.footer-bottom a:hover,
+.prose a:hover,
+.impressum-box a:hover { color: var(--accent); }
+
+.nav-cta:hover { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, transparent); }
+.btn-primary { background: var(--accent); border-color: var(--accent); }
+.btn-primary:hover { background: var(--accent-soft); border-color: var(--accent-soft); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+.hero-fade {
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--bg) 35%, transparent), color-mix(in srgb, var(--bg) 75%, transparent) 60%, var(--bg));
+}
+
+.eyebrow,
+h1 em,
+.tag,
+.badge,
+.stat-row .v,
+.impressum-box h3 { color: var(--accent); }
+.eyebrow::before { background: var(--accent); }
+.term-body .prompt { color: var(--accent); }
+.cursor { background: var(--accent); }
+.prose blockquote { border-left-color: var(--accent); }
+
+.card:hover { background: var(--bg-elevated); }
+.music-btn:hover { border-color: var(--accent); color: var(--accent); }
