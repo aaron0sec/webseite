@@ -9,6 +9,8 @@
   --border: #e4e4e7;
   --accent: #16a34a;
   --accent-soft: #dcfce7;
+  --section-warm: #f7f5f0;
+  --section-cool: #f4f7f8;
 }
 
 .dark {
@@ -20,6 +22,8 @@
   --border: #27272a;
   --accent: #4ade80;
   --accent-soft: #052e16;
+  --section-warm: #0d0c0a;
+  --section-cool: #090d0f;
 }
 
 * { box-sizing: border-box; }
@@ -32,9 +36,21 @@ a { color: inherit; text-decoration: none; }
 .grid-bg { background-image: linear-gradient(to right, color-mix(in srgb, var(--border) 48%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in srgb, var(--border) 48%, transparent) 1px, transparent 1px); background-size: 44px 44px; }
 .hero-glow { background-image: radial-gradient(circle at 72% 4%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 34%), linear-gradient(to right, color-mix(in srgb, var(--border) 48%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in srgb, var(--border) 48%, transparent) 1px, transparent 1px); background-size: auto, 44px 44px, 44px 44px; }
 
+/* Subtle section contrast for a more natural, hand-designed visual rhythm. */
+main > section:nth-of-type(2) { background: var(--section-warm); }
+main > section:nth-of-type(3) { background: var(--bg); }
+main > section:nth-of-type(4) { background: var(--section-cool); }
+main > section:nth-of-type(2), main > section:nth-of-type(3), main > section:nth-of-type(4) { position: relative; }
+main > section:nth-of-type(2)::before, main > section:nth-of-type(4)::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at 8% 20%, color-mix(in srgb, var(--accent) 4%, transparent), transparent 28%); }
+
 .prose { line-height: 1.75; color: var(--muted); }
 .prose h2, .prose h3 { color: var(--text); margin-top: 2rem; }
 .prose code { border: 1px solid var(--border); background: var(--surface-2); padding: .15rem .35rem; border-radius: .35rem; }
+
+@media (max-width: 640px) {
+  main > section:nth-of-type(2) { background: var(--section-warm); }
+  main > section:nth-of-type(4) { background: var(--section-cool); }
+}
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
