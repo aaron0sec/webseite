@@ -1,29 +1,29 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #fafafa;
+  --bg: #f5f3ff;
   --surface: #ffffff;
-  --surface-2: #f4f4f5;
-  --text: #09090b;
-  --muted: #71717a;
-  --border: #e4e4e7;
-  --accent: #16a34a;
-  --accent-soft: #dcfce7;
-  --section-warm: #f7f5f0;
-  --section-cool: #f4f7f8;
+  --surface-2: #eeecff;
+  --text: #11112a;
+  --muted: #5f6280;
+  --border: #d9d6f2;
+  --accent: #6366f1;
+  --accent-soft: #e0e7ff;
+  --section-warm: #f5f3ff;
+  --section-cool: #f1f3ff;
 }
 
 .dark {
-  --bg: #050505;
-  --surface: #0b0b0c;
-  --surface-2: #111113;
-  --text: #f4f4f5;
-  --muted: #a1a1aa;
-  --border: #27272a;
-  --accent: #4ade80;
-  --accent-soft: #052e16;
-  --section-warm: #0d0c0a;
-  --section-cool: #090d0f;
+  --bg: #050711;
+  --surface: #0b0d1a;
+  --surface-2: #11142a;
+  --text: #f4f4ff;
+  --muted: #a5aac8;
+  --border: #292e52;
+  --accent: #6366f1;
+  --accent-soft: #312e81;
+  --section-warm: #0b0d1b;
+  --section-cool: #080b17;
 }
 
 * { box-sizing: border-box; }
@@ -34,14 +34,14 @@ a { color: inherit; text-decoration: none; }
 
 .container { width: min(1160px, calc(100% - 32px)); margin-inline: auto; }
 .grid-bg { background-image: linear-gradient(to right, color-mix(in srgb, var(--border) 48%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in srgb, var(--border) 48%, transparent) 1px, transparent 1px); background-size: 44px 44px; }
-.hero-glow { background-image: radial-gradient(circle at 72% 4%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 34%), linear-gradient(to right, color-mix(in srgb, var(--border) 48%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in srgb, var(--border) 48%, transparent) 1px, transparent 1px); background-size: auto, 44px 44px, 44px 44px; }
+.hero-glow { background-image: radial-gradient(circle at 72% 4%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 34%), linear-gradient(to right, color-mix(in srgb, var(--border) 48%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in srgb, var(--border) 48%, transparent) 1px, transparent 1px); background-size: auto, 44px 44px, 44px 44px; }
 
-/* Subtle section contrast for a more natural, hand-designed visual rhythm. */
+/* Subtle section contrast with an indigo/cool visual rhythm. */
 main > section:nth-of-type(2) { background: var(--section-warm); }
 main > section:nth-of-type(3) { background: var(--bg); }
 main > section:nth-of-type(4) { background: var(--section-cool); }
 main > section:nth-of-type(2), main > section:nth-of-type(3), main > section:nth-of-type(4) { position: relative; }
-main > section:nth-of-type(2)::before, main > section:nth-of-type(4)::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at 8% 20%, color-mix(in srgb, var(--accent) 4%, transparent), transparent 28%); }
+main > section:nth-of-type(2)::before, main > section:nth-of-type(4)::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at 8% 20%, color-mix(in srgb, var(--accent) 6%, transparent), transparent 28%); }
 
 .prose { line-height: 1.75; color: var(--muted); }
 .prose h2, .prose h3 { color: var(--text); margin-top: 2rem; }
