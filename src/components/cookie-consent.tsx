@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Cookie, ShieldCheck } from "lucide-react";
 
-const STORAGE_KEY = "cookie-consent-v1";
+const STORAGE_KEY = "cookie-consent-v2";
 
 export function CookieConsent() {
   const [visible, setVisible] = useState(false);
@@ -20,7 +20,7 @@ export function CookieConsent() {
     try {
       window.localStorage.setItem(STORAGE_KEY, "acknowledged");
     } catch {
-      // If storage is blocked, dismiss for this session.
+      // Wenn der Browser lokale Speicherung blockiert, gilt die Auswahl nur für diese Sitzung.
     }
     setVisible(false);
   };
@@ -47,6 +47,9 @@ export function CookieConsent() {
             Diese Website verwendet keine eigenen Werbe- oder Tracking-Cookies. Technisch notwendige
             Cookies können durch Hosting- und Sicherheitsdienste wie Cloudflare gesetzt werden.
             Optionale Analyse- oder Marketing-Cookies werden derzeit nicht eingesetzt.
+          </p>
+          <p className="mt-2 text-xs leading-5 text-[var(--muted)]">
+            Mehr Informationen findest du in der <a href="/datenschutz" className="text-[var(--accent)] hover:underline">Datenschutzerklärung</a>.
           </p>
           <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
             <a href="/datenschutz" className="inline-flex min-h-10 items-center justify-center rounded-full border border-[var(--border)] px-4 py-2 text-sm font-medium text-[var(--text)] transition hover:border-[var(--accent)]">Datenschutz</a>
