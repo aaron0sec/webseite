@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Black Hat Python – Einordnung für Security-Interessierte | Joscha Aaron Schmidt</title>
+<meta name="description" content="Technische Einordnung von Black Hat Python: Python, Netzwerkanalyse, Web Security, Burp Suite, Forensik und offensive Security – mit aktuellen Hinweisen zur ersten Ausgabe.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://hexsec.netlify.app/blog-black-hat-python.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Black Hat Python – Einordnung für Security-Interessierte">
+<meta property="og:description" content="Technische Einordnung des bekannten Security-Buchs und seiner Themenfelder.">
+<meta property="og:url" content="https://hexsec.netlify.app/blog-black-hat-python.html">
+<meta property="og:site_name" content="Joscha Aaron Schmidt — IT Security">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="responsive.css">
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"TechArticle",
+  "headline":"Black Hat Python – Einordnung für Security-Interessierte",
+  "description":"Technische Einordnung des Buchs Black Hat Python und seiner Security-Themen.",
+  "author":{"@type":"Person","name":"Joscha Aaron Schmidt"},
+  "publisher":{"@type":"Person","name":"Joscha Aaron Schmidt"},
+  "mainEntityOfPage":{"@type":"WebPage","@id":"https://hexsec.netlify.app/blog-black-hat-python.html"}
+}
+</script>
+</head>
+<body>
+<header>
+<nav>
+<a href="index.html" class="brand"><span class="dot"></span>Joscha Aaron Schmidt</a>
+<div class="nav-links">
+<a href="index.html#leistungen">Leistungen</a>
+<a href="grundlagen.html">IT-Grundlagen</a>
+<a href="blog-linux-commands.html">Blog</a>
+<a href="index.html#kontakt">Kontakt</a>
+</div>
+<div class="nav-right"><a href="https://github.com/aaron0sec" target="_blank" rel="noopener noreferrer" class="nav-cta">GitHub</a></div>
+</nav>
+</header>
+
+<main>
+<section class="article-hero">
+<div class="wrap">
+<div class="eyebrow">BLOG · PYTHON · OFFENSIVE SECURITY</div>
+<h1>Black Hat Python: Python für Security-Analysen</h1>
+<p class="lede">Eine technische Einordnung des bereitgestellten Security-Buchs und der darin behandelten Themen – von Netzwerkprogrammierung über Web Security bis zu Forensik und Windows-Internals.</p>
+</div>
+</section>
+
+<article class="prose">
+<p class="article-intro"><strong>Black Hat Python</strong> von Justin Seitz und Tim Arnold ist ein praxisorientiertes Buch über Python im Security-Kontext. Die bereitgestellte PDF-Ausgabe behandelt unter anderem Netzwerkprogrammierung, Scapy, Web-Hacking, Burp-Extensions, Windows-Analyse, Privilege Escalation und offensive Forensik.</p>
+
+<h2>Was behandelt das Buch?</h2>
+<p>Die Kapitel bauen einen Werkzeugkasten für Security-Entwickler und Pentester auf. Zu den Themen gehören unter anderem:</p>
+<ul>
+<li>Python-Umgebungen und Grundlagen für Security-Scripting</li>
+<li>Netzwerkprogrammierung und eigene Netzwerk-Tools</li>
+<li>Packet- und Traffic-Analyse mit Scapy</li>
+<li>Web-Hacking und automatisierte Web-Analyse</li>
+<li>Erweiterungen für Burp Suite</li>
+<li>Analyse von Windows-Systemen und Prozessen</li>
+<li>Privilege-Escalation-Konzepte</li>
+<li>offensive Forensik und Speicheranalyse</li>
+</ul>
+
+<h2>Warum ist das für Security interessant?</h2>
+<p>Der technische Wert liegt weniger im einzelnen Skript als in der Denkweise: Sicherheitsanalysen lassen sich mit Python reproduzierbar automatisieren. Netzwerkpakete können programmgesteuert ausgewertet, Testfälle systematisch erzeugt und Analysewerkzeuge an konkrete Untersuchungen angepasst werden.</p>
+
+<div class="article-callout">
+<strong>Praxis-Hinweis:</strong> Beispiele aus offensiver Security sollten ausschließlich in eigenen Laborumgebungen oder mit ausdrücklicher Autorisierung eingesetzt werden. Insbesondere Scans, Exploit-Tests, Credential-Tests und Aktionen mit möglicher Datenexfiltration gehören in einen klar definierten Scope.
+</div>
+
+<h2>Technische Themen, die besonders hervorstechen</h2>
+<h3>Scapy und Netzwerkforensik</h3>
+<p>Das Buch zeigt, wie Python zur Arbeit mit Netzwerkpaketen eingesetzt werden kann. Dazu gehören unter anderem das Erkennen und Auswerten von Netzwerkverkehr sowie die Verarbeitung von PCAP-Daten.</p>
+
+<h3>Web Security und Burp Suite</h3>
+<p>Ein weiterer Schwerpunkt ist die Automatisierung von Web-Security-Aufgaben. Dazu gehören eigene Erweiterungen und das strukturierte Testen von Webanwendungen.</p>
+
+<h3>Windows-Internals</h3>
+<p>Die Windows-Kapitel betrachten Prozesse, Token und Berechtigungen. Für defensive Security ist dieses Wissen ebenfalls relevant, weil dieselben Mechanismen bei der Erkennung und Bewertung von Angriffen eine Rolle spielen.</p>
+
+<h3>Offensive Forensics</h3>
+<p>Die späteren Kapitel verbinden Python mit Speicher- und Systemanalyse. Das ist besonders interessant, wenn man Security nicht nur als Netzwerkdisziplin, sondern als Untersuchung kompletter Systeme betrachtet.</p>
+
+<h2>Wichtiger Hinweis zur bereitgestellten PDF</h2>
+<p>Die von mir bereitgestellte Datei ist eine vollständige Buchausgabe. Da das Werk urheberrechtlich geschützt ist, veröffentliche ich die vollständige PDF nicht auf meiner Website. Stattdessen dokumentiere ich hier die Inhalte und verweise auf die offizielle Bezugsquelle.</p>
+<p>Die aktuelle zweite Ausgabe wurde 2021 von No Starch Press veröffentlicht und enthält gegenüber der ersten Ausgabe aktualisierte Python-3.x-Beispiele sowie zusätzliche Inhalte.</p>
+
+<p><a href="https://nostarch.com/node/583" target="_blank" rel="noopener noreferrer" class="btn-primary">Offizielle Buchseite bei No Starch Press →</a></p>
+
+<h2>Fazit</h2>
+<p>Für Security-Interessierte ist Black Hat Python vor allem als Brücke zwischen Python-Programmierung und praktischer Sicherheitsanalyse interessant. Wer die Konzepte versteht, kann eigene Analyse- und Testwerkzeuge entwickeln, statt sich ausschließlich auf fertige Tools zu verlassen.</p>
+
+<div class="article-callout">
+<strong>Weiterführend:</strong> Auf diesem Blog findest du auch einen Praxisleitfaden mit Linux-Befehlen für IT, Cybersecurity und OSINT.
+<br><br>
+<a href="blog-linux-commands.html">→ Linux-Security-Blog öffnen</a>
+</div>
+</article>
+</main>
+
+<footer>
+<div class="wrap">
+<div class="footer-bottom">
+<span>© 2026 Joscha Aaron Schmidt — IT Security &amp; Netzwerktechnik</span>
+<div class="right"><a href="index.html">Startseite</a><a href="https://github.com/aaron0sec" target="_blank" rel="noopener noreferrer">GitHub</a><a href="impressum.html">Impressum</a></div>
+</div>
+</div>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
