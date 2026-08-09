@@ -9,6 +9,15 @@ const donations = [
 ];
 
 export function SiteFooter() {
+  const openPrivacyNotice = () => {
+    try {
+      window.localStorage.removeItem("cookie-consent-v2");
+    } catch {
+      // Falls lokale Speicherung blockiert ist, wird der Hinweis beim nächsten Seitenaufruf erneut angezeigt.
+    }
+    window.location.reload();
+  };
+
   return (
     <footer className="border-t border-[var(--border)]">
       <div className="container py-10">
@@ -34,9 +43,10 @@ export function SiteFooter() {
         </div>
         <div className="flex flex-col gap-4 text-sm text-[var(--muted)] sm:flex-row sm:items-center sm:justify-between">
           <span>© 2026 Joscha Aaron Schmidt</span>
-          <div className="flex items-center gap-5">
+          <div className="flex flex-wrap items-center gap-5">
             <a href="/impressum">Impressum</a>
             <a href="/datenschutz">Datenschutz</a>
+            <button type="button" onClick={openPrivacyNotice} className="transition hover:text-[var(--text)]">Cookie-Hinweis</button>
             <a href="https://github.com/aaron0sec" target="_blank" rel="noreferrer" aria-label="GitHub"><Github size={16}/></a>
             <a href="https://www.instagram.com/linux_aaron/" target="_blank" rel="noreferrer" aria-label="Instagram"><Instagram size={16}/></a>
             <a href="https://www.tiktok.com/@linux_aaron" target="_blank" rel="noreferrer" aria-label="TikTok"><Music2 size={16}/></a>
