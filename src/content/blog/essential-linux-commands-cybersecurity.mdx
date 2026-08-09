@@ -1,0 +1,53 @@
+---
+title: "Linux für Cybersecurity: Befehle, Analyse & Incident Response"
+date: "2026-08-09"
+category: "Linux · Cybersecurity · DFIR"
+---
+
+Linux ist in der Cybersecurity nicht nur eine Plattform für Server und Security-Tools. Die Shell liefert direkt die Informationen, die bei Netzwerkdiagnose, Incident Response, Forensik und System-Hardening entscheidend sein können.
+
+## Netzwerkverbindungen sichtbar machen
+
+Mit ss lassen sich aktive Verbindungen, lauschende Ports und Prozessinformationen schnell untersuchen. lsof ergänzt diese Sicht um die Zuordnung von Dateien und Netzwerk-Sockets zu Prozessen.
+
+## Prozesse und verdächtige Aktivitäten
+
+ps, top beziehungsweise htop und lsof helfen dabei, ungewöhnliche Prozesse, hohe Ressourcenlast und geöffnete Dateien zu erkennen. Eine auffällige CPU-Last ist dabei zunächst ein Indikator und noch kein Beweis für Malware.
+
+## Dateisystem und Integrität
+
+find und grep eignen sich für die Suche nach kürzlich geänderten Dateien, ungewöhnlichen Berechtigungen und bestimmten Mustern. Für Integritätsprüfungen können SHA-256-Hashes erzeugt und später verglichen werden.
+
+## Forensische Zeitlinien
+
+Dateisystem-Zeitstempel wie atime, mtime und ctime können bei der zeitlichen Rekonstruktion eines Vorfalls helfen. Aussagekräftig werden solche Daten vor allem in Verbindung mit Logs, Benutzeraktivitäten und Netzwerkereignissen.
+
+## Logs und Authentifizierung
+
+journalctl sowie distributionsabhängige Authentifizierungslogs sind wichtige Quellen für Incident Response. Fehlgeschlagene und erfolgreiche SSH-Anmeldungen können beispielsweise auf ungewöhnliche Aktivitäten hinweisen.
+
+## Benutzer, Gruppen und SSH
+
+Für ein Security-Audit sind unter anderem Konten mit UID 0, Gruppenmitgliedschaften, Login-Historien und die effektive SSH-Konfiguration relevant. Änderungen sollten immer dokumentiert und auf die konkrete Systemrolle abgestimmt werden.
+
+## System-Hardening
+
+Hardening umfasst unter anderem unnötige Dienste, Netzwerkparameter, Dateiberechtigungen, SSH und Firewall-Regeln. Pauschale Hardening-Skripte sind nicht grundsätzlich sicher: Einstellungen müssen zur Distribution und zum Einsatzzweck passen.
+
+## Incident Response
+
+Bei einem Verdacht auf eine Kompromittierung sollte zunächst der Zustand dokumentiert werden. Eine strukturierte Triage kann Systeminformationen, Netzwerkverbindungen, Prozesse, Benutzeraktivität, Logs und kürzlich geänderte Dateien erfassen.
+
+## Cryptomining als Anomalie
+
+Ungewöhnlich hohe CPU-Last kann unter anderem durch Cryptomining entstehen, aber ebenso durch legitime rechenintensive Prozesse. Eine belastbare Bewertung kombiniert Prozessdaten, Netzwerkverbindungen, Persistenzmechanismen, Dateisystemartefakte und Logs.
+
+## Ressourcen und portable Security-Skripte
+
+Rekursive Dateisuchen, Paketmitschnitte und Hash-Berechnungen können selbst erhebliche Ressourcen verbrauchen. Für produktive Systeme sind daher kontrollierte Laufzeiten, reduzierte Prioritäten und geeignete Testumgebungen sinnvoll.
+
+## Fazit
+
+Professionelle Linux-Security bedeutet nicht, möglichst viele Befehle auswendig zu kennen. Entscheidend ist zu verstehen, welche Information ein Werkzeug liefert und wie mehrere Quellen zu einer reproduzierbaren Analyse kombiniert werden können.
+
+Die Beispiele und Methoden sind für Administration, Defensive Security, autorisierte Analysen und Ausbildung gedacht. Scans und Sicherheitstests gehören ausschließlich in Systeme, für die eine ausdrückliche Berechtigung besteht.
