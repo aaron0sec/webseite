@@ -16,11 +16,11 @@ export function CookieConsent() {
     }
   }, []);
 
-  const save = (choice: "accepted" | "necessary") => {
+  const dismiss = () => {
     try {
-      window.localStorage.setItem(STORAGE_KEY, choice);
+      window.localStorage.setItem(STORAGE_KEY, "acknowledged");
     } catch {
-      // If storage is blocked, the banner can still be dismissed for this session.
+      // If storage is blocked, dismiss for this session.
     }
     setVisible(false);
   };
@@ -30,9 +30,9 @@ export function CookieConsent() {
   return (
     <aside
       role="dialog"
-      aria-label="Cookie-Einstellungen"
+      aria-label="Cookies & Datenschutz"
       aria-describedby="cookie-consent-description"
-      className="fixed inset-x-3 bottom-3 z-[100] mx-auto max-w-3xl rounded-2xl border border-[var(--border)] bg-[var(--surface)]/95 p-5 shadow-2xl shadow-black/40 backdrop-blur-xl sm:inset-x-6 sm:bottom-6 sm:p-6"
+      className="fixed inset-x-3 bottom-3 z-[100] mx-auto max-w-2xl rounded-2xl border border-[var(--border)] bg-[var(--surface)]/95 p-5 shadow-2xl shadow-black/40 backdrop-blur-xl sm:inset-x-6 sm:bottom-6 sm:p-6"
     >
       <div className="flex gap-4">
         <div className="hidden shrink-0 rounded-xl border border-[var(--border)] bg-[var(--bg)] p-3 sm:block">
@@ -48,25 +48,9 @@ export function CookieConsent() {
             Cookies können durch Hosting- und Sicherheitsdienste wie Cloudflare gesetzt werden.
             Optionale Analyse- oder Marketing-Cookies werden derzeit nicht eingesetzt.
           </p>
-          <p className="mt-2 text-xs leading-5 text-[var(--muted)]">
-            Deine Auswahl wird nur lokal im Browser gespeichert. Mehr Informationen findest du in der{" "}
-            <a href="/datenschutz" className="text-[var(--accent)] hover:underline">Datenschutzerklärung</a>.
-          </p>
-          <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:justify-end">
-            <button
-              type="button"
-              onClick={() => save("necessary")}
-              className="inline-flex min-h-10 items-center justify-center rounded-full border border-[var(--border)] px-4 py-2 text-sm font-medium text-[var(--text)] transition hover:border-[var(--accent)]"
-            >
-              Nur notwendige
-            </button>
-            <button
-              type="button"
-              onClick={() => save("accepted")}
-              className="inline-flex min-h-10 items-center justify-center rounded-full bg-[var(--accent)] px-4 py-2 text-sm font-medium text-black transition hover:brightness-110"
-            >
-              Zustimmen
-            </button>
+          <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
+            <a href="/datenschutz" className="inline-flex min-h-10 items-center justify-center rounded-full border border-[var(--border)] px-4 py-2 text-sm font-medium text-[var(--text)] transition hover:border-[var(--accent)]">Datenschutz</a>
+            <button type="button" onClick={dismiss} className="inline-flex min-h-10 items-center justify-center rounded-full bg-[var(--accent)] px-5 py-2 text-sm font-medium text-black transition hover:brightness-110">Verstanden</button>
           </div>
         </div>
       </div>
