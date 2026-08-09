@@ -12,6 +12,14 @@ export function SiteFooter() {
   return (
     <footer className="border-t border-[var(--border)]">
       <div className="container py-10">
+        <div className="mb-10 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 text-center">
+          <p className="font-mono text-xs tracking-[0.18em] text-[var(--accent)]">FRIEDRICH NIETZSCHE</p>
+          <blockquote className="mx-auto mt-4 max-w-4xl text-xl font-medium leading-8 tracking-tight text-[var(--text)] sm:text-2xl sm:leading-10">
+            „Der schlimmste Feind, dem du begegnen kannst, wirst du immer dir selber sein.“
+          </blockquote>
+          <p className="mt-3 font-mono text-xs text-[var(--muted)]">— Friedrich Nietzsche, <em>Also sprach Zarathustra</em></p>
+        </div>
+
         <div className="mb-8 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-6">
           <p className="font-mono text-xs tracking-[0.18em] text-[var(--accent)]">VOLUNTÄR · OPEN SOURCE</p>
           <h2 className="mt-2 text-lg font-semibold text-[var(--text)]">Meine Arbeit unterstützen</h2>
