@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { CookieConsent } from "@/components/cookie-consent";
+import { BitcoinTicker } from "@/components/bitcoin-ticker";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://linuxaaron.dpdns.org"),
@@ -13,5 +14,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="de" className="dark"><head><meta name="google-site-verification" content="SjcxIb0LYpV5eAe7mZOXWJgi7nXtGW8fSQIGP2A9erY" /></head><body><SiteHeader />{children}<SiteFooter /><CookieConsent /></body></html>;
+  return <html lang="de" className="dark"><head><meta name="google-site-verification" content="SjcxIb0LYpV5eAe7mZOXWJgi7nXtGW8fSQIGP2A9erY" /></head><body><SiteHeader /><BitcoinTicker />{children}<SiteFooter /><CookieConsent /></body></html>;
 }
