@@ -1,6 +1,6 @@
 "use client";
 
-import { Github, Instagram, Music2 } from "lucide-react";
+import { Github, Instagram, Music2, ExternalLink } from "lucide-react";
 
 const donations = [
   { name: "Bitcoin (BTC)", address: "bc1qmqdka29u7e6n5ypyfq6rldl429kcgpha792yzp", scheme: "bitcoin" },
@@ -12,14 +12,12 @@ export function SiteFooter() {
   return (
     <footer className="border-t border-[var(--border)]">
       <div className="container py-10">
-        <div className="mb-10 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 text-center">
-          <p className="font-mono text-xs tracking-[0.18em] text-[var(--accent)]">FRIEDRICH NIETZSCHE</p>
-          <blockquote className="mx-auto mt-4 max-w-4xl text-xl font-medium leading-8 tracking-tight text-[var(--text)] sm:text-2xl sm:leading-10">
-            „Der schlimmste Feind, dem du begegnen kannst, wirst du immer dir selber sein.“
-          </blockquote>
-          <p className="mt-3 font-mono text-xs text-[var(--muted)]">— Friedrich Nietzsche, <em>Also sprach Zarathustra</em></p>
+        <div className="mb-8 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-6">
+          <p className="font-mono text-xs tracking-[0.18em] text-[var(--accent)]">PRIVACY · FREIES INTERNET</p>
+          <h2 className="mt-2 text-lg font-semibold text-[var(--text)]">Ich unterstütze das Tor Project</h2>
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--muted)]">Für ein freies Internet und digitale Privatsphäre. Das Tor Project entwickelt freie und quelloffene Technologien, die Menschen helfen, ihre Privatsphäre zu schützen, Überwachung zu erschweren und Zensur zu umgehen.</p>
+          <a href="https://www.torproject.org/de/" target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-[var(--accent)] hover:underline">Zum Tor Project <ExternalLink size={15}/></a>
         </div>
-
         <div className="mb-8 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-6">
           <p className="font-mono text-xs tracking-[0.18em] text-[var(--accent)]">VOLUNTÄR · OPEN SOURCE</p>
           <h2 className="mt-2 text-lg font-semibold text-[var(--text)]">Meine Arbeit unterstützen</h2>
