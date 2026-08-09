@@ -4,6 +4,7 @@ import { Reveal } from "@/components/reveal";
 export const metadata: Metadata = { title: "Blog", description: "Technische Beiträge von Joscha Aaron Schmidt zu OSINT, Web Security, Linux und Incident Response." };
 
 const posts = [
+  { slug: "hardware-geldmacherei-it-einsteiger", title: "Braucht man wirklich 64 oder 128 GB RAM? Wenn IT-Hardware zur Geldmacherei wird", date: "2026-08-09", category: "Hardware · Linux · IT-Einstieg", excerpt: "Warum junge Menschen für den Einstieg in die IT nicht automatisch High-End-Hardware brauchen und weshalb ein günstiger Rechner oft das bessere Lernwerkzeug ist." },
   { slug: "burp-suite-nuclei-websecurity", title: "Burp Suite & Nuclei: Zwei Werkzeuge für moderne Web-Security-Analysen", date: "2026-08-09", category: "Web Security · Burp Suite · Nuclei", excerpt: "Wie interaktive HTTP-Analyse mit Burp Suite und reproduzierbare Checks mit Nuclei einen sauberen Web-Security-Workflow ergänzen." },
   { slug: "essential-linux-commands-cybersecurity", title: "Linux für Cybersecurity: Befehle, Analyse & Incident Response", date: "2026-08-09", category: "Linux · Cybersecurity · DFIR", excerpt: "Ein deutschsprachiger Praxisbeitrag zu Netzwerkdiagnose, Prozessanalyse, Forensik, Log-Analyse, Hardening und strukturierter Incident Response." },
   { slug: "osint-webanalyse", title: "OSINT bei der technischen Webanalyse", date: "2026-08-08", category: "OSINT", excerpt: "Welche öffentlich zugänglichen Signale sich bei einer technischen Webanalyse sinnvoll kombinieren lassen." },
