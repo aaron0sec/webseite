@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { getCyberNews } from "@/lib/cyber-news";
 
 export const dynamic = "force-dynamic";
@@ -10,5 +11,15 @@ export async function GET(request: Request) {
   }
 
   const items = await getCyberNews(30);
-  return Response.json({ ok: true, refreshed: items.length, at: new Date().toISOString() });
+  const refreshedAt = new Date().toISOString();
+
+  revalidatePath("/news/rss.xml");
+  revalidatePath("/news");
+
+  return Response.json({
+    ok: true,
+    refreshed: items.length,
+    refreshedAt,
+    nextExpectedRun: new Date(Date.now() + 15 * 60 * 1000).toISOString(),
+  });
 }
