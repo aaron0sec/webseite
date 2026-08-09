@@ -1,3 +1,5 @@
+"use client";
+
 import { Github, Instagram, Music2 } from "lucide-react";
 
 const donations = [
@@ -18,7 +20,7 @@ export function SiteFooter() {
             {donations.map((donation) => (
               <div key={donation.name} className="rounded-xl border border-[var(--border)] bg-[var(--bg)] p-4">
                 <p className="text-sm font-medium text-[var(--text)]">{donation.name}</p>
-                <button type="button" onClick={() => navigator.clipboard?.writeText(donation.address)} className="mt-2 block w-full break-all text-left font-mono text-[11px] leading-5 text-[var(--muted)] hover:text-[var(--accent)]" title="Adresse kopieren">{donation.address}</button>
+                <button type="button" onClick={() => navigator.clipboard?.writeText(donation.address)} className="mt-2 block w-full break-all text-left font-mono text-[11px] leading-5 text-[var(--muted)] hover:text-[var(--accent)]" title="Adresse kopieren" aria-label={`${donation.name} Adresse kopieren`}>{donation.address}</button>
                 <a href={`${donation.scheme}:${donation.address}`} className="mt-3 inline-flex min-h-9 items-center rounded-full border border-[var(--border)] px-3 py-1.5 text-xs font-medium text-[var(--text)] hover:border-[var(--accent)]">Wallet öffnen →</a>
               </div>
             ))}
