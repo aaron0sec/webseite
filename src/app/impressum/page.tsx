@@ -25,7 +25,8 @@ export default function Impressum() {
           E-Mail: <a href="mailto:aaronfree00@proton.me">aaronfree00@proton.me</a>
         </p>
 
-        <h2>Verantwortlich für den Inhalt</h2>
+        <h2>Verantwortlich für journalistisch-redaktionelle Inhalte</h2>
+        <p><strong>Verantwortlich gemäß § 18 Abs. 2 Medienstaatsvertrag (MStV):</strong></p>
         <p>
           Joscha Aaron Schmidt<br />
           Im Sinnighofen 8b<br />
@@ -35,28 +36,30 @@ export default function Impressum() {
 
         <h2>Umsatzsteuer-Identifikationsnummer</h2>
         <p>
-          Sofern keine Umsatzsteuer-Identifikationsnummer nach § 27a UStG vorhanden ist,
-          entfällt diese Angabe.
+          Eine Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG oder eine
+          Wirtschafts-Identifikationsnummer gemäß § 139c AO wird nur angegeben, sofern eine solche
+          Nummer tatsächlich vorhanden ist. Die persönliche steuerliche Identifikationsnummer
+          (Steuer-ID) wird nicht veröffentlicht.
         </p>
 
         <h2>Verbraucherstreitbeilegung</h2>
         <p>
-          Ich bin nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor
-          einer Verbraucherschlichtungsstelle teilzunehmen.
+          Ich bin nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer
+          Verbraucherschlichtungsstelle teilzunehmen.
         </p>
 
         <h2>Haftung für eigene Inhalte</h2>
         <p>
           Die Inhalte dieser Website wurden mit Sorgfalt erstellt. Für die Richtigkeit,
-          Vollständigkeit und Aktualität der Inhalte kann jedoch keine Gewähr übernommen
-          werden, soweit gesetzlich zulässig.
+          Vollständigkeit und Aktualität der Inhalte kann jedoch keine Gewähr übernommen werden,
+          soweit gesetzlich zulässig.
         </p>
 
         <h2>Haftung für externe Links</h2>
         <p>
-          Diese Website kann Links zu externen Websites Dritter enthalten. Auf deren
-          Inhalte besteht kein Einfluss. Für die Inhalte der verlinkten Seiten ist stets
-          der jeweilige Anbieter oder Betreiber verantwortlich.
+          Diese Website kann Links zu externen Websites Dritter enthalten. Auf deren Inhalte besteht
+          kein Einfluss. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder
+          Betreiber verantwortlich.
         </p>
       </article>
     </main>
