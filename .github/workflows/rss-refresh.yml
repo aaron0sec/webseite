@@ -8,10 +8,26 @@ on:
 jobs:
   refresh:
     runs-on: ubuntu-latest
+    timeout-minutes: 2
     steps:
       - name: Refresh RSS cache
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
         run: |
           set -euo pipefail
-          curl --fail --silent --show-error --retry 3 --retry-delay 5 \
-            -H "User-Agent: linuxaaron-rss-refresh/1.0" \
+
+          auth_args=()
+          if [ -n "${CRON_SECRET:-}" ]; then
+            auth_args=(-H "Authorization: Bearer ${CRON_SECRET}")
+          fi
+
+          curl \
+            --fail \
+            --silent \
+            --show-error \
+            --max-time 60 \
+            --retry 3 \
+            --retry-delay 5 \
+            -H "User-Agent: linuxaaron-rss-refresh/1.1" \
+            "${auth_args[@]}" \
             https://linuxaaron.dpdns.org/api/cron/news
