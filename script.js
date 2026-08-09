@@ -18,7 +18,7 @@
     if (!btn) return;
     btn.innerHTML =
       theme === "dark"
-        ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l1.41-1.41"/></svg>'
+        ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41-1.41"/></svg>'
         : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
   }
 
@@ -108,7 +108,7 @@
         z-index: 3;
         width: fit-content;
         max-width: calc(100% - 40px);
-        margin: 24px auto -52px;
+        margin: 24px 0 -52px 24px;
         padding: 9px 14px;
         display: flex;
         align-items: center;
@@ -142,7 +142,7 @@
       .btc-change.negative { color: #fb7185; }
       .btc-updated { color: var(--text-faint); font-size: 10px; }
       @media (max-width: 600px) {
-        .btc-banner { margin: 16px auto -32px; padding: 8px 11px; gap: 7px; font-size: 11px; }
+        .btc-banner { margin: 16px 0 -32px 16px; padding: 8px 11px; gap: 7px; font-size: 11px; }
         .btc-icon { width: 20px; height: 20px; font-size: 13px; }
         .btc-price { font-size: 12px; }
         .btc-updated { display: none; }
