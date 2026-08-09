@@ -87,6 +87,108 @@
   });
 })();
 
+// ---------- Bitcoin-Preis-Banner ----------
+(function () {
+  document.addEventListener("DOMContentLoaded", function () {
+    const hero = document.querySelector(".hero");
+    const heroInner = document.querySelector(".hero-inner");
+    if (!hero || !heroInner) return;
+
+    const banner = document.createElement("div");
+    banner.className = "btc-banner";
+    banner.setAttribute("aria-live", "polite");
+    banner.innerHTML = '<span class="btc-icon">₿</span><span class="btc-label">Bitcoin</span><strong class="btc-price">Lade Preis …</strong><span class="btc-change"></span><span class="btc-updated">live</span>';
+
+    hero.insertBefore(banner, heroInner);
+
+    const style = document.createElement("style");
+    style.textContent = `
+      .btc-banner {
+        position: relative;
+        z-index: 3;
+        width: fit-content;
+        max-width: calc(100% - 40px);
+        margin: 24px auto -52px;
+        padding: 9px 14px;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        border: 1px solid var(--border-strong);
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--bg-panel) 88%, transparent);
+        box-shadow: 0 8px 30px -18px var(--accent-glow);
+        backdrop-filter: blur(10px);
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--text-dim);
+      }
+      .btc-icon {
+        width: 22px;
+        height: 22px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: var(--accent);
+        color: #fff;
+        font-size: 14px;
+        font-weight: 700;
+        box-shadow: 0 0 14px var(--accent-glow);
+      }
+      .btc-label { color: var(--text); }
+      .btc-price { color: var(--accent-soft); font-size: 13px; white-space: nowrap; }
+      .btc-change { font-size: 11px; white-space: nowrap; }
+      .btc-change.positive { color: #4ade80; }
+      .btc-change.negative { color: #fb7185; }
+      .btc-updated { color: var(--text-faint); font-size: 10px; }
+      @media (max-width: 600px) {
+        .btc-banner { margin: 16px auto -32px; padding: 8px 11px; gap: 7px; font-size: 11px; }
+        .btc-icon { width: 20px; height: 20px; font-size: 13px; }
+        .btc-price { font-size: 12px; }
+        .btc-updated { display: none; }
+      }
+    `;
+    document.head.appendChild(style);
+
+    const priceEl = banner.querySelector(".btc-price");
+    const changeEl = banner.querySelector(".btc-change");
+    const updatedEl = banner.querySelector(".btc-updated");
+    const formatter = new Intl.NumberFormat("de-DE", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
+
+    async function updateBitcoinPrice() {
+      try {
+        const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=eur&include_24hr_change=true", {
+          headers: { Accept: "application/json" },
+          cache: "no-store"
+        });
+        if (!response.ok) throw new Error("Bitcoin API unavailable");
+
+        const data = await response.json();
+        const price = data?.bitcoin?.eur;
+        const change = data?.bitcoin?.eur_24h_change;
+        if (typeof price !== "number") throw new Error("Invalid Bitcoin price");
+
+        priceEl.textContent = formatter.format(price);
+        if (typeof change === "number") {
+          const sign = change >= 0 ? "+" : "";
+          changeEl.textContent = `${sign}${change.toFixed(2).replace(".", ",")} % / 24h`;
+          changeEl.className = `btc-change ${change >= 0 ? "positive" : "negative"}`;
+        } else {
+          changeEl.textContent = "";
+        }
+        updatedEl.textContent = "aktuell";
+      } catch (error) {
+        priceEl.textContent = "Preis nicht verfügbar";
+        changeEl.textContent = "";
+        updatedEl.textContent = "API nicht erreichbar";
+      }
+    }
+
+    updateBitcoinPrice();
+    window.setInterval(updateBitcoinPrice, 60000);
+  });
+})();
+
 // ---------- Hintergrundmusik ----------
 // WICHTIG: Lege deine Audiodatei selbst unter audio/ambient.mp3 ab.
 // Aus Lizenzgründen kann hier kein konkreter Musiktitel eingebettet werden —
