@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import fs from "node:fs/promises";
 import path from "node:path";
 
-const posts = ["osint-webanalyse", "essential-linux-commands-cybersecurity"];
+const posts = ["osint-webanalyse", "essential-linux-commands-cybersecurity", "burp-suite-nuclei-websecurity"];
 
 type Frontmatter = { title: string; date: string; category: string };
 
