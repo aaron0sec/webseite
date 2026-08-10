@@ -31,9 +31,9 @@ export default function ShopPage() {
             <div className="rounded-2xl border border-[var(--accent)]/40 bg-[var(--accent)]/8 p-6">
               <p className="font-mono text-xs text-[var(--accent)]">LAUNCHPREIS</p>
               <p className="mt-2 text-4xl font-semibold">29 €</p>
-              <p className="mt-2 text-sm leading-6 text-[var(--muted)]">Einmalig · digital · sofort verfügbar nach dem Kauf</p>
+              <p className="mt-2 text-sm leading-6 text-[var(--muted)]">Einmalig · digitales Produkt · Download nach erfolgreicher Zahlung</p>
               <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-black transition hover:brightness-110">Jetzt kaufen <ArrowRight size={16} /></a>
-              <p className="mt-3 text-center text-xs text-[var(--muted)]">Sicherer Checkout über Lemon Squeezy</p>
+              <p className="mt-3 text-center text-xs text-[var(--muted)]">Zahlungsabwicklung über Lemon Squeezy</p>
             </div>
           </div>
         </div>
@@ -52,6 +52,8 @@ export default function ShopPage() {
       <section className="border-b border-[var(--border)] bg-[var(--surface-2)] py-20 sm:py-24">
         <div className="container max-w-5xl grid gap-12 lg:grid-cols-[.8fr_1.2fr]"><div><p className="font-mono text-xs tracking-[0.2em] text-[var(--accent)]">IM PAKET</p><h2 className="mt-3 text-3xl font-semibold tracking-tight">Was du bekommst</h2><p className="mt-4 leading-7 text-[var(--muted)]">Ein digitales Paket mit dem Field Manual und praktischen Unterlagen zum Nachschlagen.</p></div><ul className="grid gap-3 sm:grid-cols-2">{contents.map((item) => <li key={item} className="flex gap-3 rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4 text-sm leading-6"><Check className="mt-0.5 shrink-0 text-[var(--accent)]" size={17} /><span>{item}</span></li>)}</ul></div>
       </section>
+
+      <section className="border-b border-[var(--border)] py-16"><div className="container max-w-3xl"><h2 className="text-2xl font-semibold">Kauf und Zahlungsabwicklung</h2><p className="mt-4 leading-7 text-[var(--muted)]">Der Kauf und die Bereitstellung des digitalen Produkts erfolgen über Lemon Squeezy. Lemon Squeezy tritt bei den Verkäufen als Merchant of Record auf und übernimmt die Zahlungsabwicklung sowie die Abwicklung von Umsatzsteuer/VAT im Rahmen seines Dienstes.</p><p className="mt-3 text-sm leading-6 text-[var(--muted)]">Weitere Informationen zur Verarbeitung personenbezogener Daten findest du in der <a className="text-[var(--accent)] underline" href="/datenschutz">Datenschutzerklärung</a>.</p></div></section>
 
       <section className="py-20 sm:py-24"><div className="container max-w-3xl text-center"><p className="font-mono text-xs tracking-[0.2em] text-[var(--accent)]">LINUX AARON</p><h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Technisches Wissen, das du benutzen kannst.</h2><p className="mx-auto mt-5 max-w-2xl leading-7 text-[var(--muted)]">Der Field Manual ist der erste Schritt. Weitere Security-Ressourcen und Bundles folgen.</p><a href="/newsletter" className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-[var(--accent)]">Über neue Produkte informiert werden <ArrowRight size={15} /></a></div></section>
     </main>
