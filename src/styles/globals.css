@@ -45,10 +45,6 @@ main > section:nth-of-type(4) { background: var(--section-cool); }
 main > section:nth-of-type(2), main > section:nth-of-type(3), main > section:nth-of-type(4) { position: relative; }
 main > section:nth-of-type(2)::before, main > section:nth-of-type(4)::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at 8% 20%, color-mix(in srgb, var(--accent) 6%, transparent), transparent 28%); }
 
-/* Keep the section label concise: Werkzeuge. */
-main > section:nth-of-type(2) h2 { font-size: 0; }
-main > section:nth-of-type(2) h2::after { content: "Werkzeuge"; font-size: clamp(1.875rem, 4vw, 2.25rem); }
-
 /* Authentic Linux terminal presentation with real command names. */
 .hero-glow .container > div:nth-child(2) .p-5 > * { display: none; }
 .hero-glow .container > div:nth-child(2) .p-5::before {
