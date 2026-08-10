@@ -54,8 +54,8 @@ export async function POST(request: Request) {
       );
     }
 
-    // Brevo documents 201 for a newly created contact. With updateEnabled=true,
-    // an existing contact may also be updated successfully with a 204 response.
+    const details = await response.text();
+
     if (response.ok) {
       return NextResponse.json({
         ok: true,
@@ -63,8 +63,16 @@ export async function POST(request: Request) {
       });
     }
 
-    const details = await response.text();
     console.error("Brevo newsletter error:", response.status, details);
+
+    let brevoMessage = "";
+    try {
+      const parsed = JSON.parse(details) as { message?: unknown; code?: unknown };
+      if (typeof parsed.message === "string") brevoMessage = parsed.message;
+      if (typeof parsed.code === "string" && !brevoMessage) brevoMessage = parsed.code;
+    } catch {
+      brevoMessage = details.replace(/\s+/g, " ").trim().slice(0, 300);
+    }
 
     if (response.status === 400 && /already|exist/i.test(details)) {
       return NextResponse.json({
@@ -87,8 +95,20 @@ export async function POST(request: Request) {
       );
     }
 
+    if (response.status === 429) {
+      return NextResponse.json(
+        { ok: false, message: "Brevo hat die Anfrage wegen zu vieler Anfragen abgelehnt. Bitte versuche es gleich noch einmal." },
+        { status: 502 },
+      );
+    }
+
     return NextResponse.json(
-      { ok: false, message: "Brevo konnte die Anmeldung nicht verarbeiten. Bitte versuche es später erneut." },
+      {
+        ok: false,
+        message: brevoMessage
+          ? `Brevo hat die Anmeldung abgelehnt: ${brevoMessage}`
+          : `Brevo hat die Anmeldung mit HTTP ${response.status} abgelehnt.`,
+      },
       { status: 502 },
     );
   } catch (error) {
