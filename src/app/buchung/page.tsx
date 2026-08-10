@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   description: "Anfrage für technische Audits, Security-Reviews und Vorlesungen zu OSINT, Web Security, Linux und Cybersecurity.",
 };
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default function BookingPage() {
   return (
     <main className="container py-20 sm:py-28">
@@ -20,18 +23,18 @@ export default function BookingPage() {
       <section className="mt-12 grid gap-5 lg:grid-cols-2">
         <article className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-7 sm:p-8">
           <ClipboardCheck className="text-[var(--accent)]" size={24} />
-          <h2 className="mt-7 text-2xl font-semibold">Technisches Audit</h2>
+          <h2 className="mt-7 text-2xl font-semibold">Security Audit</h2>
           <p className="mt-3 leading-7 text-[var(--muted)]">Strukturierte Prüfung von Webanwendungen, öffentlich sichtbaren Angriffsflächen, Konfigurationen oder technischen Security-Fragestellungen.</p>
           <ul className="mt-6 space-y-3 text-sm text-[var(--muted)]"><li>• Web- und Infrastruktur-Reviews</li><li>• OSINT- und Angriffsflächenanalyse</li><li>• Technische Dokumentation und Handlungsempfehlungen</li><li>• Tests ausschließlich innerhalb eines vereinbarten Scopes</li></ul>
-          <a href="mailto:aaronfree00@proton.me?subject=Anfrage%20%E2%80%93%20Technisches%20Audit" className="mt-8 inline-flex min-h-11 items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-medium !text-black transition hover:-translate-y-0.5 hover:bg-zinc-200"><Mail size={16}/> Audit anfragen</a>
+          <a href="mailto:aaronfree00@proton.me?subject=Anfrage%20%E2%80%93%20Security%20Audit" className="mt-8 inline-flex min-h-11 items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-medium !text-black transition hover:-translate-y-0.5 hover:bg-zinc-200"><Mail size={16}/> Audit anfragen</a>
         </article>
 
         <article className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-7 sm:p-8">
           <GraduationCap className="text-[var(--accent)]" size={24} />
-          <h2 className="mt-7 text-2xl font-semibold">Vorlesung / Vortrag</h2>
+          <h2 className="mt-7 text-2xl font-semibold">Fachvortrag</h2>
           <p className="mt-3 leading-7 text-[var(--muted)]">Technische Vorträge und Lehrveranstaltungen für Bildungseinrichtungen, Communities, Unternehmen oder IT-Teams.</p>
           <ul className="mt-6 space-y-3 text-sm text-[var(--muted)]"><li>• OSINT und digitale Recherche</li><li>• Grundlagen und Praxis der Web Security</li><li>• Linux für Security und Administration</li><li>• Cybersecurity, Threat Awareness und Incident Response</li></ul>
-          <a href="mailto:aaronfree00@proton.me?subject=Anfrage%20%E2%80%93%20Vorlesung%20%2F%20Vortrag" className="mt-8 inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--accent)]/60 px-5 py-3 text-sm font-medium text-[var(--accent)] transition hover:bg-[var(--accent)]/10"><Mail size={16}/> Vortrag anfragen</a>
+          <a href="mailto:aaronfree00@proton.me?subject=Anfrage%20%E2%80%93%20Fachvortrag" className="mt-8 inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--accent)]/60 px-5 py-3 text-sm font-medium text-[var(--accent)] transition hover:bg-[var(--accent)]/10"><Mail size={16}/> Vortrag anfragen</a>
         </article>
       </section>
 
