@@ -3,9 +3,11 @@ import { NextResponse } from "next/server";
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(request: Request) {
+  let email = "";
+
   try {
     const body = await request.json();
-    const email = typeof body?.email === "string" ? body.email.trim().toLowerCase() : "";
+    email = typeof body?.email === "string" ? body.email.trim().toLowerCase() : "";
 
     if (!EMAIL_RE.test(email)) {
       return NextResponse.json(
@@ -18,27 +20,39 @@ export async function POST(request: Request) {
     const listId = Number(process.env.BREVO_NEWSLETTER_LIST_ID);
 
     if (!apiKey || !Number.isInteger(listId) || listId <= 0) {
-      console.error("Newsletter configuration is incomplete.");
+      console.error("Newsletter configuration is incomplete.", {
+        hasApiKey: Boolean(apiKey),
+        hasValidListId: Number.isInteger(listId) && listId > 0,
+      });
       return NextResponse.json(
         { ok: false, message: "Die Newsletter-Anmeldung ist momentan noch nicht vollständig eingerichtet." },
         { status: 503 },
       );
     }
 
-    const response = await fetch("https://api.brevo.com/v3/contacts", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "api-key": apiKey,
-      },
-      body: JSON.stringify({
-        email,
-        listIds: [listId],
-        updateEnabled: true,
-      }),
-      cache: "no-store",
-    });
+    let response: Response;
+    try {
+      response = await fetch("https://api.brevo.com/v3/contacts", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "api-key": apiKey,
+        },
+        body: JSON.stringify({
+          email,
+          listIds: [listId],
+          updateEnabled: true,
+        }),
+        cache: "no-store",
+      });
+    } catch (error) {
+      console.error("Brevo API request failed:", error);
+      return NextResponse.json(
+        { ok: false, message: "Die Verbindung zu Brevo konnte nicht hergestellt werden. Bitte versuche es später erneut." },
+        { status: 502 },
+      );
+    }
 
     // Brevo documents 201 for a newly created contact. With updateEnabled=true,
     // an existing contact may also be updated successfully with a 204 response.
@@ -80,7 +94,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Newsletter request failed:", error);
     return NextResponse.json(
-      { ok: false, message: "Die Anmeldung konnte gerade nicht verarbeitet werden." },
+      { ok: false, message: "Die Newsletter-Anfrage konnte technisch nicht verarbeitet werden." },
       { status: 500 },
     );
   }
