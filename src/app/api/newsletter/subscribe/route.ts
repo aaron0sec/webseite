@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const BREVO_TIMEOUT_MS = 7000;
+const DEFAULT_NEWSLETTER_LIST_ID = 4;
 
 export async function POST(request: Request) {
   let email = "";
@@ -18,11 +19,15 @@ export async function POST(request: Request) {
     }
 
     const apiKey = process.env.BREVO_API_KEY;
-    const listId = Number(process.env.BREVO_NEWSLETTER_LIST_ID);
+    const configuredListId = process.env.BREVO_NEWSLETTER_LIST_ID;
+    const listId = configuredListId
+      ? Number(configuredListId)
+      : DEFAULT_NEWSLETTER_LIST_ID;
 
     if (!apiKey || !Number.isInteger(listId) || listId <= 0) {
       console.error("Newsletter configuration is incomplete.", {
         hasApiKey: Boolean(apiKey),
+        hasConfiguredListId: Boolean(configuredListId),
         hasValidListId: Number.isInteger(listId) && listId > 0,
       });
       return NextResponse.json(
