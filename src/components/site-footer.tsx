@@ -19,12 +19,37 @@ export function SiteFooter() {
     setBusy(true);
     setMessage("");
     try {
-      const response = await fetch("/api/newsletter/subscribe", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email }) });
-      const data = await response.json();
-      setMessage(data.message || "Bitte prüfe deine E-Mail-Adresse.");
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), 15000);
+      const response = await fetch("/api/newsletter/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({ email }),
+        signal: controller.signal,
+        cache: "no-store",
+      });
+      window.clearTimeout(timeout);
+
+      let data: { ok?: boolean; message?: string } = {};
+      try {
+        data = await response.json();
+      } catch {
+        // Server returned no JSON; use the HTTP status below.
+      }
+
+      if (!response.ok) {
+        setMessage(data.message || `Die Newsletter-Anmeldung konnte nicht verarbeitet werden (HTTP ${response.status}).`);
+        return;
+      }
+
+      setMessage(data.message || "Bitte prüfe dein Postfach.");
       if (data.ok) setEmail("");
-    } catch {
-      setMessage("Die Anmeldung konnte gerade nicht verarbeitet werden.");
+    } catch (error) {
+      if (error instanceof DOMException && error.name === "AbortError") {
+        setMessage("Die Anmeldung hat zu lange gedauert. Bitte versuche es erneut.");
+      } else {
+        setMessage("Der Newsletter-Server ist momentan nicht erreichbar. Bitte versuche es später erneut.");
+      }
     } finally {
       setBusy(false);
     }
