@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const BREVO_TIMEOUT_MS = 7000;
 
 export async function POST(request: Request) {
   let email = "";
@@ -30,6 +31,9 @@ export async function POST(request: Request) {
       );
     }
 
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), BREVO_TIMEOUT_MS);
+
     let response: Response;
     try {
       response = await fetch("https://api.brevo.com/v3/contacts", {
@@ -45,13 +49,22 @@ export async function POST(request: Request) {
           updateEnabled: true,
         }),
         cache: "no-store",
+        signal: controller.signal,
       });
     } catch (error) {
-      console.error("Brevo API request failed:", error);
+      const timedOut = error instanceof Error && error.name === "AbortError";
+      console.error("Brevo API request failed:", timedOut ? "timeout" : error);
       return NextResponse.json(
-        { ok: false, message: "Die Verbindung zu Brevo konnte nicht hergestellt werden. Bitte versuche es später erneut." },
-        { status: 502 },
+        {
+          ok: false,
+          message: timedOut
+            ? "Brevo hat nicht rechtzeitig geantwortet. Bitte versuche es gleich noch einmal."
+            : "Die Verbindung zu Brevo konnte nicht hergestellt werden. Bitte versuche es später erneut.",
+        },
+        { status: timedOut ? 504 : 502 },
       );
+    } finally {
+      clearTimeout(timeout);
     }
 
     const details = await response.text();
