@@ -8,7 +8,10 @@ export async function POST(request: Request) {
     const email = typeof body?.email === "string" ? body.email.trim().toLowerCase() : "";
 
     if (!EMAIL_RE.test(email)) {
-      return NextResponse.json({ ok: false, message: "Bitte gib eine gültige E-Mail-Adresse ein." }, { status: 400 });
+      return NextResponse.json(
+        { ok: false, message: "Bitte gib eine gültige E-Mail-Adresse ein." },
+        { status: 400 },
+      );
     }
 
     const apiKey = process.env.BREVO_API_KEY;
@@ -16,12 +19,16 @@ export async function POST(request: Request) {
 
     if (!apiKey || !Number.isInteger(listId) || listId <= 0) {
       console.error("Newsletter configuration is incomplete.");
-      return NextResponse.json({ ok: false, message: "Die Newsletter-Anmeldung ist momentan noch nicht vollständig eingerichtet." }, { status: 503 });
+      return NextResponse.json(
+        { ok: false, message: "Die Newsletter-Anmeldung ist momentan noch nicht vollständig eingerichtet." },
+        { status: 503 },
+      );
     }
 
     const response = await fetch("https://api.brevo.com/v3/contacts", {
       method: "POST",
       headers: {
+        Accept: "application/json",
         "Content-Type": "application/json",
         "api-key": apiKey,
       },
@@ -33,21 +40,48 @@ export async function POST(request: Request) {
       cache: "no-store",
     });
 
-    if (!response.ok && response.status !== 201) {
-      const details = await response.text();
-      console.error("Brevo newsletter error:", response.status, details);
-      if (response.status === 400 && /already|exist/i.test(details)) {
-        return NextResponse.json({ ok: true, message: "Diese Adresse ist bereits bekannt. Falls die Anmeldung noch nicht bestätigt wurde, prüfe bitte dein Postfach." });
-      }
-      return NextResponse.json({ ok: false, message: "Die Anmeldung konnte gerade nicht verarbeitet werden. Bitte versuche es später erneut." }, { status: 502 });
+    // Brevo documents 201 for a newly created contact. With updateEnabled=true,
+    // an existing contact may also be updated successfully with a 204 response.
+    if (response.ok) {
+      return NextResponse.json({
+        ok: true,
+        message: "Fast geschafft: Bitte prüfe dein Postfach. Die Anmeldung wird erst nach deiner Bestätigung aktiv.",
+      });
     }
 
-    return NextResponse.json({
-      ok: true,
-      message: "Fast geschafft: Bitte prüfe dein Postfach. Die Anmeldung wird erst nach deiner Bestätigung aktiv.",
-    });
+    const details = await response.text();
+    console.error("Brevo newsletter error:", response.status, details);
+
+    if (response.status === 400 && /already|exist/i.test(details)) {
+      return NextResponse.json({
+        ok: true,
+        message: "Diese Adresse ist bereits bekannt. Falls die Anmeldung noch nicht bestätigt wurde, prüfe bitte dein Postfach.",
+      });
+    }
+
+    if (response.status === 401 || response.status === 403) {
+      return NextResponse.json(
+        { ok: false, message: "Die Newsletter-Verbindung zu Brevo ist nicht autorisiert. Bitte prüfe den API-Schlüssel in Vercel." },
+        { status: 502 },
+      );
+    }
+
+    if (response.status === 404) {
+      return NextResponse.json(
+        { ok: false, message: "Die konfigurierte Newsletter-Liste wurde bei Brevo nicht gefunden. Bitte prüfe die Listen-ID in Vercel." },
+        { status: 502 },
+      );
+    }
+
+    return NextResponse.json(
+      { ok: false, message: "Brevo konnte die Anmeldung nicht verarbeiten. Bitte versuche es später erneut." },
+      { status: 502 },
+    );
   } catch (error) {
     console.error("Newsletter request failed:", error);
-    return NextResponse.json({ ok: false, message: "Die Anmeldung konnte gerade nicht verarbeitet werden." }, { status: 500 });
+    return NextResponse.json(
+      { ok: false, message: "Die Anmeldung konnte gerade nicht verarbeitet werden." },
+      { status: 500 },
+    );
   }
 }
