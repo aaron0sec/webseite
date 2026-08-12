@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Datenschutzerklärung",
   description: "Datenschutzerklärung von Joscha Aaron Schmidt für linuxaaron.dpdns.org.",
+  alternates: { canonical: "/datenschutz" },
 };
 
 export default function Datenschutz() {
@@ -10,11 +11,11 @@ export default function Datenschutz() {
     <main className="container py-20 sm:py-28">
       <article className="prose max-w-3xl">
         <h1>Datenschutzerklärung</h1>
-        <p><strong>Stand: 10. August 2026</strong></p>
+        <p><strong>Stand: 12. August 2026</strong></p>
         <h2>1. Verantwortlicher</h2>
         <p>Verantwortlicher für die Verarbeitung personenbezogener Daten auf dieser Website ist:</p>
         <p>Joscha Aaron Schmidt<br />Im Sinnighofen 8b<br />79189 Bad Krozingen<br />Deutschland</p>
-        <p>E-Mail: <a href="mailto:aaronfree00@proton.me">aaronfree00@proton.me</a></p>
+        <p>E-Mail: <a href="mailto:joschaschmidt@mail.de">joschaschmidt@mail.de</a></p>
         <h2>2. Allgemeines zur Datenverarbeitung</h2>
         <p>Ich verarbeite personenbezogene Daten nur, soweit dies für den Betrieb dieser Website, die Bereitstellung ihrer Funktionen, die Sicherheit des Angebots, die Abwicklung von Käufen, den Versand eines ausdrücklich angeforderten Newsletters oder die Bearbeitung von Anfragen erforderlich ist oder eine andere gesetzliche Rechtsgrundlage besteht.</p>
         <h2>3. Aufruf der Website und technische Zugriffsdaten</h2>
@@ -31,9 +32,9 @@ export default function Datenschutz() {
         <p>Für technisch notwendige Cloudflare-Sicherheitsfunktionen können abhängig von der Konfiguration technisch erforderliche Cookies eingesetzt werden.</p>
         <h2>7. Newsletter über Brevo</h2>
         <p>Für den Versand des Linux Aaron Briefings wird Brevo (Sendinblue GmbH, Deutschland) eingesetzt. Wenn Sie sich über das Newsletter-Formular anmelden, wird Ihre E-Mail-Adresse an Brevo übermittelt und dort für den Newsletter-Versand verarbeitet.</p>
-        <p>Die Anmeldung erfolgt über ein Double-Opt-in-Verfahren. Nach Eingabe der E-Mail-Adresse wird eine Bestätigungs-E-Mail versendet. Erst nach dem Klick auf den Bestätigungslink wird die Anmeldung aktiv. Brevo dokumentiert den Double-Opt-in-Prozess und die zugehörigen Einwilligungsereignisse. citeturn0search1turn0search5</p>
+        <p>Die Anmeldung erfolgt über ein Double-Opt-in-Verfahren. Nach Eingabe der E-Mail-Adresse wird eine Bestätigungs-E-Mail versendet. Erst nach dem Klick auf den Bestätigungslink wird die Anmeldung aktiv.</p>
         <p>Rechtsgrundlage für den Versand des Newsletters ist Ihre Einwilligung gemäß Art. 6 Abs. 1 lit. a DSGVO. Die Angabe der E-Mail-Adresse ist freiwillig. Sie können Ihre Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen, insbesondere über den Abmeldelink in jeder Newsletter-E-Mail.</p>
-        <p>Für die technische Anmeldung über die Website wird die Brevo-API verwendet. Der API-Schlüssel wird ausschließlich serverseitig als Vercel-Umgebungsvariable gespeichert und nicht an den Browser ausgeliefert. Brevo bietet für externe Formulare eine DOI-API bzw. einen DOI-Prozess an. citeturn0search0turn0search2</p>
+        <p>Für die technische Anmeldung über die Website wird die Brevo-API verwendet. Der API-Schlüssel wird ausschließlich serverseitig als Vercel-Umgebungsvariable gespeichert und nicht an den Browser ausgeliefert.</p>
         <p>Weitere Informationen: <a href="https://www.brevo.com/de/legal/privacypolicy/" target="_blank" rel="noreferrer">Brevo Datenschutzerklärung</a>.</p>
         <h2>8. Digitale Produkte und Zahlungsabwicklung über Lemon Squeezy</h2>
         <p>Für den Verkauf und die Bereitstellung digitaler Produkte wird Lemon Squeezy eingesetzt. Beim Klick auf den Kaufbutton wird der Nutzer zur Checkout-Seite von Lemon Squeezy weitergeleitet. Lemon Squeezy tritt bei Verkäufen als Merchant of Record auf und übernimmt im Rahmen seines Dienstes unter anderem die Zahlungsabwicklung sowie die Erhebung und Abführung von Umsatzsteuer bzw. VAT.</p>
