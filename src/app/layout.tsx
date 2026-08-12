@@ -5,18 +5,18 @@ import { SiteFooter } from "@/components/site-footer";
 import { CookieConsent } from "@/components/cookie-consent";
 import { BitcoinTicker } from "@/components/bitcoin-ticker";
 
-const siteUrl = "https://linuxaaron.dpdns.org";
-const siteName = "Linux Aaron | Joscha Aaron Schmidt";
-const siteDescription = "Webentwicklung, IT, OSINT, Linux und Cybersecurity von Joscha Aaron Schmidt. Professionelle Websites, technische Projekte und Security-Ressourcen.";
+const siteUrl = "https://joschaschmidt.com";
+const siteName = "Joscha Aaron Schmidt | IT, OSINT & Cybersecurity";
+const siteDescription = "Webentwicklung, IT, OSINT, Linux, Cybersecurity und Cloud Computing von Joscha Aaron Schmidt. Technische Projekte, Recherche und Security-Ressourcen.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
     default: siteName,
-    template: "%s | Linux Aaron",
+    template: "%s | Joscha Aaron Schmidt",
   },
   description: siteDescription,
-  applicationName: "Linux Aaron",
+  applicationName: "Joscha Aaron Schmidt",
   authors: [{ name: "Joscha Aaron Schmidt", url: siteUrl }],
   creator: "Joscha Aaron Schmidt",
   publisher: "Joscha Aaron Schmidt",
@@ -29,6 +29,9 @@ export const metadata: Metadata = {
     "OSINT",
     "Linux",
     "Web Security",
+    "Cloud Computing",
+    "Vercel",
+    "Cloudflare",
     "Joscha Aaron Schmidt",
     "Linux Aaron",
   ],
@@ -71,7 +74,7 @@ const personSchema = {
   url: siteUrl,
   email: "mailto:joschaschmidt@mail.de",
   sameAs: ["https://github.com/linuxaaron"],
-  knowsAbout: ["Webentwicklung", "Cybersecurity", "OSINT", "Linux", "Web Security", "IT"],
+  knowsAbout: ["Webentwicklung", "Cybersecurity", "OSINT", "Linux", "Web Security", "Cloud Computing", "IT"],
 };
 
 const websiteSchema = {
