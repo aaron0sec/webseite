@@ -1,4 +1,104 @@
 import type { Metadata } from "next";
 import { Reveal } from "@/components/reveal";
-export const metadata: Metadata = { title: "Über mich", description: "Joscha Aaron Schmidt – technische Affinität, Linux, BSD, Windows, macOS, OSINT und Web Security." };
-export default function About(){return <main className="container py-20 sm:py-28"><Reveal><p className="font-mono text-xs text-[var(--accent)]">03 / ABOUT</p><h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-6xl">Über mich</h1></Reveal><div className="mt-12 grid gap-10 md:grid-cols-[1.4fr_.6fr]"><Reveal><div className="space-y-6 text-lg leading-8 text-[var(--muted)]"><p>Technik begleitet mich schon seit meiner Kindheit. Ich war schon früh stark an Computern, Betriebssystemen und der Funktionsweise technischer Systeme interessiert. Diese technische Affinität hat sich über die Jahre zu einem breiten praktischen Verständnis entwickelt.</p><p>Seit über sieben Jahren beschäftige ich mich intensiv mit <strong className="font-medium text-[var(--text)]">Linux, BSD, Windows und macOS</strong> und habe dabei unterschiedliche Systemarchitekturen, Werkzeuge und Arbeitsweisen kennengelernt.</p><p>Mein technisches Verständnis würde ich selbst als weit fortgeschritten beschreiben – ausdrücklich nicht aus Arroganz, sondern als Ergebnis langjähriger praktischer Beschäftigung, kontinuierlichen Lernens und eigener Projekte. Gleichzeitig gehört für mich dazu, die eigenen Grenzen zu kennen und bei neuen Themen weiterzulernen.</p><p>Besonders wichtig sind für mich <strong className="font-medium text-[var(--text)]">die Grundlagen</strong>. Wer versteht, wie Betriebssysteme, Netzwerke, Prozesse, Dateien, Berechtigungen und Protokolle grundsätzlich funktionieren, kann auch komplexere technische Probleme systematisch analysieren und lösen.</p><p>Heute arbeite ich an technischen Projekten rund um <strong className="font-medium text-[var(--text)]">OSINT, Web Security, Cybersecurity und Linux</strong>. Mein Ansatz ist praktisch: Systeme verstehen, Informationen sauber einordnen, Ergebnisse nachvollziehbar dokumentieren und daraus robuste Lösungen entwickeln.</p><p>Ausgewählte Projekte und Werkzeuge veröffentliche ich auf GitHub.</p></div></Reveal><Reveal delay={.08}><aside className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6"><p className="font-mono text-xs text-[var(--accent)]">TECHNISCHER HINTERGRUND</p><ul className="mt-5 space-y-3 text-sm text-[var(--muted)]"><li>Langjährige technische Affinität</li><li>7+ Jahre Linux / BSD / Windows / macOS</li><li>OSINT / Web Research</li><li>Web Security / Cybersecurity</li><li>Linux / Networking</li><li>TypeScript / Next.js</li><li>Git / GitHub</li></ul></aside></Reveal></div></main>}
+
+export const metadata: Metadata = {
+  title: "Über mich",
+  description:
+    "Joscha Aaron Schmidt – Webdesign, Cloud, Linux, OSINT, Cybersecurity, Programmierung, Netzwerktechnik und technische Recherche.",
+};
+
+const skills = [
+  "Webdesign & Webentwicklung",
+  "Vercel & Cloudflare",
+  "Oracle Cloud / Cloud Computing",
+  "Python, Rust, JavaScript, Go",
+  "HTML, CSS & PHP",
+  "SQL & Datenverarbeitung",
+  "OSINT & Web Research",
+  "Netzwerktechnik",
+  "Browser-Einrichtung & Systemkonfiguration",
+  "Social Media & digitale Projekte",
+  "Linux / BSD / Windows / macOS",
+  "Git & GitHub",
+];
+
+export default function About() {
+  return (
+    <main className="container py-20 sm:py-28">
+      <Reveal>
+        <p className="font-mono text-xs text-[var(--accent)]">03 / ABOUT</p>
+        <h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-6xl">
+          Über mich
+        </h1>
+      </Reveal>
+
+      <div className="mt-12 grid gap-10 md:grid-cols-[1.4fr_.6fr]">
+        <Reveal>
+          <div className="space-y-6 text-lg leading-8 text-[var(--muted)]">
+            <p>
+              Technik begleitet mich seit meiner Kindheit. Aus meiner frühen
+              Begeisterung für Computer und Betriebssysteme hat sich über Jahre
+              ein breites, praktisch orientiertes technisches Profil entwickelt.
+              Ich arbeite mich gerne tief in Systeme ein, verstehe Zusammenhänge
+              und suche nicht nur nach einem schnellen Fix, sondern nach einer
+              nachvollziehbaren und robusten Lösung.
+            </p>
+
+            <p>
+              Mein Schwerpunkt liegt heute auf <strong className="font-medium text-[var(--text)]">Webdesign,
+              Webentwicklung, Linux, Cybersecurity und OSINT</strong>. Dazu gehören
+              moderne Websites, Deployment und Hosting mit <strong className="font-medium text-[var(--text)]">Vercel
+              und Cloudflare</strong> sowie praktische Erfahrungen mit
+              <strong className="font-medium text-[var(--text)]"> Cloud Computing und Oracle Cloud</strong>.
+            </p>
+
+            <p>
+              Programmierung gehört ebenfalls zu meinem technischen Werkzeugkasten.
+              Ich arbeite unter anderem mit <strong className="font-medium text-[var(--text)]">Python, Rust,
+              JavaScript, Go, HTML, CSS und PHP</strong> und nutze <strong className="font-medium text-[var(--text)]">SQL</strong>
+              für strukturierte Daten und Datenbanklösungen. Git und GitHub nutze
+              ich für Versionskontrolle, Projektorganisation und die Veröffentlichung
+              eigener Projekte.
+            </p>
+
+            <p>
+              Eine meiner größten Stärken ist die <strong className="font-medium text-[var(--text)]">Recherche und
+              Analyse komplexer Themen</strong>. Besonders im Bereich <strong className="font-medium text-[var(--text)]">OSINT</strong>
+              verbinde ich systematische Recherche mit kreativem Denken. Ich kann
+              Informationen aus unterschiedlichen Quellen zusammenführen, technische
+              Zusammenhänge erkennen und daraus konkrete, praktikable Lösungsansätze
+              entwickeln.
+            </p>
+
+            <p>
+              Darüber hinaus beschäftige ich mich mit <strong className="font-medium text-[var(--text)]">Netzwerktechnik,
+              Browser-Einrichtung und Systemkonfiguration</strong> sowie mit digitalen
+              Projekten und Social Media. Auch die praktische Seite von Hardware und
+              Kryptowährungen gehört zu meinen Interessen: Ich habe bereits
+              <strong className="font-medium text-[var(--text)]"> Mininganlagen aufgebaut, konfiguriert und in Betrieb genommen</strong>
+              und beschäftige mich mit den technischen Hintergründen von Crypto,
+              Mining-Hardware und Infrastruktur.
+            </p>
+
+            <p>
+              Mein Arbeitsstil ist technisch, analytisch und lösungsorientiert:
+              Problem verstehen, Informationen prüfen, Zusammenhänge erkennen,
+              Lösung entwickeln und das Ergebnis sauber umsetzen.
+            </p>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.08}>
+          <aside className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6">
+            <p className="font-mono text-xs text-[var(--accent)]">TECHNISCHE SCHWERPUNKTE</p>
+            <ul className="mt-5 space-y-3 text-sm text-[var(--muted)]">
+              {skills.map((skill) => (
+                <li key={skill}>• {skill}</li>
+              ))}
+            </ul>
+          </aside>
+        </Reveal>
+      </div>
+    </main>
+  );
+}
