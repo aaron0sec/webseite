@@ -8,12 +8,12 @@ const skills = [
   { icon: Code2, title: "Development", text: "TypeScript, Next.js und eigene Tools für Security- und Analyse-Workflows." },
 ];
 const projects = [
-  { name: "web-osint", text: "Technische Webanalyse und OSINT-Workflows.", href: "https://github.com/aaron0sec/web-osint" },
-  { name: "malware-analyzer", text: "Strukturierte Analyse verdächtiger Dateien.", href: "https://github.com/aaron0sec/malware-analyzer" },
+  { name: "web-osint", text: "Technische Webanalyse und OSINT-Workflows.", href: "https://github.com/linuxaaron/web-osint" },
+  { name: "malware-analyzer", text: "Strukturierte Analyse verdächtiger Dateien.", href: "https://github.com/linuxaaron/malware-analyzer" },
 ];
 
 export default function Home() {
-  const jsonLd = { "@context": "https://schema.org", "@type": "Person", name: "Joscha Aaron Schmidt", jobTitle: "OSINT Specialist | Web Security | Cybersecurity | Linux", url: "https://linuxaaron.dpdns.org", sameAs: ["https://github.com/aaron0sec", "https://www.instagram.com/linux_aaron/", "https://www.tiktok.com/@linux_aaron"] };
+  const jsonLd = { "@context": "https://schema.org", "@type": "Person", name: "Joscha Aaron Schmidt", jobTitle: "OSINT Specialist | Web Security | Cybersecurity | Linux", url: "https://linuxaaron.dpdns.org", sameAs: ["https://github.com/linuxaaron", "https://www.instagram.com/linux_aaron/", "https://www.tiktok.com/@linux_aaron"] };
   return <main>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
     <section className="grid-bg hero-glow relative overflow-hidden border-b border-[var(--border)]">
