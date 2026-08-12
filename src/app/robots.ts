@@ -1,2 +1,15 @@
 import type { MetadataRoute } from "next";
-export default function robots(): MetadataRoute.Robots { return { rules: { userAgent: "*", allow: "/" }, sitemap: "https://joscha-sec.vercel.app/sitemap.xml" }; }
+
+export default function robots(): MetadataRoute.Robots {
+  const base = "https://linuxaaron.dpdns.org";
+
+  return {
+    rules: {
+      userAgent: "*",
+      allow: "/",
+      disallow: ["/api/", "/_next/"],
+    },
+    sitemap: `${base}/sitemap.xml`,
+    host: base,
+  };
+}
