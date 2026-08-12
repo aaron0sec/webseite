@@ -64,6 +64,23 @@ export function SiteFooter() {
     <footer className="border-t border-[var(--border)]">
       <div className="container py-10">
         <div className="mb-8 rounded-2xl border border-[var(--accent)]/30 bg-[var(--surface)] p-5 sm:p-6">
+          <div className="flex items-center gap-2 text-[var(--accent)]"><Mail size={16}/><p className="font-mono text-xs tracking-[0.18em]">WEBENTWICKLUNG</p></div>
+          <h2 className="mt-2 text-lg font-semibold text-[var(--text)]">Professionelle Website ohne unnötigen Agentur-Overhead.</h2>
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--muted)]">Individuelle Landingpages und Business-Websites mit responsive Design, Performance, SEO-Basis und sicherem Deployment. Faire Festpreise und klare Leistungsumfänge.</p>
+          <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+            <a href="/webentwicklung" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-5 text-sm font-semibold text-black hover:brightness-110">Webentwicklung ansehen <ArrowRight size={15}/></a>
+            <a href="/buchung" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-[var(--border)] px-5 text-sm font-medium text-[var(--text)] hover:border-[var(--accent)]">Projekt anfragen</a>
+          </div>
+        </div>
+
+        <div className="mb-8 rounded-2xl border border-[var(--accent)]/30 bg-[var(--surface)] p-5 sm:p-6">
+          <div className="flex items-center gap-2 text-[var(--accent)]"><Mail size={16}/><p className="font-mono text-xs tracking-[0.18em]">DIREKTER KONTAKT</p></div>
+          <h2 className="mt-2 text-lg font-semibold text-[var(--text)]">Projekt besprechen oder unverbindlich anfragen.</h2>
+          <p className="mt-2 text-sm leading-6 text-[var(--muted)]">Für Webentwicklung, IT, Cybersecurity, OSINT oder Kooperationen erreichst du mich direkt per E-Mail.</p>
+          <a href="mailto:joschaschmidt@mail.de" className="mt-4 inline-flex items-center gap-2 font-medium text-[var(--accent)] hover:underline">joschaschmidt@mail.de <ArrowRight size={15}/></a>
+        </div>
+
+        <div className="mb-8 rounded-2xl border border-[var(--accent)]/30 bg-[var(--surface)] p-5 sm:p-6">
           <div className="flex items-center gap-2 text-[var(--accent)]"><Mail size={16}/><p className="font-mono text-xs tracking-[0.18em]">LINUX AARON BRIEFING</p></div>
           <h2 className="mt-2 text-lg font-semibold text-[var(--text)]">Linux, Security & OSINT direkt in dein Postfach.</h2>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--muted)]">Neue Artikel, technische Praxis und Hinweise auf neue Security-Ressourcen. Anmeldung per Double-Opt-in.</p>
@@ -88,7 +105,7 @@ export function SiteFooter() {
           <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--muted)]">Wenn dir meine Open-Source-Projekte, Security-Artikel oder Tools gefallen, kannst du meine Arbeit freiwillig per Kryptowährung unterstützen.</p>
           <div className="mt-5 grid gap-3 lg:grid-cols-3">{donations.map((donation) => <div key={donation.name} className="rounded-xl border border-[var(--border)] bg-[var(--bg)] p-4"><p className="text-sm font-medium text-[var(--text)]">{donation.name}</p><button type="button" onClick={() => navigator.clipboard?.writeText(donation.address)} className="mt-2 block w-full break-all text-left font-mono text-[11px] leading-5 text-[var(--muted)] hover:text-[var(--accent)]" title="Adresse kopieren" aria-label={`${donation.name} Adresse kopieren`}>{donation.address}</button><a href={`${donation.scheme}:${donation.address}`} className="mt-3 inline-flex min-h-9 items-center rounded-full border border-[var(--border)] px-3 py-1.5 text-xs font-medium text-[var(--text)] hover:border-[var(--accent)]">Wallet öffnen →</a></div>)}</div>
         </div>
-        <div className="flex flex-col gap-4 text-sm text-[var(--muted)] sm:flex-row sm:items-center sm:justify-between"><span>© 2026 Joscha Aaron Schmidt</span><div className="flex flex-wrap items-center gap-5"><a href="/impressum">Impressum</a><a href="/datenschutz">Datenschutz</a><a href="/newsletter">Newsletter</a><button type="button" onClick={openPrivacyNotice} className="transition hover:text-[var(--text)]">Cookie-Hinweis</button><a href="https://github.com/aaron0sec" target="_blank" rel="noreferrer" aria-label="GitHub"><Github size={16}/></a><a href="https://www.instagram.com/linux_aaron/" target="_blank" rel="noreferrer" aria-label="Instagram"><Instagram size={16}/></a><a href="https://www.tiktok.com/@linux_aaron" target="_blank" rel="noreferrer" aria-label="TikTok"><Music2 size={16}/></a></div></div>
+        <div className="flex flex-col gap-4 text-sm text-[var(--muted)] sm:flex-row sm:items-center sm:justify-between"><span>© 2026 Joscha Aaron Schmidt</span><div className="flex flex-wrap items-center gap-5"><a href="/impressum">Impressum</a><a href="/datenschutz">Datenschutz</a><a href="/newsletter">Newsletter</a><button type="button" onClick={openPrivacyNotice} className="transition hover:text-[var(--text)]">Cookie-Hinweis</button><a href="https://github.com/linuxaaron/webseite" target="_blank" rel="noreferrer" aria-label="GitHub"><Github size={16}/></a><a href="https://www.instagram.com/linux_aaron/" target="_blank" rel="noreferrer" aria-label="Instagram"><Instagram size={16}/></a><a href="https://www.tiktok.com/@linux_aaron" target="_blank" rel="noreferrer" aria-label="TikTok"><Music2 size={16}/></a></div></div>
       </div>
     </footer>
   );
