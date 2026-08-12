@@ -18,10 +18,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/blog/osint-webanalyse",
     "/blog/essential-linux-commands-cybersecurity",
     "/blog/burp-suite-nuclei-websecurity",
+    "/blog/hardware-geldmacherei-it-einsteiger",
   ];
 
   return routes.map((path) => ({
     url: `${base}${path}`,
-    lastModified: new Date(),
   }));
 }
