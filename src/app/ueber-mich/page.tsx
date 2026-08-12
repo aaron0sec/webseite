@@ -85,6 +85,13 @@ export default function About() {
               Problem verstehen, Informationen prüfen, Zusammenhänge erkennen,
               Lösung entwickeln und das Ergebnis sauber umsetzen.
             </p>
+
+            <div className="mt-10 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 text-sm leading-6">
+              <p className="font-mono text-xs tracking-[0.18em] text-[var(--accent)]">RECHTLICHER HINWEIS</p>
+              <p className="mt-3 text-[var(--muted)]">
+                Die auf dieser Website veröffentlichten technischen Inhalte, Tools und Beispiele dienen ausschließlich zu Lern-, Forschungs- und Testzwecken. Sicherheitsprüfungen, Penetrationstests oder sonstige Zugriffe auf fremde Systeme dürfen ausschließlich mit ausdrücklicher Genehmigung des jeweiligen Eigentümers und innerhalb eines klar definierten Scopes durchgeführt werden. Eine unbefugte Nutzung ist nicht gestattet.
+              </p>
+            </div>
           </div>
         </Reveal>
 
