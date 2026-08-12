@@ -18,7 +18,7 @@ const fieldManualContents = [
 ];
 
 const ebookContents = [
-  "Cybersecurity verständlich von Grund auf",
+  "Cybersecurity verständlich und praxisnah",
   "Netzwerke, Betriebssysteme und Security-Mindset",
   "Angriffe verstehen und Defensive Security",
   "Linux, Nmap, Burp Suite und Security-Labor",
@@ -44,8 +44,11 @@ export default function ShopPage() {
           <div className="grid gap-6 lg:grid-cols-2">
             <article className="flex flex-col rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-7 sm:p-8">
               <div>
-                <p className="font-mono text-xs tracking-[0.18em] text-[var(--accent)]">EINSTIEG · 14,99 €</p>
-                <h2 className="mt-3 text-2xl font-semibold sm:text-3xl">Cybersecurity von Grund auf</h2>
+                <p className="font-mono text-xs tracking-[0.18em] text-[var(--accent)]">EINSTIEG</p>
+                <div className="mt-3 flex flex-wrap items-end justify-between gap-4">
+                  <h2 className="text-2xl font-semibold sm:text-3xl">Cybersecurity Start</h2>
+                  <p className="text-4xl font-bold tracking-tight sm:text-5xl">14,99 €</p>
+                </div>
                 <p className="mt-4 leading-7 text-[var(--muted)]">Das E-Book für alle, die Cybersecurity systematisch verstehen und sich Schritt für Schritt ein solides Fundament aufbauen möchten.</p>
               </div>
               <ul className="mt-7 grid gap-3">
@@ -62,15 +65,18 @@ export default function ShopPage() {
                   <p className="mt-1 text-sm leading-6 text-[var(--muted)]">Verstehen → üben → eigenes Security-Labor aufbauen.</p>
                 </div>
                 <button type="button" disabled className="mt-5 inline-flex min-h-11 w-full cursor-not-allowed items-center justify-center gap-2 rounded-full border border-[var(--border)] px-5 py-3 text-sm font-semibold opacity-70">
-                  Demnächst verfügbar
+                  Checkout wird eingerichtet
                 </button>
               </div>
             </article>
 
             <article className="flex flex-col rounded-3xl border border-[var(--accent)]/50 bg-[var(--accent)]/5 p-7 sm:p-8">
               <div>
-                <p className="font-mono text-xs tracking-[0.18em] text-[var(--accent)]">PRAXIS · 29,00 €</p>
-                <h2 className="mt-3 text-2xl font-semibold sm:text-3xl">Linux Security Field Manual</h2>
+                <p className="font-mono text-xs tracking-[0.18em] text-[var(--accent)]">PRAXIS</p>
+                <div className="mt-3 flex flex-wrap items-end justify-between gap-4">
+                  <h2 className="text-2xl font-semibold sm:text-3xl">Linux Security Field Manual</h2>
+                  <p className="text-4xl font-bold tracking-tight sm:text-5xl">29,00 €</p>
+                </div>
                 <p className="mt-4 leading-7 text-[var(--muted)]">Eine technische Arbeitsunterlage für Linux, OSINT und Security-Analyse. Nicht nur lesen – prüfen, einordnen und dokumentieren.</p>
               </div>
               <ul className="mt-7 grid gap-3">
@@ -106,9 +112,9 @@ export default function ShopPage() {
         </div>
       </section>
 
-      <section className="border-b border-[var(--border)] py-16"><div className="container max-w-3xl"><h2 className="text-2xl font-semibold">Welches Produkt passt zu dir?</h2><div className="mt-6 grid gap-4 sm:grid-cols-2"><div className="rounded-2xl border border-[var(--border)] p-5"><p className="font-semibold">14,99 € · Einstieg</p><p className="mt-2 text-sm leading-6 text-[var(--muted)]">Du möchtest Cybersecurity von den Grundlagen aus verstehen und einen strukturierten Lernweg beginnen.</p></div><div className="rounded-2xl border border-[var(--border)] p-5"><p className="font-semibold">29,00 € · Praxis</p><p className="mt-2 text-sm leading-6 text-[var(--muted)]">Du willst direkt mit Linux-Kommandos, Checks, OSINT und technischer Analyse arbeiten.</p></div></div></div></section>
+      <section className="border-b border-[var(--border)] py-16"><div className="container max-w-3xl"><h2 className="text-2xl font-semibold">Welches Produkt passt zu dir?</h2><div className="mt-6 grid gap-4 sm:grid-cols-2"><div className="rounded-2xl border border-[var(--border)] p-5"><p className="text-2xl font-bold">14,99 € · Einstieg</p><p className="mt-2 text-sm leading-6 text-[var(--muted)]">Du möchtest mit Cybersecurity Start die Grundlagen verstehen und einen strukturierten Lernweg beginnen.</p></div><div className="rounded-2xl border border-[var(--border)] p-5"><p className="text-2xl font-bold">29,00 € · Praxis</p><p className="mt-2 text-sm leading-6 text-[var(--muted)]">Du willst direkt mit Linux-Kommandos, Checks, OSINT und technischer Analyse arbeiten.</p></div></div></div></section>
 
-      <section className="border-b border-[var(--border)] py-16"><div className="container max-w-3xl"><h2 className="text-2xl font-semibold">Kauf und Zahlungsabwicklung</h2><p className="mt-4 leading-7 text-[var(--muted)]">Der Kauf und die Bereitstellung des verfügbaren digitalen Produkts erfolgen über Lemon Squeezy. Lemon Squeezy tritt bei den Verkäufen als Merchant of Record auf und übernimmt die Zahlungsabwicklung sowie die Abwicklung von Umsatzsteuer/VAT im Rahmen seines Dienstes.</p><p className="mt-3 text-sm leading-6 text-[var(--muted)]">Weitere Informationen zur Verarbeitung personenbezogener Daten findest du in der <a className="text-[var(--accent)] underline" href="/datenschutz">Datenschutzerklärung</a>.</p></div></section>
+      <section className="border-b border-[var(--border)] py-16"><div className="container max-w-3xl"><h2 className="text-2xl font-semibold">Kauf und Zahlungsabwicklung</h2><p className="mt-4 leading-7 text-[var(--muted)]">Der Kauf und die Bereitstellung der digitalen Produkte erfolgen über Lemon Squeezy. Lemon Squeezy tritt bei den Verkäufen als Merchant of Record auf und übernimmt die Zahlungsabwicklung sowie die Abwicklung von Umsatzsteuer/VAT im Rahmen seines Dienstes.</p><p className="mt-3 text-sm leading-6 text-[var(--muted)]">Weitere Informationen zur Verarbeitung personenbezogener Daten findest du in der <a className="text-[var(--accent)] underline" href="/datenschutz">Datenschutzerklärung</a>.</p></div></section>
 
       <section className="py-20 sm:py-24"><div className="container max-w-3xl text-center"><p className="font-mono text-xs tracking-[0.2em] text-[var(--accent)]">LINUX AARON</p><h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Technisches Wissen, das du benutzen kannst.</h2><p className="mx-auto mt-5 max-w-2xl leading-7 text-[var(--muted)]">Weitere Security-Ressourcen und Bundles können später ergänzt werden.</p><a href="/newsletter" className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-[var(--accent)]">Über neue Produkte informiert werden <ArrowRight size={15} /></a></div></section>
     </main>
