@@ -65,7 +65,7 @@ const personSchema = {
   name: "Joscha Aaron Schmidt",
   alternateName: "Linux Aaron",
   url: siteUrl,
-  email: "mailto:aaronfree00@proton.me",
+  email: "mailto:joschaschmidt@mail.de",
   sameAs: ["https://github.com/linuxaaron"],
   knowsAbout: ["Webentwicklung", "Cybersecurity", "OSINT", "Linux", "Web Security", "IT"],
 };
