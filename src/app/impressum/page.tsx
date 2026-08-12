@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Impressum",
   description: "Impressum von Joscha Aaron Schmidt.",
+  alternates: { canonical: "/impressum" },
 };
 
 export default function Impressum() {
@@ -22,7 +23,7 @@ export default function Impressum() {
 
         <h2>Kontakt</h2>
         <p>
-          E-Mail: <a href="mailto:aaronfree00@proton.me">aaronfree00@proton.me</a>
+          E-Mail: <a href="mailto:joschaschmidt@mail.de">joschaschmidt@mail.de</a>
         </p>
 
         <h2>Verantwortlich für journalistisch-redaktionelle Inhalte</h2>
