@@ -1,27 +1,48 @@
-const menu = document.querySelector('.menu');
-const nav = document.querySelector('.nav');
+const themeToggle = document.querySelector('.theme-toggle');
+const mobileMenu = document.querySelector('.mobile-menu');
+const sidebar = document.querySelector('.sidebar');
+const navLinks = [...document.querySelectorAll('.side-nav a')];
+const sections = [...document.querySelectorAll('main section[id]')];
 
-menu?.addEventListener('click', () => {
-  const open = nav.classList.toggle('open');
-  menu.setAttribute('aria-expanded', String(open));
-  menu.textContent = open ? '×' : '☰';
+const savedTheme = localStorage.getItem('portfolio-theme');
+if (savedTheme === 'light') document.body.classList.add('light');
+
+themeToggle?.addEventListener('click', () => {
+  document.body.classList.toggle('light');
+  localStorage.setItem('portfolio-theme', document.body.classList.contains('light') ? 'light' : 'dark');
 });
 
-document.querySelectorAll('.nav nav a').forEach((link) => {
-  link.addEventListener('click', () => {
-    nav.classList.remove('open');
-    menu?.setAttribute('aria-expanded', 'false');
-    if (menu) menu.textContent = '☰';
-  });
+mobileMenu?.addEventListener('click', () => {
+  const open = sidebar.classList.toggle('mobile-open');
+  mobileMenu.setAttribute('aria-expanded', String(open));
 });
 
-const observer = new IntersectionObserver((entries) => {
+navLinks.forEach((link) => {
+  link.addEventListener('click', () => sidebar.classList.remove('mobile-open'));
+});
+
+const sectionObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      observer.unobserve(entry.target);
-    }
+    if (!entry.isIntersecting) return;
+    const id = entry.target.id;
+    navLinks.forEach((link) => link.classList.toggle('active', link.getAttribute('href') === `#${id}`));
   });
-}, { threshold: 0.12 });
+}, { rootMargin: '-35% 0px -55% 0px', threshold: 0 });
+sections.forEach((section) => sectionObserver.observe(section));
 
-document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
+const intro = document.querySelector('.intro');
+window.addEventListener('scroll', () => {
+  if (!intro) return;
+  const progress = Math.min(window.scrollY / window.innerHeight, 1);
+  intro.style.transform = `translateY(${progress * -22}px)`;
+  intro.style.opacity = String(1 - progress * 0.25);
+}, { passive: true });
+
+document.querySelectorAll('a[href^="#"]').forEach((link) => {
+  link.addEventListener('click', (event) => {
+    const target = document.querySelector(link.getAttribute('href'));
+    if (!target) return;
+    event.preventDefault();
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
