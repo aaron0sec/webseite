@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://hexsec.netlify.app/sitemap.xml
+Sitemap: https://linuxaaron.dpdns.org/sitemap.xml
