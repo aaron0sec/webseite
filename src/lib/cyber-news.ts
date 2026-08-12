@@ -21,7 +21,11 @@ const clean = (value: string) =>
     .replace(/&gt;/g, ">")
     .replace(/&quot;/g, '"')
     .replace(/&#39;|&apos;/g, "'")
-    .replace(/<[^>]+>/g, "")
+    .replace(/&#x27;/gi, "'")
+    .replace(/&#x2F;/gi, "/")
+    .replace(/&#(\d+);/g, (_, code: string) => String.fromCodePoint(Number(code)))
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
     .trim();
 
 const get = (body: string, name: string) => {
@@ -30,11 +34,9 @@ const get = (body: string, name: string) => {
 };
 
 const getLink = (body: string) => {
-  // RSS 2.0: <link>https://...</link>
   const rssLink = get(body, "link");
   if (rssLink) return rssLink;
 
-  // Atom: <link href="https://..." rel="alternate" />
   const atomLinks = [...body.matchAll(/<link\b([^>]*)\/?\s*>/gi)];
   for (const match of atomLinks) {
     const attributes = match[1];
@@ -43,38 +45,57 @@ const getLink = (body: string) => {
     if (href && (!rel || rel === "alternate")) return clean(href);
   }
 
-  return get(body, "guid");
+  return get(body, "guid") || get(body, "id");
 };
 
 function parse(xml: string, source: string): CyberNewsItem[] {
   return [...xml.matchAll(/<(item|entry)\b[^>]*>([\s\S]*?)<\/\1>/gi)].flatMap((match) => {
     const body = match[2];
     const title = get(body, "title");
-    const date = get(body, "pubDate") || get(body, "published") || get(body, "updated");
+    const date = get(body, "pubDate") || get(body, "published") || get(body, "updated") || get(body, "date");
     const link = getLink(body);
-    const description = (get(body, "description") || get(body, "summary") || get(body, "content")).slice(0, 220);
+    const description = (get(body, "description") || get(body, "summary") || get(body, "content") || get(body, "content:encoded")).slice(0, 220);
 
     return title && link ? [{ title, link, date, source, description }] : [];
   });
 }
 
+async function fetchFeed(feed: (typeof FEEDS)[number]): Promise<CyberNewsItem[]> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 10000);
+
+  try {
+    // A 15-minute bucket changes the cache key, so the cron job cannot keep
+    // receiving the same cached upstream response forever.
+    const cacheBucket = Math.floor(Date.now() / (15 * 60 * 1000));
+    const separator = feed.url.includes("?") ? "&" : "?";
+    const url = `${feed.url}${separator}_refresh=${cacheBucket}`;
+
+    const response = await fetch(url, {
+      headers: {
+        Accept: "application/rss+xml, application/atom+xml, application/xml, text/xml;q=0.9, */*;q=0.8",
+        "User-Agent": "LinuxAaron-CyberNews/2.0 (+https://linuxaaron.dpdns.org/news)",
+      },
+      next: { revalidate: 900 },
+      signal: controller.signal,
+    });
+
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+    const xml = await response.text();
+    if (!xml.trim()) throw new Error("Leerer Feed");
+
+    const items = parse(xml, feed.source);
+    if (!items.length) throw new Error("Keine RSS/Atom-Einträge erkannt");
+
+    return items;
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
 export async function getCyberNews(limit = 24): Promise<CyberNewsItem[]> {
-  const results = await Promise.allSettled(
-    FEEDS.map(async (feed) => {
-      const response = await fetch(feed.url, {
-        headers: {
-          Accept: "application/rss+xml, application/atom+xml, application/xml, text/xml;q=0.9, */*;q=0.8",
-          "User-Agent": "LinuxAaron-CyberNews/1.0 (+https://linuxaaron.dpdns.org/news)",
-        },
-        next: { revalidate: 900 },
-      });
-
-      if (!response.ok) throw new Error(`${feed.source}: HTTP ${response.status}`);
-
-      return parse(await response.text(), feed.source);
-    }),
-  );
-
+  const results = await Promise.allSettled(FEEDS.map(fetchFeed));
   const map = new Map<string, CyberNewsItem>();
 
   results.forEach((result) => {
