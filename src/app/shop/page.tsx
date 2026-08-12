@@ -7,6 +7,7 @@ export const metadata: Metadata = {
 };
 
 const fieldManualCheckoutUrl = "https://schmidt.lemonsqueezy.com/checkout/buy/d5b413c9-1901-4189-b4c9-108fd68e2dce";
+const cyberSecurityStartCheckoutUrl = "https://schmidt.lemonsqueezy.com/checkout/buy/ea9ac7d5-beba-447c-aa36-adc255671a0d";
 
 const fieldManualContents = [
   "Linux-Systemcheck und Hardening",
@@ -64,9 +65,10 @@ export default function ShopPage() {
                   <p className="text-sm font-medium">Ideal für Einsteiger</p>
                   <p className="mt-1 text-sm leading-6 text-[var(--muted)]">Verstehen → üben → eigenes Security-Labor aufbauen.</p>
                 </div>
-                <button type="button" disabled className="mt-5 inline-flex min-h-11 w-full cursor-not-allowed items-center justify-center gap-2 rounded-full border border-[var(--border)] px-5 py-3 text-sm font-semibold opacity-70">
-                  Checkout wird eingerichtet
-                </button>
+                <a href={cyberSecurityStartCheckoutUrl} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-5 py-3 text-base font-bold text-black transition hover:brightness-110">
+                  Jetzt kaufen <ArrowRight size={17} />
+                </a>
+                <p className="mt-3 text-center text-xs text-[var(--muted)]">Einmalig · digitales Produkt · Zahlungsabwicklung über Lemon Squeezy</p>
               </div>
             </article>
 
@@ -92,8 +94,8 @@ export default function ShopPage() {
                   <p className="text-sm font-medium">Für die praktische Arbeit</p>
                   <p className="mt-1 text-sm leading-6 text-[var(--muted)]">Konkrete Befehle, Prüfabläufe und Referenzen für technische Security-Checks.</p>
                 </div>
-                <a href={fieldManualCheckoutUrl} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-black transition hover:brightness-110">
-                  Jetzt kaufen <ArrowRight size={16} />
+                <a href={fieldManualCheckoutUrl} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-5 py-3 text-base font-bold text-black transition hover:brightness-110">
+                  Jetzt kaufen <ArrowRight size={17} />
                 </a>
                 <p className="mt-3 text-center text-xs text-[var(--muted)]">Einmalig · digitales Produkt · Zahlungsabwicklung über Lemon Squeezy</p>
               </div>
