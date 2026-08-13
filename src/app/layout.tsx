@@ -6,8 +6,8 @@ import { CookieConsent } from "@/components/cookie-consent";
 import { BitcoinTicker } from "@/components/bitcoin-ticker";
 
 const siteUrl = "https://joschaschmidt.com";
-const siteName = "Joscha Aaron Schmidt | IT, OSINT & Cybersecurity";
-const siteDescription = "Webentwicklung, IT, OSINT, Linux, Cybersecurity und Cloud Computing von Joscha Aaron Schmidt. Technische Projekte, Recherche und Security-Ressourcen.";
+const siteName = "Joscha Aaron Schmidt | Full Stack Developer, IT, OSINT & Cybersecurity";
+const siteDescription = "Full Stack Development, Webentwicklung, IT, OSINT, Linux, Cybersecurity und Cloud Computing von Joscha Aaron Schmidt. Technische Projekte, Recherche und Security Ressourcen.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -21,6 +21,8 @@ export const metadata: Metadata = {
   creator: "Joscha Aaron Schmidt",
   publisher: "Joscha Aaron Schmidt",
   keywords: [
+    "Full Stack Developer",
+    "Full Stack Development",
     "Webentwicklung",
     "Website erstellen",
     "Webdesign",
@@ -74,7 +76,8 @@ const personSchema = {
   url: siteUrl,
   email: "mailto:joschaschmidt@mail.de",
   sameAs: ["https://github.com/linuxaaron"],
-  knowsAbout: ["Webentwicklung", "Cybersecurity", "OSINT", "Linux", "Web Security", "Cloud Computing", "IT"],
+  jobTitle: "Full Stack Developer",
+  knowsAbout: ["Full Stack Development", "Webentwicklung", "Cybersecurity", "OSINT", "Linux", "Web Security", "Cloud Computing", "IT"],
 };
 
 const websiteSchema = {
