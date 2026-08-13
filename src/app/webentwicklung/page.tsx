@@ -4,7 +4,7 @@ import { ArrowRight, Check, Globe, ShieldCheck, Sparkles } from "lucide-react";
 export const metadata: Metadata = {
   title: "Webentwicklung – Linux Aaron",
   description:
-    "Professionelle, individuell entwickelte Websites für Selbstständige, Vereine und Unternehmen – mit transparentem Leistungsumfang und optionalem Managed Hosting.",
+    "Professionelle, individuell entwickelte Websites für Selbstständige, Vereine und Unternehmen mit transparentem Leistungsumfang und optionalem Managed Hosting.",
 };
 
 const packages = [
@@ -12,22 +12,22 @@ const packages = [
     name: "Onepage",
     price: "999 €",
     intro:
-      "Eine professionelle Onepage-Website für Unternehmen, Selbstständige, Projekte, Dienstleistungen oder persönliche Marken. Die komplette Präsentation wird auf einer klar strukturierten Seite aufgebaut.",
+      "Eine professionelle Onepage Website für Unternehmen, Selbstständige, Projekte, Dienstleistungen oder persönliche Marken. Die komplette Präsentation wird auf einer klar strukturierten Seite aufgebaut.",
     scope: [
       "Individuelle Gestaltung passend zu Branche, Zielgruppe und gewünschter Außenwirkung",
       "Responsive Umsetzung für Smartphone, Tablet und Desktop",
-      "Hero-/Einstiegsbereich mit klarer Handlungsaufforderung",
-      "Leistungs- bzw. Angebotsbereich",
-      "Über-mich-/Über-uns-Bereich",
-      "Kontaktbereich und Call-to-Action",
-      "Saubere Navigation und semantische HTML-Struktur",
-      "Basis-SEO: Seitentitel, Beschreibung, Überschriftenstruktur und technische Grundlagen",
-      "Performance-Basisoptimierung und Security-Basischecks",
-      "Produktions-Deployment und technische Übergabe",
+      "Hero Bereich mit klarer Handlungsaufforderung",
+      "Leistungsbereich oder Angebotsbereich",
+      "Über mich Bereich oder Über uns Bereich",
+      "Kontaktbereich und Call to Action",
+      "Saubere Navigation und semantische HTML Struktur",
+      "Basis SEO: Seitentitel, Beschreibung, Überschriftenstruktur und technische Grundlagen",
+      "Performance Basisoptimierung und Security Basischecks",
+      "Produktions Deployment und technische Übergabe",
       "2 Korrekturrunden innerhalb des vereinbarten Umfangs",
     ],
     notIncluded:
-      "Texterstellung, professionelle Foto-/Videoproduktion, Logoentwicklung, externe Premium-Dienste, umfangreiche individuelle Webanwendungen und laufende Inhaltsänderungen sind nicht automatisch enthalten.",
+      "Texterstellung, professionelle Foto oder Videoproduktion, Logoentwicklung, externe Premium Dienste, umfangreiche individuelle Webanwendungen und laufende Inhaltsänderungen sind nicht automatisch enthalten.",
   },
   {
     name: "Business Website",
@@ -35,20 +35,20 @@ const packages = [
     intro:
       "Die passende Lösung für kleine Unternehmen, Selbstständige, Vereine und Organisationen, die eine vollständige Webpräsenz mit mehreren klar getrennten Bereichen benötigen.",
     scope: [
-      "Alles aus dem Onepage-Paket",
+      "Alles aus dem Onepage Paket",
       "Bis zu 5 individuell aufgebaute Unterseiten",
       "Individuelle Informationsarchitektur und Navigation",
       "Typische Seiten wie Startseite, Leistungen, Über uns, Referenzen und Kontakt",
       "Kontaktformular nach vorher festgelegtem Funktionsumfang",
       "Responsive Design für alle gängigen Bildschirmgrößen",
-      "Basis-SEO für die wichtigsten Seiten",
-      "Technische Performance-Optimierung",
-      "Security-Basischecks und saubere technische Konfiguration",
-      "Produktions-Deployment und Unterstützung bei der Domain-Anbindung",
+      "Basis SEO für die wichtigsten Seiten",
+      "Technische Performance Optimierung",
+      "Security Basischecks und saubere technische Konfiguration",
+      "Produktions Deployment und Unterstützung bei der Domain Anbindung",
       "3 Korrekturrunden innerhalb des vereinbarten Projektumfangs",
     ],
     notIncluded:
-      "Komplexe Buchungs-, Mitglieder-, Shop-, Login-, Datenbank- oder individuelle SaaS-Funktionen werden separat kalkuliert. Externe Dienste und laufende Contentpflege sind nicht automatisch enthalten.",
+      "Komplexe Buchungs, Mitglieder, Shop, Login, Datenbank oder individuelle SaaS Funktionen werden separat kalkuliert. Externe Dienste und laufende Contentpflege sind nicht automatisch enthalten.",
   },
   {
     name: "Business Plus",
@@ -56,19 +56,19 @@ const packages = [
     intro:
       "Für umfangreichere Unternehmensauftritte mit bis zu 10 Seiten und einem höheren Bedarf an individueller Gestaltung, technischer Optimierung und zusätzlichen Funktionen.",
     scope: [
-      "Alles aus dem Business-Website-Paket",
+      "Alles aus dem Business Website Paket",
       "Bis zu 10 individuell gestaltete Seiten",
       "Individuelle Seitenstruktur und Navigation",
       "Individuelle Komponenten und Interaktionen nach Absprache",
       "Erweiterte technische Optimierung",
-      "Erweiterte SEO-Basis für die vereinbarten Seiten",
-      "Performance- und Security-Basischecks",
-      "Produktions-Deployment und technische Unterstützung bei der Veröffentlichung",
+      "Erweiterte SEO Basis für die vereinbarten Seiten",
+      "Performance und Security Basischecks",
+      "Produktions Deployment und technische Unterstützung bei der Veröffentlichung",
       "Bis zu 4 Korrekturrunden innerhalb des vereinbarten Umfangs",
       "Transparente Zusatzkalkulation für Funktionen, die über das Paket hinausgehen",
     ],
     notIncluded:
-      "Große Webanwendungen, komplexe Datenbanken, umfangreiche Shops, individuelle Benutzerkonten, externe API-Integrationen oder laufende Betreuung werden separat angeboten.",
+      "Große Webanwendungen, komplexe Datenbanken, umfangreiche Shops, individuelle Benutzerkonten, externe API Integrationen oder laufende Betreuung werden separat angeboten.",
   },
 ];
 
@@ -78,15 +78,14 @@ export default function WebentwicklungPage() {
       <section className="border-b border-[var(--border)] bg-[var(--surface)] py-20 sm:py-28">
         <div className="container max-w-6xl">
           <p className="font-mono text-xs tracking-[0.2em] text-[var(--accent)]">
-            WEBENTWICKLUNG · DESIGN · TECHNIK
+            WEBENTWICKLUNG · FULL STACK · DESIGN · TECHNIK
           </p>
           <h1 className="mt-5 max-w-4xl text-4xl font-semibold tracking-tight sm:text-6xl">
             Professionelle Websites mit klar definiertem Leistungsumfang.
           </h1>
           <p className="mt-6 max-w-3xl text-lg leading-8 text-[var(--muted)]">
-            Individuell entwickelte Websites für Selbstständige, kleine Unternehmen,
-            Vereine und Projekte. Transparent kalkuliert, responsive umgesetzt und
-            technisch sauber aufgebaut.
+            Individuell entwickelte Websites und Full Stack Anwendungen für Selbstständige, kleine Unternehmen,
+            Vereine und Projekte. Transparent kalkuliert, responsive umgesetzt und technisch sauber aufgebaut.
           </p>
         </div>
       </section>
@@ -181,7 +180,7 @@ export default function WebentwicklungPage() {
               <h2 className="mt-6 text-xl font-semibold">Technik und Security</h2>
               <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
                 Neben dem Erscheinungsbild werden technische Struktur, Performance und
-                grundlegende Security-Aspekte berücksichtigt. Umfangreiche Security-Audits
+                grundlegende Security Aspekte berücksichtigt. Umfangreiche Security Audits
                 sind eigenständige Leistungen.
               </p>
             </article>
@@ -214,7 +213,7 @@ export default function WebentwicklungPage() {
               href="/kontakt"
               className="mt-8 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-6 py-3 font-bold text-black transition hover:brightness-110"
             >
-              Website-Projekt anfragen <ArrowRight size={17} />
+              Website Projekt anfragen <ArrowRight size={17} />
             </a>
           </div>
         </div>
