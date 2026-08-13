@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ArrowRight, Check, Globe, ShieldCheck, Sparkles } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Webentwicklung – Linux Aaron",
+  title: "Webentwicklung | Linux Aaron",
   description:
     "Professionelle, individuell entwickelte Websites für Selbstständige, Vereine und Unternehmen mit transparentem Leistungsumfang und optionalem Managed Hosting.",
 };
@@ -94,27 +94,17 @@ export default function WebentwicklungPage() {
         <div className="container max-w-6xl">
           <div className="mb-12 max-w-3xl">
             <p className="font-mono text-xs tracking-[0.18em] text-[var(--accent)]">PAKETE</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
-              Was du für dein Budget bekommst
-            </h2>
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Was du für dein Budget bekommst</h2>
             <p className="mt-4 leading-7 text-[var(--muted)]">
-              Die Preise sind Paketpreise für den jeweils beschriebenen Umfang. Vor
-              Projektstart wird der konkrete Leistungsumfang schriftlich abgestimmt.
-              Dadurch bleibt nachvollziehbar, was enthalten ist und welche zusätzlichen
-              Anforderungen separat berechnet werden.
+              Die Preise sind Paketpreise für den jeweils beschriebenen Umfang. Vor Projektstart wird der konkrete
+              Leistungsumfang schriftlich abgestimmt. Dadurch bleibt nachvollziehbar, was enthalten ist und welche
+              zusätzlichen Anforderungen separat berechnet werden.
             </p>
           </div>
 
           <div className="grid gap-7">
             {packages.map((pkg, index) => (
-              <article
-                key={pkg.name}
-                className={`rounded-3xl border p-7 sm:p-9 ${
-                  index === 1
-                    ? "border-[var(--accent)]/60 bg-[var(--accent)]/5"
-                    : "border-[var(--border)] bg-[var(--surface)]"
-                }`}
-              >
+              <article key={pkg.name} className={`rounded-3xl border p-7 sm:p-9 ${index === 1 ? "border-[var(--accent)]/60 bg-[var(--accent)]/5" : "border-[var(--border)] bg-[var(--surface)]"}`}>
                 <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
                   <div>
                     <p className="font-mono text-xs tracking-[0.18em] text-[var(--accent)]">
@@ -139,23 +129,17 @@ export default function WebentwicklungPage() {
                     </ul>
                     <div className="mt-7 rounded-2xl border border-[var(--border)] bg-[var(--surface-2)] p-5">
                       <p className="text-sm leading-6 text-[var(--muted)]">
-                        <strong className="text-[var(--foreground)]">Nicht automatisch enthalten:</strong>{" "}
-                        {pkg.notIncluded}
+                        <strong className="text-[var(--foreground)]">Nicht automatisch enthalten:</strong>{" "}{pkg.notIncluded}
                       </p>
                     </div>
                   </div>
                 </div>
 
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                  <a
-                    href="/kontakt"
-                    className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-6 py-3 text-base font-bold text-black transition hover:brightness-110"
-                  >
+                  <a href="/kontakt" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-6 py-3 text-base font-bold text-black transition hover:brightness-110">
                     Projekt anfragen <ArrowRight size={17} />
                   </a>
-                  <p className="flex items-center text-sm text-[var(--muted)]">
-                    Vor Umsetzung erhältst du ein konkretes Angebot mit Leistungsumfang.
-                  </p>
+                  <p className="flex items-center text-sm text-[var(--muted)]">Vor Umsetzung erhältst du ein konkretes Angebot mit Leistungsumfang.</p>
                 </div>
               </article>
             ))}
@@ -169,29 +153,17 @@ export default function WebentwicklungPage() {
             <article className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-7">
               <Sparkles className="text-[var(--accent)]" size={24} />
               <h2 className="mt-6 text-xl font-semibold">Individuell statt Baukasten</h2>
-              <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
-                Das Design wird auf den Zweck der Website, die Zielgruppe und die gewünschte
-                Außenwirkung abgestimmt. Es geht nicht darum, ein beliebiges Template mit
-                Kundentexten zu füllen.
-              </p>
+              <p className="mt-3 text-sm leading-6 text-[var(--muted)]">Das Design wird auf den Zweck der Website, die Zielgruppe und die gewünschte Außenwirkung abgestimmt. Es geht nicht darum, ein beliebiges Template mit Kundentexten zu füllen.</p>
             </article>
             <article className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-7">
               <ShieldCheck className="text-[var(--accent)]" size={24} />
               <h2 className="mt-6 text-xl font-semibold">Technik und Security</h2>
-              <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
-                Neben dem Erscheinungsbild werden technische Struktur, Performance und
-                grundlegende Security Aspekte berücksichtigt. Umfangreiche Security Audits
-                sind eigenständige Leistungen.
-              </p>
+              <p className="mt-3 text-sm leading-6 text-[var(--muted)]">Neben dem Erscheinungsbild werden technische Struktur, Performance und grundlegende Security Aspekte berücksichtigt. Umfangreiche Security Audits sind eigenständige Leistungen.</p>
             </article>
             <article className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-7">
               <Globe className="text-[var(--accent)]" size={24} />
               <h2 className="mt-6 text-xl font-semibold">Optionales Managed Hosting</h2>
-              <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
-                Die fertige Website kann auf Wunsch für <strong>25 € pro Monat</strong> technisch
-                betrieben werden. Domainkosten, externe Dienste und umfangreiche Änderungen
-                sind davon getrennt.
-              </p>
+              <p className="mt-3 text-sm leading-6 text-[var(--muted)]">Die fertige Website kann auf Wunsch für <strong>25 € pro Monat</strong> technisch betrieben werden. Domainkosten, externe Dienste und umfangreiche Änderungen sind davon getrennt.</p>
             </article>
           </div>
         </div>
@@ -204,15 +176,12 @@ export default function WebentwicklungPage() {
             <ol className="mt-7 grid gap-5 text-sm leading-7">
               <li><strong>1. Erstgespräch:</strong> Ziel, Zielgruppe, gewünschte Funktionen, Inhalte und technischer Rahmen werden geklärt.</li>
               <li><strong>2. Angebot:</strong> Du erhältst einen nachvollziehbaren Preis und einen definierten Leistungsumfang.</li>
-              <li><strong>3. Umsetzung:</strong> Design und Entwicklung werden umgesetzt; eine Vorschau dient zur Abstimmung.</li>
+              <li><strong>3. Umsetzung:</strong> Design und Entwicklung werden umgesetzt. Eine Vorschau dient zur Abstimmung.</li>
               <li><strong>4. Korrektur:</strong> Die im Paket enthaltenen Korrekturrunden werden für Änderungen innerhalb des vereinbarten Umfangs genutzt.</li>
               <li><strong>5. Abnahme:</strong> Nach Freigabe wird die Website produktiv veröffentlicht.</li>
               <li><strong>6. Betrieb:</strong> Entweder du übernimmst das Hosting selbst oder buchst das optionale Managed Hosting.</li>
             </ol>
-            <a
-              href="/kontakt"
-              className="mt-8 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-6 py-3 font-bold text-black transition hover:brightness-110"
-            >
+            <a href="/kontakt" className="mt-8 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-6 py-3 font-bold text-black transition hover:brightness-110">
               Website Projekt anfragen <ArrowRight size={17} />
             </a>
           </div>
