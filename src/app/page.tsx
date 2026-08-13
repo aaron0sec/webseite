@@ -13,7 +13,7 @@ const projects = [
 ];
 
 export default function Home() {
-  const jsonLd = { "@context": "https://schema.org", "@type": "Person", name: "Joscha Aaron Schmidt", jobTitle: "OSINT Specialist | Web Security | Cybersecurity | Linux", url: "https://linuxaaron.dpdns.org", sameAs: ["https://github.com/linuxaaron", "https://www.instagram.com/linux_aaron/", "https://www.tiktok.com/@linux_aaron"] };
+  const jsonLd = { "@context": "https://schema.org", "@type": "Person", name: "Joscha Aaron Schmidt", jobTitle: "OSINT Specialist | Web Security | Cybersecurity | Linux", url: "https://joschaschmidt.com", sameAs: ["https://github.com/linuxaaron", "https://www.instagram.com/linux_aaron/", "https://www.tiktok.com/@linux_aaron"] };
   return <main>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
     <section className="grid-bg hero-glow relative overflow-hidden border-b border-[var(--border)]">
