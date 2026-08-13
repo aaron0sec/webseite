@@ -61,6 +61,20 @@ function parse(xml: string, source: string): CyberNewsItem[] {
   });
 }
 
+function decodeFeed(buffer: ArrayBuffer, contentType: string | null): string {
+  const bytes = new Uint8Array(buffer);
+  const headerCharset = contentType?.match(/charset\s*=\s*["']?([^;"'\s]+)/i)?.[1];
+  const xmlPrefix = new TextDecoder("ascii").decode(bytes.slice(0, 256));
+  const xmlCharset = xmlPrefix.match(/encoding=["']([^"']+)["']/i)?.[1];
+  const charset = headerCharset || xmlCharset || "utf-8";
+
+  try {
+    return new TextDecoder(charset).decode(bytes);
+  } catch {
+    return new TextDecoder("utf-8", { fatal: false }).decode(bytes);
+  }
+}
+
 async function fetchFeed(feed: (typeof FEEDS)[number]): Promise<CyberNewsItem[]> {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 10000);
@@ -72,14 +86,14 @@ async function fetchFeed(feed: (typeof FEEDS)[number]): Promise<CyberNewsItem[]>
       cache: "no-store",
       headers: {
         Accept: "application/rss+xml, application/atom+xml, application/xml, text/xml;q=0.9, */*;q=0.8",
-        "User-Agent": "LinuxAaron-CyberNews/3.0 (+https://webseite-aaron-727f.vercel.app/news)",
+        "User-Agent": "LinuxAaron-CyberNews/3.1 (+https://joschaschmidt.com/news)",
       },
       signal: controller.signal,
     });
 
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
-    const xml = await response.text();
+    const xml = decodeFeed(await response.arrayBuffer(), response.headers.get("content-type"));
     if (!xml.trim()) throw new Error("Leerer Feed");
 
     const items = parse(xml, feed.source);
