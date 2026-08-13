@@ -2,8 +2,7 @@ name: Refresh Cyber News RSS
 
 on:
   schedule:
-    # GitHub Actions cron uses UTC. 12:00 UTC = 14:00 CEST / 13:00 CET.
-    - cron: "0 12 * * *"
+    - cron: "*/15 * * * *"
   workflow_dispatch:
 
 jobs:
@@ -16,19 +15,8 @@ jobs:
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
         run: |
           set -euo pipefail
-
           auth_args=()
           if [ -n "${CRON_SECRET:-}" ]; then
             auth_args=(-H "Authorization: Bearer ${CRON_SECRET}")
           fi
-
-          curl \
-            --fail \
-            --silent \
-            --show-error \
-            --max-time 60 \
-            --retry 3 \
-            --retry-delay 5 \
-            -H "User-Agent: linuxaaron-rss-refresh/1.2" \
-            "${auth_args[@]}" \
-            https://linuxaaron.dpdns.org/api/cron/news
+          curl --fail --silent --show-error --max-time 60 --retry 3 --retry-delay 5 -H "User-Agent: linuxaaron-rss-refresh/3.0" "${auth_args[@]}" https://webseite-aaron-727f.vercel.app/api/cron/news
