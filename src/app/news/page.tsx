@@ -3,7 +3,20 @@ import { Reveal } from "@/components/reveal";
 import { getCyberNews } from "@/lib/cyber-news";
 
 export const revalidate = 43200;
-export const metadata = { title: "Cyber News", description: "Aktuelle Cybersecurity-News aus einem RSS-Feed." };
+
+export const metadata = {
+  title: "Cyber News",
+  description: "Aktuelle Cybersecurity-News aus ausgewählten RSS-Feeds.",
+  alternates: {
+    canonical: "https://joschaschmidt.com/news",
+  },
+  openGraph: {
+    title: "Cyber News | Joscha Aaron Schmidt",
+    description: "Aktuelle Cybersecurity-News aus ausgewählten RSS-Feeds.",
+    url: "https://joschaschmidt.com/news",
+    type: "website",
+  },
+};
 
 export default async function NewsPage() {
   const items = await getCyberNews(24);
