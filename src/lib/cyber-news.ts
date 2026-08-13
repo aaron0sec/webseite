@@ -24,6 +24,7 @@ const clean = (value: string) =>
     .replace(/&#x27;/gi, "'")
     .replace(/&#x2F;/gi, "/")
     .replace(/&#(\d+);/g, (_, code: string) => String.fromCodePoint(Number(code)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, code: string) => String.fromCodePoint(parseInt(code, 16)))
     .replace(/<[^>]+>/g, " ")
     .replace(/\s+/g, " ")
     .trim();
@@ -65,18 +66,14 @@ async function fetchFeed(feed: (typeof FEEDS)[number]): Promise<CyberNewsItem[]>
   const timeout = setTimeout(() => controller.abort(), 10000);
 
   try {
-    // A 15-minute bucket changes the cache key, so the cron job cannot keep
-    // receiving the same cached upstream response forever.
-    const cacheBucket = Math.floor(Date.now() / (15 * 60 * 1000));
-    const separator = feed.url.includes("?") ? "&" : "?";
-    const url = `${feed.url}${separator}_refresh=${cacheBucket}`;
-
-    const response = await fetch(url, {
+    // Do not cache upstream RSS responses. The page/feed route controls its
+    // own caching, while every refresh gets the current source data.
+    const response = await fetch(feed.url, {
+      cache: "no-store",
       headers: {
         Accept: "application/rss+xml, application/atom+xml, application/xml, text/xml;q=0.9, */*;q=0.8",
-        "User-Agent": "LinuxAaron-CyberNews/2.0 (+https://linuxaaron.dpdns.org/news)",
+        "User-Agent": "LinuxAaron-CyberNews/3.0 (+https://webseite-aaron-727f.vercel.app/news)",
       },
-      next: { revalidate: 900 },
       signal: controller.signal,
     });
 
