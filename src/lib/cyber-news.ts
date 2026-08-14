@@ -77,16 +77,15 @@ function decodeFeed(buffer: ArrayBuffer, contentType: string | null): string {
 
 async function fetchFeed(feed: (typeof FEEDS)[number]): Promise<CyberNewsItem[]> {
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 10000);
+  const timeout = setTimeout(() => controller.abort(), 6000);
 
   try {
-    // Do not cache upstream RSS responses. The page/feed route controls its
-    // own caching, while every refresh gets the current source data.
     const response = await fetch(feed.url, {
-      cache: "no-store",
+      cache: "force-cache",
+      next: { revalidate: 900 },
       headers: {
         Accept: "application/rss+xml, application/atom+xml, application/xml, text/xml;q=0.9, */*;q=0.8",
-        "User-Agent": "LinuxAaron-CyberNews/3.1 (+https://joschaschmidt.com/news)",
+        "User-Agent": "LinuxAaron-CyberNews/4.0 (+https://joschaschmidt.com/news)",
       },
       signal: controller.signal,
     });
@@ -100,19 +99,20 @@ async function fetchFeed(feed: (typeof FEEDS)[number]): Promise<CyberNewsItem[]>
     if (!items.length) throw new Error("Keine RSS/Atom-Einträge erkannt");
 
     return items;
+  } catch (error) {
+    console.warn(`[CyberNews] ${feed.source} unavailable`, error);
+    return [];
   } finally {
     clearTimeout(timeout);
   }
 }
 
 export async function getCyberNews(limit = 24): Promise<CyberNewsItem[]> {
-  const results = await Promise.allSettled(FEEDS.map(fetchFeed));
+  const results = await Promise.all(FEEDS.map(fetchFeed));
   const map = new Map<string, CyberNewsItem>();
 
-  results.forEach((result) => {
-    if (result.status === "fulfilled") {
-      result.value.forEach((item) => map.set(item.link.replace(/#.*$/, ""), item));
-    }
+  results.forEach((items) => {
+    items.forEach((item) => map.set(item.link.replace(/#.*$/, ""), item));
   });
 
   return [...map.values()]
