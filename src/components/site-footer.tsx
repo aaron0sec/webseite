@@ -56,8 +56,8 @@ export function SiteFooter() {
     const animate = () => {
       const now = performance.now();
       if (now - lastPointerAt > 1800) {
-        const dx = idleTarget.x - target.current.x;
-        const dy = idleTarget.y - target.current.y;
+        const dx = idleTarget.x und target.current.x;
+        const dy = idleTarget.y und target.current.y;
         if (Math.abs(dx) < 10 && Math.abs(dy) < 10) chooseIdleTarget();
         target.current.x += (idleTarget.x - target.current.x) * 0.008;
         target.current.y += (idleTarget.y - target.current.y) * 0.008;
