@@ -8,17 +8,17 @@ import { CursorLiquid } from "@/components/cursor-liquid";
 import { CuteFooterCat } from "@/components/cute-footer-cat";
 
 const siteUrl = "https://www.joschaschmidt.com";
-const siteName = "Joscha Aaron Schmidt | Webentwicklung & Cybersecurity";
+const siteName = "Joscha Schmidt | Webentwicklung & Cybersecurity";
 const siteDescription = "Joscha Schmidt, auch Joscha Aaron Schmidt, entwickelt professionelle Websites und Webanwendungen und arbeitet mit Linux, OSINT, Web Security und Cybersecurity.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: { default: siteName, template: "%s | Joscha Aaron Schmidt" },
+  title: { default: siteName, template: "%s | Joscha Schmidt" },
   description: siteDescription,
-  applicationName: "Joscha Aaron Schmidt",
+  applicationName: "Joscha Schmidt",
   authors: [{ name: "Joscha Schmidt", url: siteUrl }],
   creator: "Joscha Schmidt",
-  publisher: "Joscha Aaron Schmidt",
+  publisher: "Joscha Schmidt",
   keywords: [
     "Joscha Schmidt", "Joscha Aaron Schmidt", "Webentwicklung", "Website erstellen", "Webdesign",
     "Full Stack Development", "Cybersecurity", "Web Security", "IT Security",
@@ -63,7 +63,8 @@ const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   "@id": `${siteUrl}/#website`,
-  name: siteName,
+  name: "Joscha Schmidt",
+  alternateName: ["Joscha Aaron Schmidt", "Linux Aaron"],
   url: siteUrl,
   description: siteDescription,
   inLanguage: "de-DE",
