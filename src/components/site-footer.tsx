@@ -25,54 +25,101 @@ export function SiteFooter() {
     if (!footer || !cat) return;
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const touch = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
-    if (reduced || touch) return;
+    if (reduced) return;
 
     let frame = 0;
     let active = false;
+    let idleTime = 0;
     const catWidth = 150;
     const catHeight = 125;
     const padding = 12;
+    const idleTarget = { x: 0, y: 0 };
 
-    const onEnter = () => {
-      active = true;
+    const getBounds = () => {
+      const rect = footer.getBoundingClientRect();
+      return {
+        rect,
+        maxX: Math.max(padding, rect.width - catWidth - padding),
+        maxY: Math.max(padding, rect.height - catHeight - padding),
+      };
     };
 
-    const onMove = (event: PointerEvent) => {
-      const rect = footer.getBoundingClientRect();
-      const maxX = Math.max(padding, rect.width - catWidth - padding);
-      const maxY = Math.max(padding, rect.height - catHeight - padding);
-
+    const setTargetFromPoint = (clientX: number, clientY: number) => {
+      const { rect, maxX, maxY } = getBounds();
       target.current.x = Math.max(
         padding,
-        Math.min(maxX, event.clientX - rect.left - catWidth / 2),
+        Math.min(maxX, clientX - rect.left - catWidth / 2),
       );
       target.current.y = Math.max(
         padding,
-        Math.min(maxY, event.clientY - rect.top - catHeight / 2),
+        Math.min(maxY, clientY - rect.top - catHeight / 2),
       );
+      idleTime = 0;
     };
 
-    const onLeave = () => {
+    const onPointerMove = (event: PointerEvent) => {
+      const { rect } = getBounds();
+      const inside =
+        event.clientX >= rect.left &&
+        event.clientX <= rect.right &&
+        event.clientY >= rect.top &&
+        event.clientY <= rect.bottom;
+
+      if (!inside) {
+        active = false;
+        return;
+      }
+
+      active = event.pointerType !== "touch";
+      setTargetFromPoint(event.clientX, event.clientY);
+    };
+
+    const onPointerEnter = () => {
+      active = true;
+    };
+
+    const onPointerLeave = () => {
       active = false;
-      target.current.x = Math.max(padding, Math.min(260, footer.clientWidth * 0.12));
-      target.current.y = Math.max(padding, footer.clientHeight - catHeight - padding);
+      idleTime = 0;
+    };
+
+    const chooseIdleTarget = () => {
+      const { maxX, maxY } = getBounds();
+      idleTarget.x = padding + Math.random() * Math.max(1, maxX - padding);
+      idleTarget.y = padding + Math.random() * Math.max(1, maxY - padding);
     };
 
     const animate = () => {
+      idleTime += 1;
+
+      // On touch devices there is no permanent cursor, so the cat wanders gently.
+      // Touch movement can still take control immediately when the user drags.
+      if (!active && idleTime > 180) {
+        const idleDx = idleTarget.x - target.current.x;
+        const idleDy = idleTarget.y - target.current.y;
+        if (Math.abs(idleDx) < 8 && Math.abs(idleDy) < 8) chooseIdleTarget();
+        target.current.x += (idleTarget.x - target.current.x) * 0.012;
+        target.current.y += (idleTarget.y - target.current.y) * 0.012;
+      }
+
       const dx = target.current.x - current.current.x;
       const dy = target.current.y - current.current.y;
 
-      velocity.current.x += dx * 0.075;
-      velocity.current.y += dy * 0.075;
+      velocity.current.x += dx * 0.085;
+      velocity.current.y += dy * 0.085;
       velocity.current.x *= 0.78;
       velocity.current.y *= 0.78;
 
       current.current.x += velocity.current.x;
       current.current.y += velocity.current.y;
 
-      const tilt = Math.max(-8, Math.min(8, velocity.current.x * 0.8));
-      const scale = active ? 1 : 0.96;
+      const { maxX, maxY } = getBounds();
+      current.current.x = Math.max(padding, Math.min(maxX, current.current.x));
+      current.current.y = Math.max(padding, Math.min(maxY, current.current.y));
+
+      const speed = Math.hypot(velocity.current.x, velocity.current.y);
+      const tilt = Math.max(-10, Math.min(10, velocity.current.x * 0.65));
+      const scale = 0.97 + Math.min(speed / 80, 0.03);
       cat.style.transform = `translate3d(${current.current.x}px, ${current.current.y}px, 0) rotate(${tilt}deg) scale(${scale})`;
       frame = requestAnimationFrame(animate);
     };
@@ -82,16 +129,25 @@ export function SiteFooter() {
     current.current.y = Math.max(padding, rect.height - catHeight - padding);
     target.current.x = current.current.x;
     target.current.y = current.current.y;
+    chooseIdleTarget();
 
-    footer.addEventListener("pointerenter", onEnter, { passive: true });
-    footer.addEventListener("pointermove", onMove, { passive: true });
-    footer.addEventListener("pointerleave", onLeave, { passive: true });
+    footer.addEventListener("pointerenter", onPointerEnter, { passive: true });
+    footer.addEventListener("pointerleave", onPointerLeave, { passive: true });
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    footer.addEventListener("touchmove", (event) => {
+      const touch = event.touches[0];
+      if (touch) {
+        active = true;
+        setTargetFromPoint(touch.clientX, touch.clientY);
+      }
+    }, { passive: true });
+
     frame = requestAnimationFrame(animate);
 
     return () => {
-      footer.removeEventListener("pointerenter", onEnter);
-      footer.removeEventListener("pointermove", onMove);
-      footer.removeEventListener("pointerleave", onLeave);
+      footer.removeEventListener("pointerenter", onPointerEnter);
+      footer.removeEventListener("pointerleave", onPointerLeave);
+      window.removeEventListener("pointermove", onPointerMove);
       cancelAnimationFrame(frame);
     };
   }, []);
@@ -144,7 +200,7 @@ export function SiteFooter() {
 
   return (
     <footer ref={footerRef} className="relative overflow-hidden border-t border-[var(--border)]">
-      <div ref={catRef} aria-hidden="true" className="footer-cat-live pointer-events-none absolute left-0 top-0 z-10 hidden md:block will-change-transform">
+      <div ref={catRef} aria-hidden="true" className="footer-cat-live pointer-events-none absolute left-0 top-0 z-10 block will-change-transform">
         <svg width="150" height="115" viewBox="0 0 150 115" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-[0_12px_20px_rgba(0,0,0,0.35)]">
           <ellipse cx="74" cy="103" rx="45" ry="7" fill="rgba(0,0,0,0.32)"/>
           <path d="M105 60C131 48 143 61 137 78C134 88 124 88 119 81" stroke="#fff" strokeWidth="9" strokeLinecap="round"/>
