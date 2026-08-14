@@ -2,11 +2,25 @@
 
 import { useEffect, useRef, useState } from "react";
 
+const CAT_WIDTH = 82;
+const CAT_HEIGHT = 74;
+const EDGE_PADDING = 12;
+const POINTER_GAP = 140;
+const CANDIDATE_COUNT = 24;
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(Math.max(value, min), max);
+}
+
+function distanceToRect(pointX: number, pointY: number, left: number, top: number, width: number, height: number) {
+  const closestX = clamp(pointX, left, left + width);
+  const closestY = clamp(pointY, top, top + height);
+  return Math.hypot(pointX - closestX, pointY - closestY);
+}
+
 export function CuteFooterCat() {
-  const catRef = useRef<HTMLButtonElement>(null);
+  const catRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
-  const [pooping, setPooping] = useState(false);
-  const poopTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const footer = document.querySelector("footer");
@@ -16,34 +30,51 @@ export function CuteFooterCat() {
     const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { threshold: 0.05 });
     observer.observe(footer);
 
-    const onPointerMove = (event: PointerEvent) => {
-      if (!entryInsideFooter(event, footer)) return;
-      const width = 82;
-      const height = 74;
-      const left = Math.max(8, Math.min(window.innerWidth - width - 8, event.clientX - width / 2));
-      const top = Math.max(8, Math.min(window.innerHeight - height - 8, event.clientY - height / 2));
-      cat.style.left = `${left}px`;
-      cat.style.top = `${top}px`;
+    const placeCatSafely = (event: PointerEvent) => {
+      const rect = footer.getBoundingClientRect();
+      if (
+        event.clientX < rect.left ||
+        event.clientX > rect.right ||
+        event.clientY < rect.top ||
+        event.clientY > rect.bottom
+      ) return;
+
+      const minLeft = Math.max(EDGE_PADDING, rect.left);
+      const minTop = Math.max(EDGE_PADDING, rect.top);
+      const maxLeft = Math.min(window.innerWidth - CAT_WIDTH - EDGE_PADDING, rect.right - CAT_WIDTH - EDGE_PADDING);
+      const maxTop = Math.min(window.innerHeight - CAT_HEIGHT - EDGE_PADDING, rect.bottom - CAT_HEIGHT - EDGE_PADDING);
+
+      if (maxLeft < minLeft || maxTop < minTop) return;
+
+      const pointerX = event.clientX;
+      const pointerY = event.clientY;
+      const startAngle = Math.atan2(pointerY - (rect.top + rect.height / 2), pointerX - (rect.left + rect.width / 2));
+
+      let best: { left: number; top: number; distance: number } | null = null;
+
+      for (let index = 0; index < CANDIDATE_COUNT; index += 1) {
+        const angle = startAngle + (Math.PI * 2 * index) / CANDIDATE_COUNT;
+        const centerX = pointerX + Math.cos(angle) * POINTER_GAP;
+        const centerY = pointerY + Math.sin(angle) * POINTER_GAP;
+        const left = clamp(centerX - CAT_WIDTH / 2, minLeft, maxLeft);
+        const top = clamp(centerY - CAT_HEIGHT / 2, minTop, maxTop);
+        const distance = distanceToRect(pointerX, pointerY, left, top, CAT_WIDTH, CAT_HEIGHT);
+
+        if (!best || distance > best.distance) best = { left, top, distance };
+      }
+
+      if (best) {
+        cat.style.left = `${best.left}px`;
+        cat.style.top = `${best.top}px`;
+      }
     };
 
-    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    window.addEventListener("pointermove", placeCatSafely, { passive: true });
     return () => {
       observer.disconnect();
-      window.removeEventListener("pointermove", onPointerMove);
-      if (poopTimer.current) clearTimeout(poopTimer.current);
+      window.removeEventListener("pointermove", placeCatSafely);
     };
   }, []);
-
-  function entryInsideFooter(event: PointerEvent, footer: Element) {
-    const rect = footer.getBoundingClientRect();
-    return event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
-  }
-
-  function handleClick() {
-    setPooping(true);
-    if (poopTimer.current) clearTimeout(poopTimer.current);
-    poopTimer.current = setTimeout(() => setPooping(false), 1300);
-  }
 
   return (
     <>
@@ -52,46 +83,36 @@ export function CuteFooterCat() {
           position: fixed;
           left: 20px;
           top: calc(100vh - 95px);
-          width: 82px;
-          height: 74px;
-          z-index: 100;
+          width: ${CAT_WIDTH}px;
+          height: ${CAT_HEIGHT}px;
+          z-index: 40;
           border: 0;
           padding: 0;
           margin: 0;
           background: transparent;
-          cursor: pointer;
           opacity: 0;
-          pointer-events: none;
+          pointer-events: none !important;
           transform: scale(.96);
           transition: opacity .2s ease, transform .2s ease;
         }
         .cute-footer-cat.is-visible {
           opacity: 1;
-          pointer-events: auto;
           transform: scale(1);
         }
-        .cute-footer-cat:hover { transform: scale(1.05); }
-        .cute-footer-cat:focus-visible { outline: 2px solid #60a5fa; outline-offset: 4px; border-radius: 999px; }
         .cute-cat-paw { transform-box: fill-box; transform-origin: center; }
-        .cute-footer-cat:hover .cute-cat-paw { animation: cute-paw .42s ease-in-out; }
-        .cute-cat-poop { transform-origin: 100px 84px; animation: cute-poop .7s cubic-bezier(.2,.8,.2,1) both; }
         .cute-cat-puff { animation: cute-puff .75s ease-out both; }
-        @keyframes cute-paw { 50% { transform: translateY(-2px) rotate(-5deg); } }
-        @keyframes cute-poop { 0% { opacity: 0; transform: translate(0,-12px) scale(.35); } 55% { opacity: 1; transform: translate(0,1px) scale(1.05); } 100% { opacity: 1; transform: translate(0,0) scale(1); } }
         @keyframes cute-puff { 0% { opacity: .8; transform: scale(.3); } 100% { opacity: 0; transform: scale(1.5) translateY(-4px); } }
         @media (prefers-reduced-motion: reduce) {
-          .cute-footer-cat, .cute-footer-cat:hover { transition: none; transform: none; }
-          .cute-cat-paw, .cute-cat-poop, .cute-cat-puff { animation: none; }
+          .cute-footer-cat { transition: none; transform: none; }
+          .cute-cat-puff { animation: none; }
         }
       `}</style>
-      <button
+      <div
         ref={catRef}
-        type="button"
-        aria-label="Niedliche Katze im Footer"
+        aria-hidden="true"
         className={`cute-footer-cat ${visible ? "is-visible" : ""}`}
-        onClick={handleClick}
       >
-        <svg width="82" height="74" viewBox="0 0 132 118" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <svg width="82" height="74" viewBox="0 0 132 118" fill="none" xmlns="http://www.w3.org/2000/svg">
           <ellipse cx="66" cy="111" rx="35" ry="5" fill="rgba(0,0,0,.2)"/>
           <path d="M91 57C112 45 126 54 122 69C119 80 109 82 101 75" stroke="#fff" strokeWidth="8" strokeLinecap="round"/>
           <path d="M91 57C112 45 126 54 122 69C119 80 109 82 101 75" stroke="#172033" strokeWidth="2.4" strokeLinecap="round"/>
@@ -116,16 +137,9 @@ export function CuteFooterCat() {
             <ellipse cx="85" cy="99" rx="9" ry="11" fill="#fff" stroke="#172033" strokeWidth="2.2"/>
             <circle cx="81" cy="95" r="1.8" fill="#f2a5ba"/><circle cx="85" cy="93" r="1.8" fill="#f2a5ba"/><circle cx="89" cy="95" r="1.8" fill="#f2a5ba"/>
           </g>
-          {pooping && (
-            <g className="cute-cat-poop">
-              <path d="M101 91C96 87 99 82 104 82C101 77 106 74 111 78C114 73 120 77 118 82C123 82 124 88 119 91C116 94 106 95 101 91Z" fill="#8b5a2b" stroke="#5b3a1c" strokeWidth="1.6"/>
-              <circle className="cute-cat-puff" cx="121" cy="78" r="4" fill="#b98a5a" opacity=".65"/>
-              <circle className="cute-cat-puff" cx="125" cy="86" r="3" fill="#b98a5a" opacity=".55"/>
-            </g>
-          )}
         </svg>
-      </button>
-      <style>{`.footer-cat-live { display: none !important; }`}</style>
+        <span className="sr-only">Dekorative Katze im Footer</span>
+      </div>
     </>
   );
 }
