@@ -12,6 +12,11 @@ export const metadata: Metadata = {
     url: "https://www.joschaschmidt.com/blog",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Security Blog | Linux, Cybersecurity, OSINT & Web Security",
+    description: "Technische Beiträge zu Linux, Cybersecurity, OSINT, Web Security, DFIR und Incident Response von Joscha Aaron Schmidt.",
+  },
 };
 
 const posts = [
