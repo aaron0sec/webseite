@@ -1,6 +1,6 @@
 "use client";
 
-import { Github, Instagram, Music2, ExternalLink, ArrowRight, Mail } from "lucide-react";
+import { Github, Instagram, Music2, ArrowRight, Mail } from "lucide-react";
 import { FormEvent, useEffect, useRef, useState } from "react";
 
 const donations = [
@@ -30,29 +30,53 @@ export function SiteFooter() {
     const catWidth = 86;
     const catHeight = 68;
     const padding = 12;
+    const pointerGap = 170;
+
     const getBounds = () => {
       const rect = footer.getBoundingClientRect();
       return { rect, maxX: Math.max(padding, rect.width - catWidth - padding), maxY: Math.max(padding, rect.height - catHeight - padding) };
     };
+
     const moveToPoint = (clientX: number, clientY: number) => {
       const { rect, maxX, maxY } = getBounds();
-      target.current.x = Math.max(padding, Math.min(maxX, clientX - rect.left - catWidth / 2));
-      target.current.y = Math.max(padding, Math.min(maxY, clientY - rect.top - catHeight / 2));
+      const pointerX = clientX - rect.left;
+      const pointerY = clientY - rect.top;
+      const catCenterX = current.current.x + catWidth / 2;
+      const catCenterY = current.current.y + catHeight / 2;
+      let dx = pointerX - catCenterX;
+      let dy = pointerY - catCenterY;
+      const distance = Math.hypot(dx, dy);
+
+      // Keep the cat clearly away from the mouse instead of sitting directly underneath it.
+      if (distance < 1) {
+        dx = 1;
+        dy = 0;
+      }
+      const length = Math.hypot(dx, dy) || 1;
+      const safeX = pointerX - (dx / length) * pointerGap - catWidth / 2;
+      const safeY = pointerY - (dy / length) * pointerGap - catHeight / 2;
+
+      target.current.x = Math.max(padding, Math.min(maxX, safeX));
+      target.current.y = Math.max(padding, Math.min(maxY, safeY));
       lastPointerAt = performance.now();
     };
+
     const onPointerMove = (event: PointerEvent) => {
       const { rect } = getBounds();
       if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) return;
       moveToPoint(event.clientX, event.clientY);
     };
+
     const onPointerDown = (event: PointerEvent) => {
       const { rect } = getBounds();
       if (event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom) moveToPoint(event.clientX, event.clientY);
     };
+
     const chooseIdleTarget = () => {
       const { maxX, maxY } = getBounds();
       idleTarget = { x: padding + Math.random() * Math.max(1, maxX - padding), y: padding + Math.random() * Math.max(1, maxY - padding) };
     };
+
     const animate = () => {
       const now = performance.now();
       if (now - lastPointerAt > 1800) {
@@ -77,6 +101,7 @@ export function SiteFooter() {
       cat.style.transform = `translate3d(${current.current.x}px, ${current.current.y}px, 0) rotate(${tilt}deg) scale(${scale})`;
       frame = requestAnimationFrame(animate);
     };
+
     const rect = footer.getBoundingClientRect();
     current.current.x = Math.max(padding, Math.min(rect.width - catWidth - padding, 20));
     current.current.y = Math.max(padding, rect.height - catHeight - padding);
