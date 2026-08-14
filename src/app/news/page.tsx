@@ -1,19 +1,18 @@
+import type { Metadata } from "next";
 import { ArrowUpRight, Radio } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { getCyberNews } from "@/lib/cyber-news";
 
 export const revalidate = 86400;
 
-export const metadata = {
-  title: "Cyber News",
-  description: "Aktuelle Cybersecurity News aus ausgewählten RSS Feeds.",
-  alternates: {
-    canonical: "https://joschaschmidt.com/news",
-  },
+export const metadata: Metadata = {
+  title: "Cyber News | Aktuelle IT Security Nachrichten",
+  description: "Aktuelle Nachrichten zu Cybersecurity, Linux und IT Security aus ausgewählten RSS Feeds.",
+  alternates: { canonical: "/news" },
   openGraph: {
     title: "Cyber News | Joscha Aaron Schmidt",
-    description: "Aktuelle Cybersecurity News aus ausgewählten RSS Feeds.",
-    url: "https://joschaschmidt.com/news",
+    description: "Aktuelle Nachrichten zu Cybersecurity, Linux und IT Security aus ausgewählten RSS Feeds.",
+    url: "https://www.joschaschmidt.com/news",
     type: "website",
   },
 };

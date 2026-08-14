@@ -8,8 +8,8 @@ import { CursorLiquid } from "@/components/cursor-liquid";
 import { CuteFooterCat } from "@/components/cute-footer-cat";
 
 const siteUrl = "https://www.joschaschmidt.com";
-const siteName = "Joscha Aaron Schmidt | Webentwicklung, IT, OSINT und Cybersecurity";
-const siteDescription = "Webentwicklung, IT, OSINT, Linux und Cybersecurity von Joscha Aaron Schmidt. Technische Projekte, Web Security, Recherche und praxisnahe Fachbeiträge.";
+const siteName = "Joscha Aaron Schmidt | Webentwicklung & Cybersecurity";
+const siteDescription = "Joscha Aaron Schmidt entwickelt professionelle Websites und Webanwendungen und arbeitet mit Linux, OSINT, Web Security und Cybersecurity.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     "OSINT", "Linux", "Cloud Computing", "Security Audit", "IT Beratung", "Linux Aaron"
   ],
   icons: { icon: [{ url: "/icon.svg", type: "image/svg+xml" }], shortcut: ["/icon.svg"] },
-  alternates: { canonical: siteUrl },
+  alternates: { canonical: "/" },
   robots: {
     index: true,
     follow: true,
@@ -73,7 +73,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <meta name="google-site-verification" content="SjcxIb0LYpV5eAe7mZOXWJgi7nXtGW8fSQIGP2A9erY" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
-        <style>{`body > div[aria-live="polite"] { width: 100% !important; max-width: none !important; padding-left: 0 !important; padding-right: 0 !important; margin-left: 0 !important; margin-right: 0 !important; } body > div[aria-live="polite"] > div { margin left: 0 !important; } .hero glow .mb 7.inline flex { display: none !important; }`}</style>
       </head>
       <body>
         <CursorLiquid />

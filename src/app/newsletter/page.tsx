@@ -13,7 +13,7 @@ export default function NewsletterPage() {
     try {
       const response = await fetch("/api/newsletter/subscribe", {
         method: "POST",
-        headers: { "Content Type": "application/json" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
       const data = await response.json();
@@ -30,7 +30,7 @@ export default function NewsletterPage() {
         <div className="container max-w-4xl">
           <p className="font-mono text-xs tracking-[0.2em] text-[var(--accent)]">LINUX AARON · BRIEFING</p>
           <h1 className="mt-5 max-w-3xl text-4xl font-semibold tracking-tight sm:text-6xl">Linux, Security & OSINT direkt in dein Postfach.</h1>
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--muted)]">Neue technische Artikel, ausgewählte Cybersecurity Themen, Linux Praxis und Hinweise auf neue digitale Produkte – kompakt und ohne unnötigen Lärm.</p>
+          <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--muted)]">Neue technische Artikel, ausgewählte Cybersecurity Themen, Linux Praxis und Hinweise auf neue digitale Produkte · kompakt und ohne unnötigen Lärm.</p>
         </div>
       </section>
 
@@ -48,12 +48,12 @@ export default function NewsletterPage() {
               </div>
             </form>
             {status.message && <div aria-live="polite" className={`mt-5 rounded-xl border px-4 py-3 text-sm leading-6 ${status.type === "success" ? "border-[var(--accent)]/40 bg-[var(--accent)]/8" : "border-[var(--border)]"}`}>{status.type === "success" && <CheckCircle2 className="mr-2 inline-block text-[var(--accent)]" size={16} />}{status.message}</div>}
-            <p className="mt-5 text-xs leading-5 text-[var(--muted)]">Die Anmeldung erfolgt per Anmeldung mit Bestätigung. Wir verwenden deine E Mail Adresse ausschließlich für den Newsletter Versand. Eine Abmeldung ist jederzeit über den Link in jeder Newsletter E Mail möglich. Weitere Informationen findest du in der <a href="/datenschutz" className="underline underline-offset-4">Datenschutzerklärung</a>.</p>
+            <p className="mt-5 text-xs leading-5 text-[var(--muted)]">Die Anmeldung erfolgt mit Bestätigung. Wir verwenden deine E Mail Adresse ausschließlich für den Newsletter Versand. Eine Abmeldung ist jederzeit über den Link in jeder Newsletter E Mail möglich. Weitere Informationen findest du in der <a href="/datenschutz" className="underline underline-offset-4">Datenschutzerklärung</a>.</p>
           </div>
 
           <div className="space-y-4">
             {[
-              ["Technische Praxis", "Linux-Befehle, Hardening, Systemanalyse und praktische Workflows."],
+              ["Technische Praxis", "Linux Befehle, Hardening, Systemanalyse und praktische Workflows."],
               ["Security & OSINT", "Ausgewählte Themen aus Cybersecurity, Recherche und digitaler Analyse."],
               ["Neue Produkte", "Hinweise auf neue Guides, Checklisten und Security Ressourcen."],
             ].map(([title, text]) => <article key={title} className="rounded-2xl border border-[var(--border)] p-5"><h3 className="font-semibold">{title}</h3><p className="mt-2 text-sm leading-6 text-[var(--muted)]">{text}</p></article>)}

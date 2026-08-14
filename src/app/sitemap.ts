@@ -2,31 +2,30 @@ import type { MetadataRoute } from "next";
 
 const base = "https://www.joschaschmidt.com";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const routes = [
-    "/",
-    "/projekte",
-    "/webentwicklung",
-    "/shop",
-    "/blog",
-    "/news",
-    "/newsletter",
-    "/ueber-mich",
-    "/kontakt",
-    "/buchung",
-    "/rechtlicher-hinweis",
-    "/impressum",
-    "/datenschutz",
-    "/blog/osint-webanalyse",
-    "/blog/essential-linux-commands-cybersecurity",
-    "/blog/burp-suite-nuclei-websecurity",
-    "/blog/hardware-geldmacherei-it-einsteiger",
-  ];
+const routes = [
+  { path: "/", priority: 1, changeFrequency: "monthly" as const },
+  { path: "/projekte", priority: 0.9, changeFrequency: "monthly" as const },
+  { path: "/webentwicklung", priority: 0.9, changeFrequency: "monthly" as const },
+  { path: "/shop", priority: 0.8, changeFrequency: "monthly" as const },
+  { path: "/blog", priority: 0.8, changeFrequency: "weekly" as const },
+  { path: "/news", priority: 0.8, changeFrequency: "daily" as const },
+  { path: "/newsletter", priority: 0.6, changeFrequency: "monthly" as const },
+  { path: "/ueber-mich", priority: 0.7, changeFrequency: "monthly" as const },
+  { path: "/kontakt", priority: 0.7, changeFrequency: "monthly" as const },
+  { path: "/buchung", priority: 0.8, changeFrequency: "monthly" as const },
+  { path: "/rechtlicher-hinweis", priority: 0.3, changeFrequency: "yearly" as const },
+  { path: "/impressum", priority: 0.2, changeFrequency: "yearly" as const },
+  { path: "/datenschutz", priority: 0.2, changeFrequency: "yearly" as const },
+  { path: "/blog/osint-webanalyse", priority: 0.7, changeFrequency: "monthly" as const },
+  { path: "/blog/essential-linux-commands-cybersecurity", priority: 0.7, changeFrequency: "monthly" as const },
+  { path: "/blog/burp-suite-nuclei-websecurity", priority: 0.7, changeFrequency: "monthly" as const },
+  { path: "/blog/hardware-geldmacherei-it-einsteiger", priority: 0.7, changeFrequency: "monthly" as const },
+];
 
-  return routes.map((path) => ({
+export default function sitemap(): MetadataRoute.Sitemap {
+  return routes.map(({ path, priority, changeFrequency }) => ({
     url: `${base}${path}`,
-    lastModified: new Date(),
-    changeFrequency: path.startsWith("/blog/") || path === "/news" ? "weekly" : "monthly",
-    priority: path === "/" ? 1 : path === "/webentwicklung" || path === "/projekte" ? 0.9 : 0.7,
+    changeFrequency,
+    priority,
   }));
 }

@@ -20,7 +20,7 @@ export async function GET() {
     )
     .join("");
 
-  const xml = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>LinuxAaron Cyber News</title><link>https://joschaschmidt.com/news</link><description>Aggregierter Cybersecurity Newsfeed</description><language>de-DE</language><lastBuildDate>${now}</lastBuildDate><ttl>1440</ttl>${body}</channel></rss>`;
+  const xml = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>LinuxAaron Cyber News</title><link>https://www.joschaschmidt.com/news</link><description>Aggregierter Cybersecurity Newsfeed</description><language>de-DE</language><lastBuildDate>${now}</lastBuildDate><ttl>1440</ttl>${body}</channel></rss>`;
 
   return new Response(xml, {
     headers: {

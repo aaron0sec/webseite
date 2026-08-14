@@ -35,6 +35,10 @@ async function getPost(slug: string) {
   return parseFrontmatter(source);
 }
 
+export function generateStaticParams() {
+  return posts.map((slug) => ({ slug }));
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const post = await getPost(slug);
@@ -50,7 +54,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       description: `${post.frontmatter.title} | ${post.frontmatter.category}.`,
       publishedTime: post.frontmatter.date,
       authors: ["Joscha Aaron Schmidt"],
-      url: `/blog/${slug}`,
+      url: `https://www.joschaschmidt.com/blog/${slug}`,
     },
   };
 }
@@ -86,9 +90,9 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
     headline: frontmatter.title,
     datePublished: frontmatter.date,
     dateModified: frontmatter.date,
-    author: { "@type": "Person", name: "Joscha Aaron Schmidt", url: "https://joschaschmidt.com" },
-    publisher: { "@type": "Person", name: "Joscha Aaron Schmidt", url: "https://joschaschmidt.com" },
-    mainEntityOfPage: `https://joschaschmidt.com/blog/${slug}`,
+    author: { "@type": "Person", name: "Joscha Aaron Schmidt", url: "https://www.joschaschmidt.com" },
+    publisher: { "@type": "Person", name: "Joscha Aaron Schmidt", url: "https://www.joschaschmidt.com" },
+    mainEntityOfPage: `https://www.joschaschmidt.com/blog/${slug}`,
     inLanguage: "de-DE",
   };
 
