@@ -10,6 +10,8 @@ const EDGE_PADDING = 18;
 const MOBILE_EDGE_PADDING = 8;
 const CAT_CURSOR_GAP = 92;
 const FOLLOW_SPEED = 0.11;
+const MIN_STUNT_DELAY = 1200;
+const MAX_STUNT_DELAY = 4300;
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
@@ -87,7 +89,7 @@ export function CuteFooterCat() {
 
     const scheduleStunt = () => {
       if (stuntTimerRef.current !== null) window.clearTimeout(stuntTimerRef.current);
-      const delay = 2800 + Math.random() * 2600;
+      const delay = MIN_STUNT_DELAY + Math.random() * (MAX_STUNT_DELAY - MIN_STUNT_DELAY);
       stuntTimerRef.current = window.setTimeout(() => {
         if (visibleRef.current) runStunt();
         scheduleStunt();
@@ -198,121 +200,56 @@ export function CuteFooterCat() {
   return (
     <>
       <style>{`
-        .cute-footer-cat {
-          position: fixed;
-          left: 0;
-          top: 0;
-          width: ${CAT_WIDTH}px;
-          height: ${CAT_HEIGHT}px;
-          z-index: 40;
-          border: 0;
-          padding: 0;
-          margin: 0;
-          background: transparent;
-          opacity: 0;
-          pointer-events: none !important;
-          transform: translate3d(0, 0, 0) scale(.94);
-          transform-origin: center bottom;
-          transition: opacity .35s ease, transform .35s ease;
-          will-change: left, top, transform;
+        .cute-footer-cat { position:fixed; left:0; top:0; width:${CAT_WIDTH}px; height:${CAT_HEIGHT}px; z-index:40; border:0; padding:0; margin:0; background:transparent; opacity:0; pointer-events:none !important; transform:translate3d(0,0,0) scale(.94); transform-origin:center bottom; transition:opacity .35s ease,transform .35s ease; will-change:left,top,transform; }
+        .cute-footer-cat.is-visible { opacity:1; transform:translate3d(0,0,0) scale(1); }
+        .cute-cat-body { transform-origin:center bottom; animation:cute-cat-breathe 1.2s ease-in-out infinite; }
+        .cute-cat-tail { transform-box:fill-box; transform-origin:18% 70%; animation:cute-cat-tail .8s ease-in-out infinite; }
+        .cute-cat-paw { transform-box:fill-box; transform-origin:center top; }
+        .cute-cat-walk .cute-cat-body { animation:cute-cat-walk-bounce .28s ease-in-out infinite alternate; }
+        .cute-cat-walk .cute-cat-paw-left { animation:cute-cat-step-left .28s ease-in-out infinite alternate; }
+        .cute-cat-walk .cute-cat-paw-right { animation:cute-cat-step-right .28s ease-in-out infinite alternate; }
+        .cute-cat-ear { transform-box:fill-box; transform-origin:bottom center; animation:cute-cat-ear 2.4s ease-in-out infinite; }
+        .cute-cat-eye { transform-box:fill-box; transform-origin:center; animation:cute-cat-blink 3.5s ease-in-out infinite; }
+        .cute-cat-staff { animation:cute-cat-staff .95s cubic-bezier(.2,.8,.2,1) both !important; }
+        .cute-cat-stunt { animation:cute-cat-tumble .78s cubic-bezier(.4,.05,.6,.95) both !important; }
+        .cute-cat-jump { animation:cute-cat-jump .72s cubic-bezier(.2,.8,.2,1) both !important; }
+        .cute-cat-kick { animation:cute-cat-kick .8s ease-in-out both !important; }
+        .cute-cat-punch { animation:cute-cat-punch .72s cubic-bezier(.2,.8,.2,1) both !important; }
+        .cute-cat-combo { animation:cute-cat-combo 1.15s cubic-bezier(.2,.8,.2,1) both !important; }
+        .cute-cat-staff-pole { opacity:0; transform-box:fill-box; transform-origin:center; }
+        .cute-cat-staff .cute-cat-staff-pole { opacity:1; animation:staff-appear .18s ease-out both,staff-spin .8s .18s ease-in-out both; }
+        @keyframes cute-cat-breathe { 0%,100%{transform:translateY(0) scaleY(1)} 50%{transform:translateY(-2px) scaleY(1.025)} }
+        @keyframes cute-cat-walk-bounce { from{transform:translateY(0) rotate(-1.5deg)} to{transform:translateY(-3px) rotate(1.5deg)} }
+        @keyframes cute-cat-tail { 0%,100%{transform:rotate(-10deg)} 50%{transform:rotate(22deg)} }
+        @keyframes cute-cat-step-left { from{transform:translateY(0) rotate(6deg)} to{transform:translateY(-5px) rotate(-10deg)} }
+        @keyframes cute-cat-step-right { from{transform:translateY(-5px) rotate(-10deg)} to{transform:translateY(0) rotate(6deg)} }
+        @keyframes cute-cat-ear { 0%,82%,100%{transform:rotate(0)} 88%{transform:rotate(-7deg)} 93%{transform:rotate(5deg)} }
+        @keyframes cute-cat-blink { 0%,88%,100%{transform:scaleY(1)} 91%{transform:scaleY(.08)} 94%{transform:scaleY(1)} }
+        @keyframes cute-cat-tumble { 0%{transform:translate3d(0,0,0) scale(1) rotate(0)} 18%{transform:translate3d(0,-8px,0) scale(1.03) rotate(70deg)} 45%{transform:translate3d(0,-22px,0) scale(1.05) rotate(180deg)} 72%{transform:translate3d(0,-8px,0) scale(1.03) rotate(290deg)} 100%{transform:translate3d(0,0,0) scale(1) rotate(360deg)} }
+        @keyframes cute-cat-jump { 0%{transform:translate3d(0,0,0) scale(1)} 20%{transform:translate3d(0,-12px,0) scale(1.03,.97)} 50%{transform:translate3d(0,-29px,0) rotate(-7deg) scale(1.06,.94)} 78%{transform:translate3d(0,-10px,0) rotate(7deg) scale(1.02)} 100%{transform:translate3d(0,0,0) scale(1)} }
+        @keyframes cute-cat-kick { 0%,100%{transform:translate3d(0,0,0) rotate(0)} 22%{transform:translate3d(-2px,-6px,0) rotate(-9deg)} 45%{transform:translate3d(8px,-13px,0) rotate(15deg)} 66%{transform:translate3d(-4px,-5px,0) rotate(-7deg)} }
+        @keyframes cute-cat-punch { 0%,100%{transform:translate3d(0,0,0) rotate(0)} 20%{transform:translate3d(-4px,-4px,0) rotate(-6deg)} 46%{transform:translate3d(8px,-8px,0) rotate(8deg)} 62%{transform:translate3d(4px,-5px,0) rotate(3deg)} }
+        @keyframes cute-cat-combo { 0%{transform:translate3d(0,0,0) rotate(0)} 18%{transform:translate3d(-4px,-6px,0) rotate(-8deg)} 38%{transform:translate3d(7px,-12px,0) rotate(10deg)} 58%{transform:translate3d(-6px,-18px,0) rotate(-12deg)} 78%{transform:translate3d(4px,-8px,0) rotate(7deg)} 100%{transform:translate3d(0,0,0) rotate(0)} }
+        @keyframes cute-cat-staff { 0%{transform:translate3d(0,0,0) rotate(0)} 18%{transform:translate3d(0,-5px,0) rotate(-10deg)} 42%{transform:translate3d(0,-10px,0) rotate(14deg)} 68%{transform:translate3d(0,-4px,0) rotate(-12deg)} 100%{transform:translate3d(0,0,0) rotate(0)} }
+        @keyframes staff-appear { from{opacity:0;transform:scale(.4) rotate(-45deg)} to{opacity:1;transform:scale(1) rotate(0)} }
+        @keyframes staff-spin { 0%{transform:rotate(0) translateX(0)} 35%{transform:rotate(140deg) translateX(-4px)} 70%{transform:rotate(280deg) translateX(4px)} 100%{transform:rotate(360deg) translateX(0)} }
+        @media (hover:none),(pointer:coarse) {
+          .cute-footer-cat{width:${MOBILE_CAT_WIDTH}px;height:${MOBILE_CAT_HEIGHT}px;transform:translate3d(0,0,0) scale(.82)}
+          .cute-footer-cat.is-visible{transform:translate3d(0,0,0) scale(.82)}
+          .cute-cat-stunt{animation-name:cute-cat-tumble-mobile !important}
+          .cute-cat-jump{animation-name:cute-cat-jump-mobile !important}
+          .cute-cat-kick{animation-name:cute-cat-kick-mobile !important}
+          .cute-cat-staff{animation-name:cute-cat-staff-mobile !important}
+          .cute-cat-punch{animation-name:cute-cat-punch-mobile !important}
+          .cute-cat-combo{animation-name:cute-cat-combo-mobile !important}
         }
-        .cute-footer-cat.is-visible { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
-        .cute-cat-body { transform-origin: center bottom; animation: cute-cat-breathe 1.2s ease-in-out infinite; }
-        .cute-cat-tail { transform-box: fill-box; transform-origin: 18% 70%; animation: cute-cat-tail .8s ease-in-out infinite; }
-        .cute-cat-paw { transform-box: fill-box; transform-origin: center top; }
-        .cute-cat-walk .cute-cat-body { animation: cute-cat-walk-bounce .28s ease-in-out infinite alternate; }
-        .cute-cat-walk .cute-cat-paw-left { animation: cute-cat-step-left .28s ease-in-out infinite alternate; }
-        .cute-cat-walk .cute-cat-paw-right { animation: cute-cat-step-right .28s ease-in-out infinite alternate; }
-        .cute-cat-ear { transform-box: fill-box; transform-origin: bottom center; animation: cute-cat-ear 2.4s ease-in-out infinite; }
-        .cute-cat-eye { transform-box: fill-box; transform-origin: center; animation: cute-cat-blink 3.5s ease-in-out infinite; }
-        .cute-cat-staff { animation: cute-cat-staff .95s cubic-bezier(.2,.8,.2,1) both !important; }
-        .cute-cat-stunt { animation: cute-cat-tumble .78s cubic-bezier(.4,.05,.6,.95) both !important; }
-        .cute-cat-jump { animation: cute-cat-jump .72s cubic-bezier(.2,.8,.2,1) both !important; }
-        .cute-cat-kick { animation: cute-cat-kick .8s ease-in-out both !important; }
-        .cute-cat-punch { animation: cute-cat-punch .72s cubic-bezier(.2,.8,.2,1) both !important; }
-        .cute-cat-combo { animation: cute-cat-combo 1.15s cubic-bezier(.2,.8,.2,1) both !important; }
-        .cute-cat-staff-pole { opacity: 0; transform-box: fill-box; transform-origin: center; }
-        .cute-cat-staff .cute-cat-staff-pole { opacity: 1; animation: staff-appear .18s ease-out both, staff-spin .8s .18s ease-in-out both; }
-        @keyframes cute-cat-breathe { 0%,100% { transform: translateY(0) scaleY(1); } 50% { transform: translateY(-2px) scaleY(1.025); } }
-        @keyframes cute-cat-walk-bounce { from { transform: translateY(0) rotate(-1.5deg); } to { transform: translateY(-3px) rotate(1.5deg); } }
-        @keyframes cute-cat-tail { 0%,100% { transform: rotate(-10deg); } 50% { transform: rotate(22deg); } }
-        @keyframes cute-cat-step-left { from { transform: translateY(0) rotate(6deg); } to { transform: translateY(-5px) rotate(-10deg); } }
-        @keyframes cute-cat-step-right { from { transform: translateY(-5px) rotate(-10deg); } to { transform: translateY(0) rotate(6deg); } }
-        @keyframes cute-cat-ear { 0%,82%,100% { transform: rotate(0); } 88% { transform: rotate(-7deg); } 93% { transform: rotate(5deg); } }
-        @keyframes cute-cat-blink { 0%,88%,100% { transform: scaleY(1); } 91% { transform: scaleY(.08); } 94% { transform: scaleY(1); } }
-        @keyframes cute-cat-tumble {
-          0% { transform: translate3d(0,0,0) scale(1) rotate(0deg); }
-          18% { transform: translate3d(0,-8px,0) scale(1.03) rotate(70deg); }
-          45% { transform: translate3d(0,-22px,0) scale(1.05) rotate(180deg); }
-          72% { transform: translate3d(0,-8px,0) scale(1.03) rotate(290deg); }
-          100% { transform: translate3d(0,0,0) scale(1) rotate(360deg); }
-        }
-        @keyframes cute-cat-jump {
-          0% { transform: translate3d(0,0,0) scale(1); }
-          20% { transform: translate3d(0,-12px,0) scale(1.03, .97); }
-          50% { transform: translate3d(0,-29px,0) rotate(-7deg) scale(1.06, .94); }
-          78% { transform: translate3d(0,-10px,0) rotate(7deg) scale(1.02); }
-          100% { transform: translate3d(0,0,0) scale(1); }
-        }
-        @keyframes cute-cat-kick {
-          0%,100% { transform: translate3d(0,0,0) rotate(0); }
-          22% { transform: translate3d(-2px,-6px,0) rotate(-9deg); }
-          45% { transform: translate3d(8px,-13px,0) rotate(15deg); }
-          66% { transform: translate3d(-4px,-5px,0) rotate(-7deg); }
-        }
-        @keyframes cute-cat-punch {
-          0%,100% { transform: translate3d(0,0,0) rotate(0); }
-          20% { transform: translate3d(-4px,-4px,0) rotate(-6deg); }
-          46% { transform: translate3d(8px,-8px,0) rotate(8deg); }
-          62% { transform: translate3d(4px,-5px,0) rotate(3deg); }
-        }
-        @keyframes cute-cat-combo {
-          0% { transform: translate3d(0,0,0) rotate(0); }
-          18% { transform: translate3d(-4px,-6px,0) rotate(-8deg); }
-          38% { transform: translate3d(7px,-12px,0) rotate(10deg); }
-          58% { transform: translate3d(-6px,-18px,0) rotate(-12deg); }
-          78% { transform: translate3d(4px,-8px,0) rotate(7deg); }
-          100% { transform: translate3d(0,0,0) rotate(0); }
-        }
-        @keyframes cute-cat-staff {
-          0% { transform: translate3d(0,0,0) rotate(0); }
-          18% { transform: translate3d(0,-5px,0) rotate(-10deg); }
-          42% { transform: translate3d(0,-10px,0) rotate(14deg); }
-          68% { transform: translate3d(0,-4px,0) rotate(-12deg); }
-          100% { transform: translate3d(0,0,0) rotate(0); }
-        }
-        @keyframes staff-appear { from { opacity: 0; transform: scale(.4) rotate(-45deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
-        @keyframes staff-spin { 0% { transform: rotate(0deg) translateX(0); } 35% { transform: rotate(140deg) translateX(-4px); } 70% { transform: rotate(280deg) translateX(4px); } 100% { transform: rotate(360deg) translateX(0); } }
-        @media (hover:none), (pointer:coarse) {
-          .cute-footer-cat { width:68px; height:62px; transform:translate3d(0,0,0) scale(.82); }
-          .cute-footer-cat.is-visible { transform:translate3d(0,0,0) scale(.82); }
-          .cute-cat-stunt { animation-name: cute-cat-tumble-mobile !important; }
-          .cute-cat-jump { animation-name: cute-cat-jump-mobile !important; }
-          .cute-cat-kick { animation-name: cute-cat-kick-mobile !important; }
-          .cute-cat-staff { animation-name: cute-cat-staff-mobile !important; }
-          .cute-cat-punch { animation-name: cute-cat-punch-mobile !important; }
-          .cute-cat-combo { animation-name: cute-cat-combo-mobile !important; }
-        }
-        @keyframes cute-cat-tumble-mobile {
-          0% { transform: translate3d(0,0,0) scale(.82) rotate(0); }
-          20% { transform: translate3d(0,-7px,0) scale(.84) rotate(70deg); }
-          50% { transform: translate3d(0,-16px,0) scale(.85) rotate(180deg); }
-          80% { transform: translate3d(0,-7px,0) scale(.84) rotate(290deg); }
-          100% { transform: translate3d(0,0,0) scale(.82) rotate(360deg); }
-        }
-        @keyframes cute-cat-jump-mobile { 0%,100% { transform: translate3d(0,0,0) scale(.82); } 50% { transform: translate3d(0,-21px,0) rotate(-5deg) scale(.85); } }
-        @keyframes cute-cat-kick-mobile { 0%,100% { transform: translate3d(0,0,0) scale(.82) rotate(0); } 50% { transform: translate3d(5px,-9px,0) scale(.85) rotate(10deg); } }
-        @keyframes cute-cat-punch-mobile { 0%,100% { transform: translate3d(0,0,0) scale(.82) rotate(0); } 48% { transform: translate3d(6px,-7px,0) scale(.85) rotate(8deg); } }
-        @keyframes cute-cat-combo-mobile {
-          0%,100% { transform: translate3d(0,0,0) scale(.82) rotate(0); }
-          22% { transform: translate3d(-4px,-7px,0) scale(.84) rotate(-7deg); }
-          45% { transform: translate3d(6px,-12px,0) scale(.85) rotate(9deg); }
-          68% { transform: translate3d(-5px,-17px,0) scale(.84) rotate(-8deg); }
-        }
-        @keyframes cute-cat-staff-mobile { 0%,100% { transform: translate3d(0,0,0) scale(.82); } 45% { transform: translate3d(0,-9px,0) scale(.85) rotate(9deg); } }
-        @media (prefers-reduced-motion: reduce) {
-          .cute-footer-cat,.cute-cat-body,.cute-cat-tail,.cute-cat-walk .cute-cat-body,.cute-cat-walk .cute-cat-paw-left,.cute-cat-walk .cute-cat-paw-right,.cute-cat-ear,.cute-cat-eye,.cute-cat-stunt,.cute-cat-jump,.cute-cat-kick,.cute-cat-punch,.cute-cat-combo,.cute-cat-staff,.cute-cat-staff-pole { animation:none !important; transition:none; }
-        }
+        @keyframes cute-cat-tumble-mobile { 0%{transform:translate3d(0,0,0) scale(.82) rotate(0)} 20%{transform:translate3d(0,-5px,0) scale(.84) rotate(70deg)} 50%{transform:translate3d(0,-12px,0) scale(.84) rotate(180deg)} 80%{transform:translate3d(0,-5px,0) scale(.84) rotate(290deg)} 100%{transform:translate3d(0,0,0) scale(.82) rotate(360deg)} }
+        @keyframes cute-cat-jump-mobile { 0%,100%{transform:translate3d(0,0,0) scale(.82)} 50%{transform:translate3d(0,-17px,0) scale(.84)} }
+        @keyframes cute-cat-kick-mobile { 0%,100%{transform:translate3d(0,0,0) scale(.82) rotate(0)} 50%{transform:translate3d(3px,-7px,0) scale(.84) rotate(9deg)} }
+        @keyframes cute-cat-staff-mobile { 0%,100%{transform:translate3d(0,0,0) scale(.82)} 45%{transform:translate3d(0,-7px,0) scale(.84) rotate(8deg)} }
+        @keyframes cute-cat-punch-mobile { 0%,100%{transform:translate3d(0,0,0) scale(.82)} 48%{transform:translate3d(5px,-6px,0) scale(.84) rotate(7deg)} }
+        @keyframes cute-cat-combo-mobile { 0%{transform:translate3d(0,0,0) scale(.82)} 35%{transform:translate3d(-4px,-8px,0) scale(.84) rotate(-7deg)} 65%{transform:translate3d(5px,-12px,0) scale(.84) rotate(8deg)} 100%{transform:translate3d(0,0,0) scale(.82)} }
+        @media (prefers-reduced-motion:reduce) { .cute-footer-cat,.cute-cat-body,.cute-cat-tail,.cute-cat-walk .cute-cat-body,.cute-cat-walk .cute-cat-paw-left,.cute-cat-walk .cute-cat-paw-right,.cute-cat-ear,.cute-cat-eye,.cute-cat-stunt,.cute-cat-jump,.cute-cat-kick,.cute-cat-punch,.cute-cat-combo,.cute-cat-staff,.cute-cat-staff-pole{animation:none !important;transition:none} }
       `}</style>
       <div ref={catRef} aria-hidden="true" className={`cute-footer-cat ${visible ? "is-visible" : ""}`}>
         <svg width="82" height="74" viewBox="0 0 132 118" fill="none" xmlns="http://www.w3.org/2000/svg">
