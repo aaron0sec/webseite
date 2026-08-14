@@ -7,7 +7,7 @@ import { BitcoinTicker } from "@/components/bitcoin-ticker";
 import { CursorLiquid } from "@/components/cursor-liquid";
 import { CuteFooterCat } from "@/components/cute-footer-cat";
 
-const siteUrl = "https://joschaschmidt.com";
+const siteUrl = "https://www.joschaschmidt.com";
 const siteName = "Joscha Aaron Schmidt | Webentwicklung, IT, OSINT und Cybersecurity";
 const siteDescription = "Webentwicklung, IT, OSINT, Linux und Cybersecurity von Joscha Aaron Schmidt. Technische Projekte, Web Security, Recherche und praxisnahe Fachbeiträge.";
 
