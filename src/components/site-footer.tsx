@@ -108,20 +108,20 @@ export function SiteFooter() {
           </div>
           <div>
             <p className="font-semibold">Navigation</p>
-            <div className="mt-2 grid gap-2 text-sm text-[var(--muted)]">
-              <a href="/">Startseite</a>
-              <a href="/blog">Blog</a>
-              <a href="/webentwicklung">Webentwicklung</a>
-              <a href="/buchung">Projekt anfragen</a>
-              <a href="/kontakt">Kontakt</a>
+            <div className="mt-2 grid justify-items-start gap-2 text-sm text-[var(--muted)]">
+              <a className="w-fit" href="/">Startseite</a>
+              <a className="w-fit" href="/blog">Blog</a>
+              <a className="w-fit" href="/webentwicklung">Webentwicklung</a>
+              <a className="w-fit" href="/buchung">Projekt anfragen</a>
+              <a className="w-fit" href="/kontakt">Kontakt</a>
             </div>
           </div>
           <div>
             <p className="font-semibold">Rechtliches</p>
-            <div className="mt-2 grid gap-2 text-sm text-[var(--muted)]">
-              <a href="/impressum">Impressum</a>
-              <a href="/datenschutz">Datenschutz</a>
-              <button type="button" onClick={openPrivacyNotice} className="text-left">Cookie Einstellungen</button>
+            <div className="mt-2 grid justify-items-start gap-2 text-sm text-[var(--muted)]">
+              <a className="w-fit" href="/impressum">Impressum</a>
+              <a className="w-fit" href="/datenschutz">Datenschutz</a>
+              <button type="button" onClick={openPrivacyNotice} className="w-fit text-left">Cookie Einstellungen</button>
             </div>
           </div>
           <div>
