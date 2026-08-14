@@ -1,6 +1,6 @@
 "use client";
 
-import { Github, Instagram, Music2, ArrowRight, Mail } from "lucide-react";
+import { Github, Instagram, ArrowRight, Mail } from "lucide-react";
 import { FormEvent, useState } from "react";
 
 export function SiteFooter() {
@@ -129,7 +129,6 @@ export function SiteFooter() {
             <div className="mt-2 flex gap-3">
               <a aria-label="GitHub" href="https://github.com/linuxaaron" target="_blank" rel="noopener noreferrer"><Github size={18} /></a>
               <a aria-label="Instagram" href="https://instagram.com/linuxaaron" target="_blank" rel="noopener noreferrer"><Instagram size={18} /></a>
-              <a aria-label="Music" href="/musik"><Music2 size={18} /></a>
             </div>
           </div>
         </div>
