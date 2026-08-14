@@ -2,8 +2,15 @@ import type { Metadata } from "next";
 import { ClipboardCheck, GraduationCap, Mail, ShieldCheck } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Audit & Vorlesungen buchen",
-  description: "Anfrage für technische Audits, Security-Reviews und Vorträge zu OSINT, Web Security, Linux und Cybersecurity.",
+  title: "Security Audit & Fachvorträge buchen | Joscha Schmidt",
+  description: "Technische Security Audits, Web Security Reviews und Fachvorträge zu OSINT, Linux und Cybersecurity anfragen.",
+  alternates: { canonical: "/buchung" },
+  openGraph: {
+    title: "Security Audit & Fachvorträge | Joscha Aaron Schmidt",
+    description: "Technische Security Audits, Web Security Reviews und Fachvorträge zu OSINT, Linux und Cybersecurity.",
+    url: "https://www.joschaschmidt.com/buchung",
+    type: "website",
+  },
 };
 
 export const dynamic = "force-dynamic";
