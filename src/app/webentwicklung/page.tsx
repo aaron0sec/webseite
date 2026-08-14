@@ -11,6 +11,11 @@ export const metadata: Metadata = {
     url: "https://www.joschaschmidt.com/webentwicklung",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Webentwicklung | Professionelle Websites erstellen lassen",
+    description: "Individuell entwickelte Websites mit responsivem Design, SEO Grundlagen, Performance und sauberer technischer Umsetzung.",
+  },
 };
 
 const packages = [
