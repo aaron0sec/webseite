@@ -75,17 +75,17 @@ function decodeFeed(buffer: ArrayBuffer, contentType: string | null): string {
   }
 }
 
-async function fetchFeed(feed: (typeof FEEDS)[number]): Promise<CyberNewsItem[]> {
+async function fetchFeed(feed: (typeof FEEDS)[number], fresh = false): Promise<CyberNewsItem[]> {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 6000);
 
   try {
     const response = await fetch(feed.url, {
-      cache: "force-cache",
-      next: { revalidate: 86400 },
+      cache: fresh ? "no-store" : "force-cache",
+      next: fresh ? undefined : { revalidate: 86400 },
       headers: {
         Accept: "application/rss+xml, application/atom+xml, application/xml, text/xml;q=0.9, */*;q=0.8",
-        "User-Agent": "LinuxAaron-CyberNews/4.0 (+https://joschaschmidt.com/news)",
+        "User-Agent": "LinuxAaron-CyberNews/4.0 (+https://www.joschaschmidt.com/news)",
       },
       signal: controller.signal,
     });
@@ -107,8 +107,8 @@ async function fetchFeed(feed: (typeof FEEDS)[number]): Promise<CyberNewsItem[]>
   }
 }
 
-export async function getCyberNews(limit = 24): Promise<CyberNewsItem[]> {
-  const results = await Promise.all(FEEDS.map(fetchFeed));
+export async function getCyberNews(limit = 24, fresh = false): Promise<CyberNewsItem[]> {
+  const results = await Promise.all(FEEDS.map((feed) => fetchFeed(feed, fresh)));
   const map = new Map<string, CyberNewsItem>();
 
   results.forEach((items) => {
