@@ -119,8 +119,6 @@
     function animate() {
       currentX += (targetX - currentX) * 0.075;
       currentY += (targetY - currentY) * 0.075;
-      const tiltTarget = Math.max(-10, Math.min(10, (currentX - lastX) * 0.9));
-      lastX += (tiltTarget - (lastX - currentX) * 0.02) * 0.04;
       const rotate = Math.max(-8, Math.min(8, (targetX - currentX) * 0.15));
 
       cat.style.setProperty("--cat-x", `${currentX}px`);
@@ -226,7 +224,6 @@ window.copyAddress = function (el, text) {
     const buttons = document.querySelectorAll(".btn-primary, .btn-secondary, .nav-cta");
 
     buttons.forEach(function (btn) {
-      // Liquid-Wrapper einmalig einfügen (Füllfläche + Tropfen im selben Goo-Filter-Kontext)
       if (!btn.querySelector(".liquid-fx")) {
         const fx = document.createElement("span");
         fx.className = "liquid-fx";
@@ -248,12 +245,197 @@ window.copyAddress = function (el, text) {
         const xPercent = ((event.clientX - rect.left) / rect.width) * 100;
         const clamped = Math.max(8, Math.min(92, xPercent));
         btn.style.setProperty("--drop-x", clamped + "%");
-
-        // Restart der Animation bei erneutem Hover
         drop.style.animation = "none";
         void drop.offsetWidth;
         drop.style.animation = "";
       }, { passive: true });
     });
   });
+})();
+
+// ---------- Premium Wasser-Buttons + blaue Tropfenspur ----------
+(function () {
+  const STYLE_ID = "premium-water-effects";
+
+  function installStyles() {
+    if (document.getElementById(STYLE_ID)) return;
+    const style = document.createElement("style");
+    style.id = STYLE_ID;
+    style.textContent = `
+      /* Alte Goo-Darstellung komplett deaktivieren. Der Effekt bleibt innerhalb des Buttons. */
+      .btn-primary .liquid-fx,
+      .btn-secondary .liquid-fx,
+      .nav-cta .liquid-fx { display:none !important; }
+
+      .btn-primary,
+      .btn-secondary,
+      .nav-cta {
+        isolation:isolate;
+        overflow:hidden !important;
+        position:relative;
+        transform:translateZ(0);
+      }
+
+      .btn-primary::before,
+      .btn-secondary::before,
+      .nav-cta::before {
+        content:"";
+        position:absolute;
+        left:-2%;
+        right:-2%;
+        bottom:-2px;
+        height:0%;
+        z-index:-1;
+        border-radius:50% 50% 0 0 / 16px 16px 0 0;
+        background:
+          radial-gradient(circle at 18% 16%, rgba(255,255,255,.42) 0 1px, transparent 2px),
+          linear-gradient(180deg, rgba(91,194,255,.96), rgba(37,139,225,.98));
+        box-shadow:inset 0 1px 0 rgba(255,255,255,.32), 0 -5px 18px rgba(58,170,255,.28);
+        transition:height .62s cubic-bezier(.2,.78,.2,1);
+      }
+
+      .btn-primary::after,
+      .btn-secondary::after,
+      .nav-cta::after {
+        content:"";
+        position:absolute;
+        left:var(--water-x,50%);
+        bottom:var(--water-y,100%);
+        width:10px;
+        height:10px;
+        border-radius:50% 50% 48% 48%;
+        transform:translate(-50%,50%) rotate(45deg) scale(0);
+        background:linear-gradient(135deg, rgba(255,255,255,.95), rgba(68,174,244,.96) 42%, rgba(24,118,205,1));
+        box-shadow:0 2px 7px rgba(30,145,230,.45);
+        opacity:0;
+        pointer-events:none;
+        transition:opacity .16s ease, transform .38s cubic-bezier(.2,.9,.25,1.25);
+      }
+
+      .btn-primary:hover::before,
+      .btn-secondary:hover::before,
+      .nav-cta:hover::before { height:100%; }
+
+      .btn-primary:hover,
+      .btn-secondary:hover,
+      .nav-cta:hover { color:#fff; border-color:rgba(105,198,255,.9); }
+
+      .water-drop-trail {
+        position:fixed;
+        left:0;
+        top:0;
+        width:9px;
+        height:12px;
+        border-radius:55% 55% 60% 60%;
+        background:linear-gradient(145deg, rgba(255,255,255,.96), rgba(76,190,255,.92) 40%, rgba(18,115,205,.98));
+        box-shadow:0 0 9px rgba(46,167,245,.34), inset 1px 1px 1px rgba(255,255,255,.65);
+        pointer-events:none;
+        z-index:9999;
+        opacity:0;
+        transform:translate(-50%,-50%) rotate(45deg) scale(.45);
+        animation:water-drop-fade .72s ease-out forwards;
+      }
+
+      .water-drop-trail::after {
+        content:"";
+        position:absolute;
+        width:3px;
+        height:4px;
+        left:2px;
+        top:2px;
+        border-radius:50%;
+        background:rgba(255,255,255,.72);
+      }
+
+      @keyframes water-drop-fade {
+        0% { opacity:.9; transform:translate(-50%,-50%) rotate(45deg) scale(.45); }
+        25% { opacity:.82; transform:translate(-50%,-58%) rotate(45deg) scale(1); }
+        100% { opacity:0; transform:translate(-50%,-115%) rotate(45deg) scale(.65); }
+      }
+
+      @media (hover:none) and (pointer:coarse) {
+        .btn-primary::before,
+        .btn-secondary::before,
+        .nav-cta::before,
+        .btn-primary::after,
+        .btn-secondary::after,
+        .nav-cta::after { display:none; }
+        .water-drop-trail { display:none; }
+      }
+
+      @media (prefers-reduced-motion:reduce) {
+        .btn-primary::before,
+        .btn-secondary::before,
+        .nav-cta::before { transition:none; }
+        .water-drop-trail { animation:none; opacity:0; }
+      }
+
+      /* Kleine, stehende weiße Katze wie im Referenzmotiv. */
+      .footer-cat {
+        width:58px;
+        height:52px;
+        bottom:118px;
+      }
+      .footer-cat .cat-label { display:none !important; }
+      .footer-cat .cat-shadow { opacity:.22; width:32px; left:13px; }
+      .footer-cat .cat-svg { filter:drop-shadow(0 3px 5px rgba(0,0,0,.24)); }
+      .footer-cat .cat-head-shape { transform-origin:32px 29px; }
+      .footer-cat .cat-eye { transform-box:fill-box; }
+    `;
+    document.head.appendChild(style);
+  }
+
+  function createDrop(x, y) {
+    const drop = document.createElement("span");
+    drop.className = "water-drop-trail";
+    drop.style.left = `${x}px`;
+    drop.style.top = `${y}px`;
+    document.body.appendChild(drop);
+    window.setTimeout(() => drop.remove(), 760);
+  }
+
+  function init() {
+    installStyles();
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const coarsePointer = window.matchMedia("(hover: none) and (pointer: coarse)");
+    if (coarsePointer.matches || reducedMotion.matches) return;
+
+    const buttons = document.querySelectorAll(".btn-primary, .btn-secondary, .nav-cta");
+    buttons.forEach((button) => {
+      button.addEventListener("pointermove", (event) => {
+        const rect = button.getBoundingClientRect();
+        const x = Math.max(0, Math.min(100, ((event.clientX - rect.left) / rect.width) * 100));
+        const y = Math.max(0, Math.min(100, ((event.clientY - rect.top) / rect.height) * 100));
+        button.style.setProperty("--water-x", `${x}%`);
+        button.style.setProperty("--water-y", `${100 - y}%`);
+      }, { passive:true });
+
+      button.addEventListener("pointerenter", (event) => {
+        const rect = button.getBoundingClientRect();
+        button.style.setProperty("--water-x", `${((event.clientX - rect.left) / rect.width) * 100}%`);
+        button.style.setProperty("--water-y", `${100 - ((event.clientY - rect.top) / rect.height) * 100}%`);
+      }, { passive:true });
+    });
+
+    let lastDropTime = 0;
+    let lastDropX = -999;
+    let lastDropY = -999;
+    document.addEventListener("pointermove", (event) => {
+      const now = performance.now();
+      const dx = event.clientX - lastDropX;
+      const dy = event.clientY - lastDropY;
+      if (now - lastDropTime < 105 || (dx * dx + dy * dy) < 26 * 26) return;
+      lastDropTime = now;
+      lastDropX = event.clientX;
+      lastDropY = event.clientY;
+      createDrop(event.clientX, event.clientY);
+    }, { passive:true });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init, { once:true });
+  } else {
+    init();
+  }
 })();
