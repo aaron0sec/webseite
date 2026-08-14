@@ -1,6 +1,6 @@
 "use client";
 
-import { Github, Instagram, ArrowRight, Mail } from "lucide-react";
+import { ArrowRight, Github, Instagram, Mail } from "lucide-react";
 import { FormEvent, useState } from "react";
 
 export function SiteFooter() {
@@ -9,134 +9,62 @@ export function SiteFooter() {
   const [busy, setBusy] = useState(false);
 
   async function subscribe(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setBusy(true);
-    setMessage("");
-
+    event.preventDefault(); setBusy(true); setMessage("");
     try {
       const controller = new AbortController();
       const timeout = window.setTimeout(() => controller.abort(), 15000);
-      const response = await fetch("/api/newsletter/subscribe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({ email }),
-        signal: controller.signal,
-        cache: "no-store",
-      });
+      const response = await fetch("/api/newsletter/subscribe", { method:"POST", headers:{"Content-Type":"application/json",Accept:"application/json"}, body:JSON.stringify({ email }), signal:controller.signal, cache:"no-store" });
       window.clearTimeout(timeout);
-
       let data: { ok?: boolean; message?: string } = {};
-      try {
-        data = await response.json();
-      } catch {
-        // Ignore invalid JSON and use the HTTP status below.
-      }
-
-      if (!response.ok) {
-        setMessage(data.message || `Die Newsletter-Anmeldung konnte nicht verarbeitet werden (HTTP ${response.status}).`);
-        return;
-      }
-
-      setMessage(data.message || "Bitte prüfe dein Postfach.");
-      if (data.ok) setEmail("");
-    } catch (error) {
-      if (error instanceof DOMException && error.name === "AbortError") {
-        setMessage("Die Anmeldung hat zu lange gedauert. Bitte versuche es erneut.");
-      } else {
-        setMessage("Der Newsletter-Server ist momentan nicht erreichbar. Bitte versuche es später erneut.");
-      }
-    } finally {
-      setBusy(false);
-    }
+      try { data = await response.json(); } catch {}
+      if (!response.ok) { setMessage(data.message || `Die Anmeldung konnte nicht verarbeitet werden (HTTP ${response.status}).`); return; }
+      setMessage(data.message || "Bitte prüfe dein Postfach."); if (data.ok) setEmail("");
+    } catch (error) { setMessage(error instanceof DOMException && error.name === "AbortError" ? "Die Anmeldung hat zu lange gedauert. Bitte versuche es erneut." : "Der Newsletter Server ist momentan nicht erreichbar."); }
+    finally { setBusy(false); }
   }
 
-  const openPrivacyNotice = () => {
-    try {
-      window.localStorage.removeItem("cookie-consent-v2");
-    } catch {
-      // Ignore storage errors and reload the page.
-    }
-    window.location.reload();
-  };
+  function openPrivacyNotice() { try { window.localStorage.removeItem("cookie-consent-v2"); } catch {} window.location.reload(); }
 
   return (
     <footer className="relative overflow-hidden border-t border-[var(--border)]">
-      <div className="container relative z-20 py-10">
-        <div className="mb-8 rounded-2xl border border-[var(--accent)]/30 bg-[var(--surface)] p-5 sm:p-6">
-          <div className="flex items-center gap-2 text-[var(--accent)]">
-            <Mail size={16} />
-            <p className="font-mono text-xs tracking-[0.18em]">WEBENTWICKLUNG</p>
-          </div>
-          <h2 className="mt-2 text-lg font-semibold text-[var(--text)]">Professionelle Website ohne unnötigen Agenturkosten.</h2>
-          <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--muted)]">Individuelle Landingpages und Business Websites mit responsive Design, Performance, SEO Grundlagen und sicherem Deployment. Faire Festpreise und klare Leistungsumfänge.</p>
-          <div className="mt-4 flex flex-col gap-2 sm:flex-row">
-            <a href="/webentwicklung" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-5 text-sm font-semibold text-black hover:brightness-110">Webentwicklung ansehen <ArrowRight size={15} /></a>
-            <a href="/buchung" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-[var(--border)] px-5 text-sm font-medium text-[var(--text)] hover:border-[var(--accent)]">Projekt anfragen</a>
-          </div>
-        </div>
-
-        <div className="mb-8 rounded-2xl border border-[var(--accent)]/30 bg-[var(--surface)] p-5 sm:p-6">
-          <div className="flex items-center gap-2 text-[var(--accent)]">
-            <Mail size={16} />
-            <p className="font-mono text-xs tracking-[0.18em]">DIREKTER KONTAKT</p>
-          </div>
-          <h2 className="mt-2 text-lg font-semibold text-[var(--text)]">Projekt besprechen oder unverbindlich anfragen.</h2>
-          <p className="mt-2 text-sm leading-6 text-[var(--muted)]">Für Webentwicklung, IT, Cybersecurity, OSINT oder Kooperationen erreichst du mich direkt per E Mail.</p>
-          <a href="mailto:joschaschmidt@mail.de" className="mt-4 inline-flex items-center gap-2 font-medium text-[var(--accent)] hover:underline">joschaschmidt@mail.de <ArrowRight size={15} /></a>
-        </div>
-
-        <div className="mb-8 rounded-2xl border border-[var(--accent)]/30 bg-[var(--surface)] p-5 sm:p-6">
-          <div className="flex items-center gap-2 text-[var(--accent)]">
-            <Mail size={16} />
-            <p className="font-mono text-xs tracking-[0.18em]">LINUX AARON BRIEFING</p>
-          </div>
-          <h2 className="mt-2 text-lg font-semibold text-[var(--text)]">Linux, Security &amp; OSINT direkt in dein Postfach.</h2>
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--muted)]">Neue Artikel, technische Praxis und Hinweise auf neue Security Ressourcen. Anmeldung per Anmeldung mit Bestätigung.</p>
-          <form onSubmit={subscribe} className="mt-4 flex flex-col gap-2 sm:flex-row sm:max-w-xl">
-            <label htmlFor="footer-newsletter-email" className="sr-only">E Mail Adresse</label>
-            <input id="footer-newsletter-email" type="email" required autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="deine@email.de" className="min-h-11 flex-1 rounded-full border border-[var(--border)] bg-[var(--bg)] px-4 text-sm outline-none focus:border-[var(--accent)]" />
-            <button type="submit" disabled={busy} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-5 text-sm font-semibold text-black disabled:opacity-60">{busy ? "Wird verarbeitet …" : "Anmelden"}<ArrowRight size={15} /></button>
-          </form>
-          {message && <p aria-live="polite" className="mt-3 max-w-xl text-xs leading-5 text-[var(--muted)]">{message}</p>}
-          <p className="mt-3 max-w-xl text-[11px] leading-5 text-[var(--muted)]">Nur Newsletter Versand · Anmeldung mit Bestätigung · jederzeit abmeldbar · <a href="/datenschutz" className="underline underline-offset-2">Datenschutz</a></p>
-        </div>
-
-        <div className="grid gap-8 border-t border-[var(--border)] pt-8 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="container relative z-20 py-16 sm:py-20">
+        <div className="mb-14 grid gap-10 lg:grid-cols-[1.2fr_.8fr] lg:items-end">
           <div>
-            <p className="font-semibold">Linux Aaron</p>
-            <p className="mt-2 text-sm text-[var(--muted)]">IT, Linux, Cybersecurity, OSINT und Webentwicklung.</p>
-          </div>
-          <div>
-            <p className="font-semibold">Navigation</p>
-            <div className="mt-2 grid justify-items-start gap-2 text-sm text-[var(--muted)]">
-              <a className="w-fit" href="/">Startseite</a>
-              <a className="w-fit" href="/blog">Blog</a>
-              <a className="w-fit" href="/webentwicklung">Webentwicklung</a>
-              <a className="w-fit" href="/buchung">Projekt anfragen</a>
-              <a className="w-fit" href="/kontakt">Kontakt</a>
+            <p className="font-mono text-[10px] tracking-[0.24em] text-[var(--accent)]">LINUX AARON / SYSTEM ENDPOINT</p>
+            <h2 className="mt-4 max-w-3xl text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">Technische Analyse.<br/><span className="text-[var(--muted)]">Sauber umgesetzt.</span></h2>
+            <p className="mt-5 max-w-2xl text-sm leading-7 text-[var(--muted)]">Webentwicklung, Security, OSINT und Linux. Direkte Kommunikation, klare Leistungsumfänge und nachvollziehbare technische Arbeit.</p>
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+              <a href="/buchung" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-5 text-sm font-semibold text-black transition hover:-translate-y-0.5 hover:brightness-110">Projekt starten <ArrowRight size={15}/></a>
+              <a href="mailto:joschaschmidt@mail.de" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-[var(--border)] px-5 text-sm font-medium transition hover:border-[var(--accent)]">Direkt kontaktieren <Mail size={15}/></a>
             </div>
           </div>
-          <div>
-            <p className="font-semibold">Rechtliches</p>
-            <div className="mt-2 grid justify-items-start gap-2 text-sm text-[var(--muted)]">
-              <a className="w-fit" href="/impressum">Impressum</a>
-              <a className="w-fit" href="/datenschutz">Datenschutz</a>
-              <button type="button" onClick={openPrivacyNotice} className="w-fit text-left">Cookie Einstellungen</button>
-            </div>
-          </div>
-          <div>
-            <p className="font-semibold">Social</p>
-            <div className="mt-2 flex gap-3">
-              <a aria-label="GitHub" href="https://github.com/linuxaaron" target="_blank" rel="noopener noreferrer"><Github size={18} /></a>
-              <a aria-label="Instagram" href="https://instagram.com/linuxaaron" target="_blank" rel="noopener noreferrer"><Instagram size={18} /></a>
-            </div>
+          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 font-mono text-xs leading-6 shadow-xl shadow-black/10">
+            <p className="text-[var(--muted)]">$ status --website</p>
+            <p className="mt-2 text-[var(--accent)]">[ONLINE] portfolio</p>
+            <p className="text-[var(--accent)]">[READY] web development</p>
+            <p className="text-[var(--accent)]">[READY] security analysis</p>
+            <p className="text-[var(--accent)]">[READY] OSINT research</p>
+            <p className="mt-2 text-[var(--muted)]">$ _</p>
           </div>
         </div>
 
-        <div className="mt-8 flex flex-col gap-3 border-t border-[var(--border)] pt-6 text-xs text-[var(--muted)] sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} Linux Aaron. Alle Rechte vorbehalten.</p>
-          <div className="flex flex-wrap gap-3"><span>Made with Linux</span><span>•</span><span>Security first</span></div>
+        <div className="grid gap-10 border-y border-[var(--border)] py-10 md:grid-cols-[1.1fr_.9fr_.9fr_.9fr]">
+          <div><p className="font-semibold">Linux Aaron</p><p className="mt-3 max-w-xs text-sm leading-6 text-[var(--muted)]">IT, Linux, Cybersecurity, OSINT und Webentwicklung.</p></div>
+          <div><p className="font-mono text-[10px] tracking-[0.18em] text-[var(--muted)]">NAVIGATION</p><div className="mt-4 grid gap-2 text-sm"><a href="/projekte">Projekte</a><a href="/webentwicklung">Webentwicklung</a><a href="/blog">Blog</a><a href="/news">Cyber News</a><a href="/kontakt">Kontakt</a></div></div>
+          <div><p className="font-mono text-[10px] tracking-[0.18em] text-[var(--muted)]">RECHTLICHES</p><div className="mt-4 grid gap-2 text-sm"><a href="/impressum">Impressum</a><a href="/datenschutz">Datenschutz</a><button type="button" onClick={openPrivacyNotice} className="w-fit text-left">Cookie Einstellungen</button></div></div>
+          <div><p className="font-mono text-[10px] tracking-[0.18em] text-[var(--muted)]">CONNECT</p><div className="mt-4 flex gap-3"><a aria-label="GitHub" href="https://github.com/linuxaaron" target="_blank" rel="noopener noreferrer" className="rounded-full border border-[var(--border)] p-2 transition hover:border-[var(--accent)]"><Github size={17}/></a><a aria-label="Instagram" href="https://instagram.com/linuxaaron" target="_blank" rel="noopener noreferrer" className="rounded-full border border-[var(--border)] p-2 transition hover:border-[var(--accent)]"><Instagram size={17}/></a></div></div>
         </div>
+
+        <div className="mt-10 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-6">
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+            <div><p className="font-mono text-[10px] tracking-[0.2em] text-[var(--accent)]">LINUX AARON BRIEFING</p><h3 className="mt-2 text-lg font-semibold">Linux, Security &amp; OSINT direkt ins Postfach.</h3><p className="mt-1 text-sm text-[var(--muted)]">Neue Artikel und technische Praxis. Anmeldung mit Bestätigung.</p></div>
+            <form onSubmit={subscribe} className="flex w-full max-w-xl flex-col gap-2 sm:flex-row"><label htmlFor="footer-newsletter-email" className="sr-only">E Mail Adresse</label><input id="footer-newsletter-email" type="email" required autoComplete="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="deine@email.de" className="min-h-11 flex-1 rounded-full border border-[var(--border)] bg-[var(--bg)] px-4 text-sm outline-none focus:border-[var(--accent)]"/><button type="submit" disabled={busy} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-5 text-sm font-semibold text-black disabled:opacity-60">{busy ? "Wird verarbeitet …" : "Anmelden"}<ArrowRight size={15}/></button></form>
+          </div>
+          {message && <p aria-live="polite" className="mt-3 text-xs text-[var(--muted)]">{message}</p>}
+          <p className="mt-3 text-[11px] text-[var(--muted)]">Nur Newsletter Versand · jederzeit abmeldbar · <a href="/datenschutz" className="underline">Datenschutz</a></p>
+        </div>
+
+        <div className="mt-8 flex flex-col gap-3 text-xs text-[var(--muted)] sm:flex-row sm:items-center sm:justify-between"><p>© {new Date().getFullYear()} Linux Aaron. Alle Rechte vorbehalten.</p><div className="flex gap-3"><span>Made with Linux</span><span>•</span><span>Security first</span></div></div>
       </div>
     </footer>
   );
