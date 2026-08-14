@@ -57,9 +57,7 @@ export function CuteFooterCat() {
         const nextY = current.y + dy * FOLLOW_SPEED;
         setPosition(nextX, nextY);
         cat.style.setProperty("--walk-direction", dx < -1 ? "-1" : "1");
-        setWalking((previous) => previous || distance > 3);
-      } else {
-        setWalking(false);
+        setWalking(distance > 3);
       }
 
       frameRef.current = window.requestAnimationFrame(animate);
@@ -74,7 +72,6 @@ export function CuteFooterCat() {
       const maxTop = Math.min(window.innerHeight - CAT_HEIGHT - EDGE_PADDING, rect.bottom - CAT_HEIGHT - EDGE_PADDING);
       const minTop = Math.max(EDGE_PADDING, rect.top + EDGE_PADDING);
 
-      // The cat approaches from the right side of the cursor.
       const targetX = clamp(event.clientX + CAT_CURSOR_GAP - CAT_WIDTH / 2, minLeft, maxLeft);
       const targetY = clamp(event.clientY - CAT_HEIGHT / 2, minTop, maxTop);
 
@@ -161,18 +158,22 @@ export function CuteFooterCat() {
 
         .cute-cat-body {
           transform-origin: center bottom;
-          animation: cute-cat-breathe 2.2s ease-in-out infinite;
+          animation: cute-cat-breathe 1.7s ease-in-out infinite;
         }
 
         .cute-cat-tail {
           transform-box: fill-box;
           transform-origin: 18% 70%;
-          animation: cute-cat-tail 1.8s ease-in-out infinite;
+          animation: cute-cat-tail 1.15s ease-in-out infinite;
         }
 
         .cute-cat-paw {
           transform-box: fill-box;
           transform-origin: center top;
+        }
+
+        .cute-cat-walk .cute-cat-body {
+          animation: cute-cat-walk-bounce .42s ease-in-out infinite alternate;
         }
 
         .cute-cat-walk .cute-cat-paw-left {
@@ -186,42 +187,61 @@ export function CuteFooterCat() {
         .cute-cat-ear {
           transform-box: fill-box;
           transform-origin: bottom center;
-          animation: cute-cat-ear 3.8s ease-in-out infinite;
+          animation: cute-cat-ear 3.2s ease-in-out infinite;
+        }
+
+        .cute-cat-eye {
+          transform-box: fill-box;
+          transform-origin: center;
+          animation: cute-cat-blink 4.5s ease-in-out infinite;
         }
 
         @keyframes cute-cat-breathe {
           0%, 100% { transform: translateY(0) scaleY(1); }
-          50% { transform: translateY(-1px) scaleY(1.015); }
+          50% { transform: translateY(-1.5px) scaleY(1.018); }
+        }
+
+        @keyframes cute-cat-walk-bounce {
+          from { transform: translateY(0) rotate(-1deg); }
+          to { transform: translateY(-2.5px) rotate(1deg); }
         }
 
         @keyframes cute-cat-tail {
-          0%, 100% { transform: rotate(-4deg); }
-          50% { transform: rotate(13deg); }
+          0%, 100% { transform: rotate(-7deg); }
+          50% { transform: rotate(18deg); }
         }
 
         @keyframes cute-cat-step-left {
           from { transform: translateY(0) rotate(5deg); }
-          to { transform: translateY(-3px) rotate(-7deg); }
+          to { transform: translateY(-4px) rotate(-8deg); }
         }
 
         @keyframes cute-cat-step-right {
-          from { transform: translateY(-3px) rotate(-7deg); }
+          from { transform: translateY(-4px) rotate(-8deg); }
           to { transform: translateY(0) rotate(5deg); }
         }
 
         @keyframes cute-cat-ear {
-          0%, 88%, 100% { transform: rotate(0); }
-          92% { transform: rotate(-5deg); }
-          96% { transform: rotate(3deg); }
+          0%, 82%, 100% { transform: rotate(0); }
+          88% { transform: rotate(-6deg); }
+          93% { transform: rotate(4deg); }
+        }
+
+        @keyframes cute-cat-blink {
+          0%, 88%, 100% { transform: scaleY(1); }
+          91% { transform: scaleY(.08); }
+          94% { transform: scaleY(1); }
         }
 
         @media (prefers-reduced-motion: reduce) {
           .cute-footer-cat,
           .cute-cat-body,
           .cute-cat-tail,
+          .cute-cat-walk .cute-cat-body,
           .cute-cat-walk .cute-cat-paw-left,
           .cute-cat-walk .cute-cat-paw-right,
-          .cute-cat-ear {
+          .cute-cat-ear,
+          .cute-cat-eye {
             animation: none;
             transition: none;
           }
@@ -253,10 +273,15 @@ export function CuteFooterCat() {
               <path d="M81 33L94 23L92 38Z" fill="#f5a9bf"/>
             </g>
 
-            <ellipse cx="53" cy="56" rx="5" ry="6" fill="#172033"/>
-            <ellipse cx="79" cy="56" rx="5" ry="6" fill="#172033"/>
-            <circle cx="54.5" cy="54" r="1.7" fill="#fff"/>
-            <circle cx="80.5" cy="54" r="1.7" fill="#fff"/>
+            <g className="cute-cat-eye">
+              <ellipse cx="53" cy="56" rx="5" ry="6" fill="#172033"/>
+              <circle cx="54.5" cy="54" r="1.7" fill="#fff"/>
+            </g>
+            <g className="cute-cat-eye">
+              <ellipse cx="79" cy="56" rx="5" ry="6" fill="#172033"/>
+              <circle cx="80.5" cy="54" r="1.7" fill="#fff"/>
+            </g>
+
             <path d="M63 65L69 65L66 69Z" fill="#ef9fb6" stroke="#172033" strokeWidth="1.1"/>
             <path d="M66 69C63 73 59 73 57 70M66 69C69 73 73 73 75 70" stroke="#172033" strokeWidth="1.7" strokeLinecap="round"/>
             <path d="M37 68L18 64M37 74L17 75M95 68L114 64M95 74L116 75" stroke="#172033" strokeWidth="1.2" strokeLinecap="round" opacity=".65"/>
