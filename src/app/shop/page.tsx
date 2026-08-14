@@ -2,8 +2,15 @@ import type { Metadata } from "next";
 import { ArrowRight, Check, FileText, Globe, ShieldCheck, Terminal } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Shop – Linux Aaron Security & Web Services",
-  description: "Digitale Security Ressourcen sowie professionelle Webentwicklung und Hosting von Linux Aaron.",
+  title: "Shop | Security Ressourcen, E Books & Webentwicklung",
+  description: "Digitale Security Ressourcen, E Books, professionelle Webentwicklung und Managed Hosting von Linux Aaron.",
+  alternates: { canonical: "/shop" },
+  openGraph: {
+    title: "Shop | Linux Aaron",
+    description: "Security Ressourcen, E Books, Webentwicklung und Managed Hosting.",
+    url: "https://www.joschaschmidt.com/shop",
+    type: "website",
+  },
 };
 
 const fieldManualCheckoutUrl = "https://schmidt.lemonsqueezy.com/checkout/buy/d5b413c9-1901-4189-b4c9-108fd68e2dce";
@@ -33,45 +40,21 @@ const websitePackages = [
     name: "Onepage",
     price: "999 €",
     description: "Professionelle, individuell entwickelte Landingpage für Selbstständige, Projekte, Dienstleistungen oder kleine Unternehmen.",
-    items: [
-      "Individuelles modernes Design",
-      "Responsive für Smartphone, Tablet und Desktop",
-      "Hero-, Leistungs-, Über-uns- und Kontaktbereiche",
-      "SEO Grundlagen und saubere technische Struktur",
-      "Performance- und Security-Basischecks",
-      "Deployment und Übergabe",
-      "2 Korrekturrunden",
-    ],
+    items: ["Individuelles modernes Design", "Responsive für Smartphone, Tablet und Desktop", "Hero-, Leistungs-, Über-uns- und Kontaktbereiche", "SEO Grundlagen und saubere technische Struktur", "Performance- und Security-Basischecks", "Deployment und Übergabe", "2 Korrekturrunden"],
   },
   {
     label: "BELIEBT",
     name: "Business Website",
     price: "1.999 €",
     description: "Professionelle Unternehmenswebsite mit Landingpage und mehreren Unterseiten für Selbstständige, Vereine und kleine Unternehmen.",
-    items: [
-      "Alles aus Onepage",
-      "Bis zu 5 Unterseiten",
-      "Individuelle Navigation und Seitenstruktur",
-      "Kontaktformular nach vereinbartem Umfang",
-      "SEO Grundlagen für die wichtigsten Seiten",
-      "Performance- und Security-Basischecks",
-      "3 Korrekturrunden",
-    ],
+    items: ["Alles aus Onepage", "Bis zu 5 Unterseiten", "Individuelle Navigation und Seitenstruktur", "Kontaktformular nach vereinbartem Umfang", "SEO Grundlagen für die wichtigsten Seiten", "Performance- und Security-Basischecks", "3 Korrekturrunden"],
   },
   {
     label: "UMFANGREICH",
     name: "Business Plus",
     price: "2.999 €",
     description: "Umfangreiche Website mit bis zu 10 Seiten und individuellen Anforderungen. Komplexere Funktionen werden transparent separat kalkuliert.",
-    items: [
-      "Alles aus Business Website",
-      "Bis zu 10 Seiten",
-      "Individuelle Funktionen nach Absprache",
-      "Technische Optimierung",
-      "Erweiterte SEO Grundlagen",
-      "Performance- und Security-Basischecks",
-      "4 Korrekturrunden",
-    ],
+    items: ["Alles aus Business Website", "Bis zu 10 Seiten", "Individuelle Funktionen nach Absprache", "Technische Optimierung", "Erweiterte SEO Grundlagen", "Performance- und Security-Basischecks", "4 Korrekturrunden"],
   },
 ];
 
@@ -81,135 +64,12 @@ export default function ShopPage() {
       <section className="border-b border-[var(--border)] bg-[var(--surface)] py-20 sm:py-28">
         <div className="container max-w-6xl">
           <p className="font-mono text-xs tracking-[0.2em] text-[var(--accent)]">DIGITAL PRODUCTS · WEBENTWICKLUNG · CYBERSECURITY</p>
-          <div className="mt-5 max-w-3xl">
-            <h1 className="text-4xl font-semibold tracking-tight sm:text-6xl">Technische Lösungen ohne unnötigen Agentur Aufschlag.</h1>
-            <p className="mt-6 text-lg leading-8 text-[var(--muted)]">Professionelle Websites, technische Security Ressourcen und Hosting zu transparenten, fair kalkulierten Preisen.</p>
-          </div>
+          <div className="mt-5 max-w-3xl"><h1 className="text-4xl font-semibold tracking-tight sm:text-6xl">Technische Lösungen ohne unnötigen Agentur Aufschlag.</h1><p className="mt-6 text-lg leading-8 text-[var(--muted)]">Professionelle Websites, technische Security Ressourcen und Hosting zu transparenten, fair kalkulierten Preisen.</p></div>
         </div>
       </section>
-
-      <section className="border-b border-[var(--border)] py-16 sm:py-20">
-        <div className="container max-w-6xl">
-          <div className="mb-10 max-w-3xl">
-            <p className="font-mono text-xs tracking-[0.18em] text-[var(--accent)]">WEBENTWICKLUNG</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Professionelle Websites – fair kalkuliert.</h2>
-            <p className="mt-4 leading-7 text-[var(--muted)]">Du bekommst eine individuell entwickelte Website mit klar definiertem Leistungsumfang. Die Preise liegen bewusst unter vielen klassischen Agenturangeboten, ohne die Entwicklungsleistung auf einen Billigpreis zu reduzieren.</p>
-          </div>
-
-          <div className="grid gap-6 lg:grid-cols-3">
-            {websitePackages.map((pkg, index) => (
-              <article key={pkg.name} className={`flex flex-col rounded-3xl border p-7 sm:p-8 ${index === 1 ? "border-[var(--accent)]/60 bg-[var(--accent)]/5" : "border-[var(--border)] bg-[var(--surface)]"}`}>
-                <div>
-                  <p className="font-mono text-xs tracking-[0.18em] text-[var(--accent)]">{pkg.label}</p>
-                  <div className="mt-3 flex flex-wrap items-end justify-between gap-4">
-                    <h3 className="text-2xl font-semibold">{pkg.name}</h3>
-                    <p className="text-3xl font-bold tracking-tight">{pkg.price}</p>
-                  </div>
-                  <p className="mt-4 text-sm leading-6 text-[var(--muted)]">{pkg.description}</p>
-                </div>
-                <ul className="mt-7 grid gap-3">
-                  {pkg.items.map((item) => (
-                    <li key={item} className="flex gap-3 text-sm leading-6">
-                      <Check className="mt-0.5 shrink-0 text-[var(--accent)]" size={17} />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-auto pt-8">
-                  <a href="/kontakt" className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-5 py-3 text-base font-bold text-black transition hover:brightness-110">
-                    Website anfragen <ArrowRight size={17} />
-                  </a>
-                  <p className="mt-3 text-center text-xs text-[var(--muted)]">Individuelles Angebot vor Projektstart · Leistungsumfang wird vorab festgelegt</p>
-                </div>
-              </article>
-            ))}
-          </div>
-
-          <div className="mt-8 grid gap-6 lg:grid-cols-2">
-            <article className="rounded-3xl border border-[var(--accent)]/40 bg-[var(--surface)] p-7 sm:p-8">
-              <div className="flex items-start gap-4">
-                <Globe className="mt-1 shrink-0 text-[var(--accent)]" size={25} />
-                <div>
-                  <h3 className="text-xl font-semibold">Managed Hosting – 25 € / Monat</h3>
-                  <p className="mt-3 text-sm leading-6 text-[var(--muted)]">Auf Wunsch übernehme ich den laufenden technischen Betrieb deiner Website für einen festen monatlichen Preis.</p>
-                </div>
-              </div>
-              <ul className="mt-6 grid gap-3 text-sm leading-6">
-                <li className="flex gap-3"><Check className="mt-0.5 shrink-0 text-[var(--accent)]" size={17} /><span>Deployment und technischer Betrieb</span></li>
-                <li className="flex gap-3"><Check className="mt-0.5 shrink-0 text-[var(--accent)]" size={17} /><span>HTTPS/SSL</span></li>
-                <li className="flex gap-3"><Check className="mt-0.5 shrink-0 text-[var(--accent)]" size={17} /><span>Technische Basiswartung im vereinbarten Umfang</span></li>
-                <li className="flex gap-3"><Check className="mt-0.5 shrink-0 text-[var(--accent)]" size={17} /><span>Kein eigenes Hosting Setup beim Kunden erforderlich</span></li>
-              </ul>
-              <p className="mt-5 text-xs leading-5 text-[var(--muted)]">Domainregistrierung, kostenpflichtige Drittanbieter Dienste, umfangreiche Änderungen und zusätzliche Entwicklungsleistungen sind nicht automatisch enthalten und werden vorab vereinbart.</p>
-            </article>
-
-            <article className="rounded-3xl border border-[var(--border)] bg-[var(--surface-2)] p-7 sm:p-8">
-              <p className="font-mono text-xs tracking-[0.18em] text-[var(--accent)]">ABLAUF</p>
-              <h3 className="mt-3 text-xl font-semibold">Von der Idee bis zur fertigen Website</h3>
-              <ol className="mt-6 grid gap-4 text-sm leading-6">
-                <li><strong>01 · Anfrage:</strong> Du beschreibst dein Projekt und den gewünschten Umfang.</li>
-                <li><strong>02 · Angebot:</strong> Du erhältst einen klaren Preis und definierten Leistungsumfang.</li>
-                <li><strong>03 · Umsetzung:</strong> Ich entwickle die Website und stelle eine Vorschau bereit.</li>
-                <li><strong>04 · Abnahme:</strong> Enthaltene Änderungsrunden werden umgesetzt.</li>
-                <li><strong>05 · Veröffentlichung:</strong> Die fertige Website geht auf deine Domain oder in das gebuchte Hosting.</li>
-              </ol>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-b border-[var(--border)] bg-[var(--surface-2)] py-16 sm:py-20">
-        <div className="container max-w-6xl">
-          <div className="mb-8 max-w-3xl">
-            <p className="font-mono text-xs tracking-[0.18em] text-[var(--accent)]">DIGITALE PRODUKTE</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Security Wissen, das du benutzen kannst.</h2>
-            <p className="mt-4 leading-7 text-[var(--muted)]">Vom verständlichen Einstieg bis zur technischen Arbeitsunterlage: Wähle den passenden Einstieg in die Security Welt von Linux Aaron.</p>
-          </div>
-          <div className="grid gap-6 lg:grid-cols-2">
-            <article className="flex flex-col rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-7 sm:p-8">
-              <div>
-                <p className="font-mono text-xs tracking-[0.18em] text-[var(--accent)]">EINSTIEG</p>
-                <div className="mt-3 flex flex-wrap items-end justify-between gap-4">
-                  <h3 className="text-2xl font-semibold sm:text-3xl">Cybersecurity Start</h3>
-                  <p className="text-4xl font-bold tracking-tight sm:text-5xl">14,99 €</p>
-                </div>
-                <p className="mt-4 leading-7 text-[var(--muted)]">Das E Book für alle, die Cybersecurity systematisch verstehen und sich Schritt für Schritt ein solides Fundament aufbauen möchten.</p>
-              </div>
-              <ul className="mt-7 grid gap-3">
-                {ebookContents.map((item) => (<li key={item} className="flex gap-3 text-sm leading-6"><Check className="mt-0.5 shrink-0 text-[var(--accent)]" size={17} /><span>{item}</span></li>))}
-              </ul>
-              <div className="mt-auto pt-8"><a href={cyberSecurityStartCheckoutUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-5 py-3 text-base font-bold text-black transition hover:brightness-110">Jetzt kaufen <ArrowRight size={17} /></a><p className="mt-3 text-center text-xs text-[var(--muted)]">Einmalig · digitales Produkt · Zahlungsabwicklung über Lemon Squeezy</p></div>
-            </article>
-
-            <article className="flex flex-col rounded-3xl border border-[var(--accent)]/50 bg-[var(--accent)]/5 p-7 sm:p-8">
-              <div>
-                <p className="font-mono text-xs tracking-[0.18em] text-[var(--accent)]">PRAXIS</p>
-                <div className="mt-3 flex flex-wrap items-end justify-between gap-4">
-                  <h3 className="text-2xl font-semibold sm:text-3xl">Linux Security Field Manual</h3>
-                  <p className="text-4xl font-bold tracking-tight sm:text-5xl">29,00 €</p>
-                </div>
-                <p className="mt-4 leading-7 text-[var(--muted)]">Eine technische Arbeitsunterlage für Linux, OSINT und Security Analyse. Nicht nur lesen – prüfen, einordnen und dokumentieren.</p>
-              </div>
-              <ul className="mt-7 grid gap-3">
-                {fieldManualContents.map((item) => (<li key={item} className="flex gap-3 text-sm leading-6"><Check className="mt-0.5 shrink-0 text-[var(--accent)]" size={17} /><span>{item}</span></li>))}
-              </ul>
-              <div className="mt-auto pt-8"><a href={fieldManualCheckoutUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-5 py-3 text-base font-bold text-black transition hover:brightness-110">Jetzt kaufen <ArrowRight size={17} /></a><p className="mt-3 text-center text-xs text-[var(--muted)]">Einmalig · digitales Produkt · Zahlungsabwicklung über Lemon Squeezy</p></div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-b border-[var(--border)] py-16 sm:py-20">
-        <div className="container max-w-6xl">
-          <div className="grid gap-5 md:grid-cols-3">
-            <article className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6"><Terminal className="text-[var(--accent)]" size={22} /><h2 className="mt-6 text-xl font-semibold">Praxis statt Buzzwords</h2><p className="mt-3 text-sm leading-6 text-[var(--muted)]">Konkrete Inhalte und nachvollziehbare Arbeitsweisen statt leerer Security Begriffe.</p></article>
-            <article className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6"><ShieldCheck className="text-[var(--accent)]" size={22} /><h2 className="mt-6 text-xl font-semibold">Defensiv und nachvollziehbar</h2><p className="mt-3 text-sm leading-6 text-[var(--muted)]">Die Inhalte legen Wert auf Scope, Einordnung, Dokumentation und sichere Praxis.</p></article>
-            <article className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6"><FileText className="text-[var(--accent)]" size={22} /><h2 className="mt-6 text-xl font-semibold">Digitale Arbeitsunterlagen</h2><p className="mt-3 text-sm leading-6 text-[var(--muted)]">Für Lernen, Nachschlagen und die praktische Arbeit am eigenen System.</p></article>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-20 sm:py-24"><div className="container max-w-3xl text-center"><p className="font-mono text-xs tracking-[0.2em] text-[var(--accent)]">LINUX AARON</p><h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Technisches Wissen und Webentwicklung mit klarer Leistung.</h2><p className="mx-auto mt-5 max-w-2xl leading-7 text-[var(--muted)]">Für individuelle Projekte erhältst du vor Beginn ein transparentes Angebot mit definiertem Leistungsumfang.</p><a href="/kontakt" className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-[var(--accent)]">Projekt anfragen <ArrowRight size={15} /></a></div></section>
+      <section className="border-b border-[var(--border)] py-16 sm:py-20"><div className="container max-w-6xl"><div className="mb-10 max-w-3xl"><p className="font-mono text-xs tracking-[0.18em] text-[var(--accent)]">WEBENTWICKLUNG</p><h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Professionelle Websites – fair kalkuliert.</h2><p className="mt-4 leading-7 text-[var(--muted)]">Du bekommst eine individuell entwickelte Website mit klar definiertem Leistungsumfang. Die Preise liegen bewusst unter vielen klassischen Agenturangeboten, ohne die Entwicklungsleistung auf einen Billigpreis zu reduzieren.</p></div><div className="grid gap-6 lg:grid-cols-3">{websitePackages.map((pkg,index)=><article key={pkg.name} className={`flex flex-col rounded-3xl border p-7 sm:p-8 ${index===1?"border-[var(--accent)]/60 bg-[var(--accent)]/5":"border-[var(--border)] bg-[var(--surface)]"}`}><div><p className="font-mono text-xs tracking-[0.18em] text-[var(--accent)]">{pkg.label}</p><div className="mt-3 flex flex-wrap items-end justify-between gap-4"><h3 className="text-2xl font-semibold">{pkg.name}</h3><p className="text-3xl font-bold tracking-tight">{pkg.price}</p></div><p className="mt-4 text-sm leading-6 text-[var(--muted)]">{pkg.description}</p></div><ul className="mt-7 grid gap-3">{pkg.items.map(item=><li key={item} className="flex gap-3 text-sm leading-6"><Check className="mt-0.5 shrink-0 text-[var(--accent)]" size={17}/><span>{item}</span></li>)}</ul><div className="mt-auto pt-8"><a href="/kontakt" className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-5 py-3 text-base font-bold text-black transition hover:brightness-110">Website anfragen <ArrowRight size={17}/></a><p className="mt-3 text-center text-xs text-[var(--muted)]">Individuelles Angebot vor Projektstart · Leistungsumfang wird vorab festgelegt</p></div></article>)}</div><div className="mt-8 grid gap-6 lg:grid-cols-2"><article className="rounded-3xl border border-[var(--accent)]/40 bg-[var(--surface)] p-7 sm:p-8"><div className="flex items-start gap-4"><Globe className="mt-1 shrink-0 text-[var(--accent)]" size={25}/><div><h3 className="text-xl font-semibold">Managed Hosting – 25 € / Monat</h3><p className="mt-3 text-sm leading-6 text-[var(--muted)]">Auf Wunsch übernehme ich den laufenden technischen Betrieb deiner Website für einen festen monatlichen Preis.</p></div></div><ul className="mt-6 grid gap-3 text-sm leading-6"><li>Deployment und technischer Betrieb</li><li>HTTPS/SSL</li><li>Technische Basiswartung im vereinbarten Umfang</li><li>Kein eigenes Hosting Setup beim Kunden erforderlich</li></ul><p className="mt-5 text-xs leading-5 text-[var(--muted)]">Domainregistrierung, kostenpflichtige Drittanbieter Dienste, umfangreiche Änderungen und zusätzliche Entwicklungsleistungen sind nicht automatisch enthalten und werden vorab vereinbart.</p></article><article className="rounded-3xl border border-[var(--border)] bg-[var(--surface-2)] p-7 sm:p-8"><p className="font-mono text-xs tracking-[0.18em] text-[var(--accent)]">ABLAUF</p><h3 className="mt-3 text-xl font-semibold">Von der Idee bis zur fertigen Website</h3><ol className="mt-6 grid gap-4 text-sm leading-6"><li><strong>01 · Anfrage:</strong> Du beschreibst dein Projekt und den gewünschten Umfang.</li><li><strong>02 · Angebot:</strong> Du erhältst einen klaren Preis und definierten Leistungsumfang.</li><li><strong>03 · Umsetzung:</strong> Ich entwickle die Website und stelle eine Vorschau bereit.</li><li><strong>04 · Abnahme:</strong> Enthaltene Änderungsrunden werden umgesetzt.</li><li><strong>05 · Veröffentlichung:</strong> Die fertige Website geht auf deine Domain oder in das gebuchte Hosting.</li></ol></article></div></div></section>
+      <section className="border-b border-[var(--border)] bg-[var(--surface-2)] py-16 sm:py-20"><div className="container max-w-6xl"><div className="mb-8 max-w-3xl"><p className="font-mono text-xs tracking-[0.18em] text-[var(--accent)]">DIGITALE PRODUKTE</p><h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Security Wissen, das du benutzen kannst.</h2><p className="mt-4 leading-7 text-[var(--muted)]">Vom verständlichen Einstieg bis zur technischen Arbeitsunterlage: Wähle den passenden Einstieg in die Security Welt von Linux Aaron.</p></div><div className="grid gap-6 lg:grid-cols-2"><article className="flex flex-col rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-7 sm:p-8"><div><p className="font-mono text-xs tracking-[0.18em] text-[var(--accent)]">EINSTIEG</p><div className="mt-3 flex flex-wrap items-end justify-between gap-4"><h3 className="text-2xl font-semibold sm:text-3xl">Cybersecurity Start</h3><p className="text-4xl font-bold tracking-tight sm:text-5xl">14,99 €</p></div><p className="mt-4 leading-7 text-[var(--muted)]">Das E Book für alle, die Cybersecurity systematisch verstehen und sich Schritt für Schritt ein solides Fundament aufbauen möchten.</p></div><ul className="mt-7 grid gap-3">{ebookContents.map(item=><li key={item} className="flex gap-3 text-sm leading-6"><Check className="mt-0.5 shrink-0 text-[var(--accent)]" size={17}/><span>{item}</span></li>)}</ul><div className="mt-auto pt-8"><a href={cyberSecurityStartCheckoutUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-5 py-3 text-base font-bold text-black transition hover:brightness-110">Jetzt kaufen <ArrowRight size={17}/></a><p className="mt-3 text-center text-xs text-[var(--muted)]">Einmalig · digitales Produkt · Zahlungsabwicklung über Lemon Squeezy</p></div></article><article className="flex flex-col rounded-3xl border border-[var(--accent)]/50 bg-[var(--accent)]/5 p-7 sm:p-8"><div><p className="font-mono text-xs tracking-[0.18em] text-[var(--accent)]">PRAXIS</p><div className="mt-3 flex flex-wrap items-end justify-between gap-4"><h3 className="text-2xl font-semibold sm:text-3xl">Linux Security Field Manual</h3><p className="text-4xl font-bold tracking-tight sm:text-5xl">29,00 €</p></div><p className="mt-4 leading-7 text-[var(--muted)]">Eine technische Arbeitsunterlage für Linux, OSINT und Security Analyse. Nicht nur lesen – prüfen, einordnen und dokumentieren.</p></div><ul className="mt-7 grid gap-3">{fieldManualContents.map(item=><li key={item} className="flex gap-3 text-sm leading-6"><Check className="mt-0.5 shrink-0 text-[var(--accent)]" size={17}/><span>{item}</span></li>)}</ul><div className="mt-auto pt-8"><a href={fieldManualCheckoutUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-5 py-3 text-base font-bold text-black transition hover:brightness-110">Jetzt kaufen <ArrowRight size={17}/></a><p className="mt-3 text-center text-xs text-[var(--muted)]">Einmalig · digitales Produkt · Zahlungsabwicklung über Lemon Squeezy</p></div></article></div></div></section>
+      <section className="border-b border-[var(--border)] py-16 sm:py-20"><div className="container max-w-6xl"><div className="grid gap-5 md:grid-cols-3"><article className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6"><Terminal className="text-[var(--accent)]" size={22}/><h2 className="mt-6 text-xl font-semibold">Praxis statt Buzzwords</h2><p className="mt-3 text-sm leading-6 text-[var(--muted)]">Konkrete Inhalte und nachvollziehbare Arbeitsweisen statt leerer Security Begriffe.</p></article><article className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6"><ShieldCheck className="text-[var(--accent)]" size={22}/><h2 className="mt-6 text-xl font-semibold">Defensiv und nachvollziehbar</h2><p className="mt-3 text-sm leading-6 text-[var(--muted)]">Die Inhalte legen Wert auf Scope, Einordnung, Dokumentation und sichere Praxis.</p></article><article className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6"><FileText className="text-[var(--accent)]" size={22}/><h2 className="mt-6 text-xl font-semibold">Digitale Arbeitsunterlagen</h2><p className="mt-3 text-sm leading-6 text-[var(--muted)]">Für Lernen, Nachschlagen und die praktische Arbeit am eigenen System.</p></article></div></div></section>
     </main>
   );
 }
