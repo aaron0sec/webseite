@@ -4,6 +4,10 @@ on:
   push:
     branches: [main]
 
+concurrency:
+  group: text-cleanup-main
+  cancel-in-progress: true
+
 permissions:
   contents: write
 
@@ -13,11 +17,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Clean visible text
+      - name: Clean approved visible text phrases
         shell: python
         run: |
           from pathlib import Path
-          import re
 
           replacements = {
               "Agentur-Overhead": "Agenturkosten",
@@ -46,15 +49,6 @@ jobs:
               original = text
               for old, new in replacements.items():
                   text = text.replace(old, new)
-
-              # Nur sichtbaren JSX Text bearbeiten, niemals URLs, CSS Klassen oder Codeausdrücke.
-              def clean_node(match):
-                  value = match.group(1)
-                  value = re.sub(r"(?<=\w)[-–](?=\w)", " ", value)
-                  value = value.replace(" - ", " und ")
-                  return ">" + value + "<"
-
-              text = re.sub(r">([^<>]+)<", clean_node, text)
               if text != original:
                   path.write_text(text, encoding="utf-8")
 
@@ -68,4 +62,5 @@ jobs:
             exit 0
           fi
           git commit -m "[text-cleanup] Sichtbare Texte bereinigen"
+          git pull --rebase origin main
           git push
