@@ -82,7 +82,7 @@ async function fetchFeed(feed: (typeof FEEDS)[number]): Promise<CyberNewsItem[]>
   try {
     const response = await fetch(feed.url, {
       cache: "force-cache",
-      next: { revalidate: 900 },
+      next: { revalidate: 86400 },
       headers: {
         Accept: "application/rss+xml, application/atom+xml, application/xml, text/xml;q=0.9, */*;q=0.8",
         "User-Agent": "LinuxAaron-CyberNews/4.0 (+https://joschaschmidt.com/news)",
