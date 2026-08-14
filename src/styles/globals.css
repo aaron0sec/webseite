@@ -56,14 +56,30 @@ main > section:nth-of-type(2)::before, main > section:nth-of-type(4)::before { c
 /* Webentwicklung wird auf der Startseite prominent gezeigt; im Footer bleibt nur der eigentliche Footer Inhalt. */
 footer > .container > div:first-child { display: none; }
 
-/* Footer navigation must remain interactive above decorative effects. */
-footer,
-footer .container,
+/* Footer interaction layer: decorative cursor/cat effects must never cover navigation. */
+footer {
+  position: relative;
+  z-index: 100;
+  isolation: isolate;
+  pointer-events: auto;
+}
+footer .container {
+  position: relative;
+  z-index: 110;
+  pointer-events: auto;
+}
 footer a,
-footer button { pointer-events: auto; }
-footer a,
-footer button { position: relative; z-index: 30; }
-footer > .container { position: relative; z-index: 20; }
+footer button,
+footer input,
+footer form {
+  position: relative;
+  z-index: 120;
+  pointer-events: auto;
+}
+footer .footer-cat-live {
+  z-index: 1 !important;
+  pointer-events: none !important;
+}
 
 /* Alte rote Hover Animation entfernt. Wasser Effekte werden ausschließlich über CursorLiquid gesteuert. */
 
