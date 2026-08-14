@@ -3,15 +3,58 @@ import { NextResponse } from "next/server";
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const BREVO_TIMEOUT_MS = 7000;
 const DEFAULT_NEWSLETTER_LIST_ID = 4;
+const MAX_BODY_BYTES = 8 * 1024;
+const RATE_WINDOW_MS = 15 * 60 * 1000;
+const RATE_LIMIT = 5;
+
+const requestLog = new Map<string, number[]>();
+
+function getClientKey(request: Request) {
+  const forwarded = request.headers.get("x-forwarded-for");
+  const realIp = request.headers.get("x-real-ip");
+  return forwarded?.split(",", 1)[0]?.trim() || realIp?.trim() || "unknown";
+}
+
+function isRateLimited(key: string) {
+  const now = Date.now();
+  const recent = (requestLog.get(key) ?? []).filter((timestamp) => now - timestamp < RATE_WINDOW_MS);
+  if (recent.length >= RATE_LIMIT) {
+    requestLog.set(key, recent);
+    return true;
+  }
+  recent.push(now);
+  requestLog.set(key, recent);
+
+  // Keep the in-memory map bounded on long-lived server instances.
+  if (requestLog.size > 2000) {
+    for (const [entryKey, timestamps] of requestLog) {
+      if (timestamps.every((timestamp) => now - timestamp >= RATE_WINDOW_MS)) requestLog.delete(entryKey);
+    }
+  }
+
+  return false;
+}
 
 export async function POST(request: Request) {
+  const contentLength = Number(request.headers.get("content-length") || 0);
+  if (contentLength > MAX_BODY_BYTES) {
+    return NextResponse.json({ ok: false, message: "Die Anfrage ist zu groß." }, { status: 413 });
+  }
+
+  if (isRateLimited(getClientKey(request))) {
+    return NextResponse.json(
+      { ok: false, message: "Zu viele Anfragen. Bitte versuche es in einigen Minuten erneut." },
+      { status: 429, headers: { "Retry-After": "900" } },
+    );
+  }
+
   let email = "";
 
   try {
     const body = await request.json();
     email = typeof body?.email === "string" ? body.email.trim().toLowerCase() : "";
 
-    if (!EMAIL_RE.test(email)) {
+    if (!EMAIL_RE.test(email) || email.length > 254) {
       return NextResponse.json(
         { ok: false, message: "Bitte gib eine gültige E-Mail-Adresse ein." },
         { status: 400 },
@@ -20,9 +63,7 @@ export async function POST(request: Request) {
 
     const apiKey = process.env.BREVO_API_KEY;
     const configuredListId = process.env.BREVO_NEWSLETTER_LIST_ID;
-    const listId = configuredListId
-      ? Number(configuredListId)
-      : DEFAULT_NEWSLETTER_LIST_ID;
+    const listId = configuredListId ? Number(configuredListId) : DEFAULT_NEWSLETTER_LIST_ID;
 
     if (!apiKey || !Number.isInteger(listId) || listId <= 0) {
       console.error("Newsletter configuration is incomplete.", {
@@ -48,11 +89,7 @@ export async function POST(request: Request) {
           "Content-Type": "application/json",
           "api-key": apiKey,
         },
-        body: JSON.stringify({
-          email,
-          listIds: [listId],
-          updateEnabled: true,
-        }),
+        body: JSON.stringify({ email, listIds: [listId], updateEnabled: true }),
         cache: "no-store",
         signal: controller.signal,
       });
