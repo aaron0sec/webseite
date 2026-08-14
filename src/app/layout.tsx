@@ -9,18 +9,18 @@ import { CuteFooterCat } from "@/components/cute-footer-cat";
 
 const siteUrl = "https://www.joschaschmidt.com";
 const siteName = "Joscha Aaron Schmidt | Webentwicklung & Cybersecurity";
-const siteDescription = "Joscha Aaron Schmidt entwickelt professionelle Websites und Webanwendungen und arbeitet mit Linux, OSINT, Web Security und Cybersecurity.";
+const siteDescription = "Joscha Schmidt, auch Joscha Aaron Schmidt, entwickelt professionelle Websites und Webanwendungen und arbeitet mit Linux, OSINT, Web Security und Cybersecurity.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: { default: siteName, template: "%s | Joscha Aaron Schmidt" },
   description: siteDescription,
   applicationName: "Joscha Aaron Schmidt",
-  authors: [{ name: "Joscha Aaron Schmidt", url: siteUrl }],
-  creator: "Joscha Aaron Schmidt",
+  authors: [{ name: "Joscha Schmidt", url: siteUrl }],
+  creator: "Joscha Schmidt",
   publisher: "Joscha Aaron Schmidt",
   keywords: [
-    "Joscha Aaron Schmidt", "Webentwicklung", "Website erstellen", "Webdesign",
+    "Joscha Schmidt", "Joscha Aaron Schmidt", "Webentwicklung", "Website erstellen", "Webdesign",
     "Full Stack Development", "Cybersecurity", "Web Security", "IT Security",
     "OSINT", "Linux", "Cloud Computing", "Security Audit", "IT Beratung", "Linux Aaron"
   ],
@@ -48,23 +48,27 @@ export const metadata: Metadata = {
 const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
+  "@id": `${siteUrl}/#person`,
   name: "Joscha Aaron Schmidt",
-  alternateName: "Linux Aaron",
+  alternateName: ["Joscha Schmidt", "Linux Aaron"],
   url: siteUrl,
   email: "mailto:joschaschmidt@mail.de",
   sameAs: ["https://github.com/linuxaaron", "https://www.instagram.com/linux_aaron/", "https://www.tiktok.com/@linux_aaron/"],
   jobTitle: "Full Stack Developer",
-  knowsAbout: ["Webentwicklung", "Full Stack Development", "Cybersecurity", "Web Security", "OSINT", "Linux", "Cloud Computing", "IT"]
+  knowsAbout: ["Webentwicklung", "Full Stack Development", "Cybersecurity", "Web Security", "OSINT", "Linux", "Cloud Computing", "IT"],
+  mainEntityOfPage: siteUrl
 };
 
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
+  "@id": `${siteUrl}/#website`,
   name: siteName,
   url: siteUrl,
   description: siteDescription,
   inLanguage: "de-DE",
-  publisher: { "@type": "Person", name: "Joscha Aaron Schmidt", url: siteUrl }
+  publisher: { "@id": `${siteUrl}/#person` },
+  about: { "@id": `${siteUrl}/#person` }
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
