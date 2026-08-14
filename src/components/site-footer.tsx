@@ -1,7 +1,7 @@
 "use client";
 
 import { Github, Instagram, Music2, ExternalLink, ArrowRight, Mail } from "lucide-react";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 
 const donations = [
   { name: "Bitcoin (BTC)", address: "bc1qmqdka29u7e6n5ypyfq6rldl429kcgpha792yzp", scheme: "bitcoin" },
@@ -13,6 +13,49 @@ export function SiteFooter() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
+  const footerRef = useRef<HTMLElement>(null);
+  const catRef = useRef<HTMLDivElement>(null);
+  const target = useRef({ x: 0, y: 0 });
+  const current = useRef({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const footer = footerRef.current;
+    const cat = catRef.current;
+    if (!footer || !cat) return;
+
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const touch = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+    if (reduced || touch) return;
+
+    let frame = 0;
+    const onMove = (event: PointerEvent) => {
+      const rect = footer.getBoundingClientRect();
+      const dx = event.clientX - (rect.left + rect.width / 2);
+      const dy = event.clientY - (rect.top + rect.height / 2);
+      target.current.x = Math.max(-115, Math.min(115, dx * 0.11));
+      target.current.y = Math.max(-28, Math.min(28, dy * 0.07));
+    };
+    const onLeave = () => {
+      target.current.x = 0;
+      target.current.y = 0;
+    };
+    const animate = () => {
+      current.current.x += (target.current.x - current.current.x) * 0.075;
+      current.current.y += (target.current.y - current.current.y) * 0.075;
+      cat.style.transform = `translate3d(${current.current.x}px, ${current.current.y}px, 0)`;
+      frame = requestAnimationFrame(animate);
+    };
+
+    footer.addEventListener("pointermove", onMove, { passive: true });
+    footer.addEventListener("pointerleave", onLeave, { passive: true });
+    frame = requestAnimationFrame(animate);
+
+    return () => {
+      footer.removeEventListener("pointermove", onMove);
+      footer.removeEventListener("pointerleave", onLeave);
+      cancelAnimationFrame(frame);
+    };
+  }, []);
 
   async function subscribe(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -61,8 +104,30 @@ export function SiteFooter() {
   };
 
   return (
-    <footer className="border-t border-[var(--border)]">
-      <div className="container py-10">
+    <footer ref={footerRef} className="relative overflow-hidden border-t border-[var(--border)]">
+      <div ref={catRef} aria-hidden="true" className="footer-cat-live pointer-events-none absolute bottom-5 left-[7%] z-10 hidden md:block">
+        <svg width="150" height="115" viewBox="0 0 150 115" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-[0_12px_20px_rgba(0,0,0,0.35)]">
+          <ellipse cx="74" cy="103" rx="45" ry="7" fill="rgba(0,0,0,0.32)"/>
+          <path d="M105 60C131 48 143 61 137 78C134 88 124 88 119 81" stroke="#fff" strokeWidth="9" strokeLinecap="round"/>
+          <path d="M105 60C131 48 143 61 137 78C134 88 124 88 119 81" stroke="#111827" strokeWidth="3" strokeLinecap="round"/>
+          <path d="M45 55C45 38 58 29 78 31C98 33 108 48 104 67C101 83 90 91 70 90C51 89 43 77 45 55Z" fill="#fff" stroke="#111827" strokeWidth="3"/>
+          <path d="M49 42L43 16L64 32Z" fill="#fff" stroke="#111827" strokeWidth="3" strokeLinejoin="round"/>
+          <path d="M82 31L104 15L98 43Z" fill="#fff" stroke="#111827" strokeWidth="3" strokeLinejoin="round"/>
+          <path d="M48 76C42 81 34 84 27 82" stroke="#111827" strokeWidth="3" strokeLinecap="round"/>
+          <circle cx="63" cy="56" r="4" fill="#111827"/>
+          <circle cx="87" cy="56" r="4" fill="#111827"/>
+          <path d="M73 64L77 64L75 68L73 64Z" fill="#f0a6b8" stroke="#111827" strokeWidth="1.5"/>
+          <path d="M75 68C71 71 69 71 67 70M75 68C79 71 81 71 83 70" stroke="#111827" strokeWidth="2" strokeLinecap="round"/>
+          <path d="M48 70L27 66M48 75L24 76M101 70L123 66M101 75L126 76" stroke="#111827" strokeWidth="1.5" strokeLinecap="round" opacity="0.8"/>
+          <path d="M54 84V101M72 87V103M88 86V103M101 81V99" stroke="#111827" strokeWidth="7" strokeLinecap="round"/>
+          <path d="M54 84V101M72 87V103M88 86V103M101 81V99" stroke="#fff" strokeWidth="3" strokeLinecap="round"/>
+          <rect x="112" y="87" width="25" height="17" rx="3" fill="#0b0d1a" stroke="#6366f1"/>
+          <path d="M117 94H123M126 94H132" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"/>
+        </svg>
+        <span className="mt-1 block text-center font-mono text-[9px] text-[var(--muted)] opacity-70">git push --follow-the-cat</span>
+      </div>
+
+      <div className="container relative z-20 py-10">
         <div className="mb-8 rounded-2xl border border-[var(--accent)]/30 bg-[var(--surface)] p-5 sm:p-6">
           <div className="flex items-center gap-2 text-[var(--accent)]"><Mail size={16}/><p className="font-mono text-xs tracking-[0.18em]">WEBENTWICKLUNG</p></div>
           <h2 className="mt-2 text-lg font-semibold text-[var(--text)]">Professionelle Website ohne unnötigen Agentur-Overhead.</h2>
