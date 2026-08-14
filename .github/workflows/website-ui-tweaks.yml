@@ -1,0 +1,125 @@
+name: Apply website UI tweaks
+
+on:
+  push:
+    paths:
+      - .github/workflows/website-ui-tweaks.yml
+
+permissions:
+  contents: write
+
+jobs:
+  tweak:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - name: Apply UI refinements
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          # 1) Remove the red Cyber News CTA from the homepage.
+          p = Path("src/app/page.tsx")
+          s = p.read_text(encoding="utf-8")
+          s = re.sub(r'\s*<Reveal delay=\{\.12\}><a href="/news".*?> Cyber News</a></Reveal>', '', s, count=1)
+          s = s.replace(', Newspaper, Code2 as WebCode', ', Code2 as WebCode')
+
+          # 2) Remove the hover animation from the Technical Security Audits card.
+          s = s.replace(
+              'className="group block rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-7 transition hover:-translate-y-1 hover:border-[var(--accent)]"',
+              'className="group no-liquid block rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-7"',
+              1,
+          )
+          p.write_text(s, encoding="utf-8")
+
+          # 3) Remove the old red global liquid hover animation. The blue water
+          #    effect from CursorLiquid remains active.
+          p = Path("src/styles/globals.css")
+          s = p.read_text(encoding="utf-8")
+          start = s.find('/* Flüssiger Button Effekt:')
+          end = s.find('.prose {', start)
+          if start != -1 and end != -1:
+              s = s[:start] + '/* Alte rote Hover Animation entfernt. Wasser Effekte werden ausschließlich über CursorLiquid gesteuert. */\n\n' + s[end:]
+          p.write_text(s, encoding="utf-8")
+
+          # 4) Make the footer cat substantially smaller and visually cuter.
+          p = Path("src/components/site-footer.tsx")
+          s = p.read_text(encoding="utf-8")
+          s = s.replace('const catWidth = 120;\n    const catHeight = 92;', 'const catWidth = 86;\n    const catHeight = 68;')
+          s = s.replace(
+              'width="120" height="92"',
+              'width="86" height="68"',
+              1,
+          )
+          s = s.replace(
+              'drop-shadow-[0_10px_18px_rgba(0,0,0,0.4)]',
+              'drop-shadow-[0_7px_12px_rgba(0,0,0,0.32)]',
+              1,
+          )
+          s = s.replace(
+              '<ellipse cx="74" cy="103" rx="45" ry="7" fill="rgba(0,0,0,0.32)"/>',
+              '<ellipse cx="75" cy="103" rx="31" ry="5" fill="rgba(0,0,0,0.22)"/>',
+              1,
+          )
+          s = s.replace(
+              'strokeWidth="9" strokeLinecap="round"',
+              'strokeWidth="7" strokeLinecap="round"',
+              1,
+          )
+          s = s.replace(
+              'strokeWidth="3" strokeLinecap="round"/>\n          <path d="M45 55C45 38 58 29 78 31C98 33 108 48 104 67C101 83 90 91 70 90C51 89 43 77 45 55Z" fill="#fff" stroke="#111827" strokeWidth="3"/>',
+              'strokeWidth="2.5" strokeLinecap="round"/>\n          <path d="M47 57C47 40 58 31 76 32C94 33 103 44 103 61C103 79 92 88 75 88C57 88 47 78 47 57Z" fill="#fff" stroke="#111827" strokeWidth="2.5"/>',
+              1,
+          )
+          s = s.replace(
+              '<path d="M49 42L43 16L64 32Z" fill="#fff" stroke="#111827" strokeWidth="3" strokeLinejoin="round"/><path d="M82 31L104 15L98 43Z" fill="#fff" stroke="#111827" strokeWidth="3" strokeLinejoin="round"/>',
+              '<path d="M52 43L48 19L67 34Z" fill="#fff" stroke="#111827" strokeWidth="2.5" strokeLinejoin="round"/><path d="M85 34L104 19L100 45Z" fill="#fff" stroke="#111827" strokeWidth="2.5" strokeLinejoin="round"/>\n          <path d="M53 39L51 27L62 36Z" fill="#f7b6c8"/><path d="M91 36L101 27L99 40Z" fill="#f7b6c8"/>',
+              1,
+          )
+          s = s.replace(
+              '<circle cx="63" cy="56" r="4" fill="#111827"/><circle cx="87" cy="56" r="4" fill="#111827"/>',
+              '<circle cx="63" cy="58" r="4.2" fill="#111827"/><circle cx="87" cy="58" r="4.2" fill="#111827"/><circle cx="64.2" cy="56.7" r="1.2" fill="#fff"/><circle cx="88.2" cy="56.7" r="1.2" fill="#fff"/>',
+              1,
+          )
+          s = s.replace(
+              '<path d="M73 64L77 64L75 68L73 64Z" fill="#f0a6b8" stroke="#111827" strokeWidth="1.5"/><path d="M75 68C71 71 69 71 67 70M75 68C79 71 81 71 83 70" stroke="#111827" strokeWidth="2" strokeLinecap="round"/>',
+              '<path d="M72 66L78 66L75 70Z" fill="#f0a6b8" stroke="#111827" strokeWidth="1.2"/><path d="M75 70C72 73 69 73 67 71M75 70C78 73 81 73 83 71" stroke="#111827" strokeWidth="1.8" strokeLinecap="round"/>',
+              1,
+          )
+          s = s.replace(
+              '<path d="M48 70L27 66M48 75L24 76M101 70L123 66M101 75L126 76" stroke="#111827" strokeWidth="1.5" strokeLinecap="round" opacity="0.8"/>',
+              '<path d="M52 69L31 65M52 75L29 76M98 69L119 65M98 75L121 76" stroke="#111827" strokeWidth="1.2" strokeLinecap="round" opacity="0.7"/>',
+              1,
+          )
+          s = s.replace(
+              '<path d="M54 84V101M72 87V103M88 86V103M101 81V99" stroke="#111827" strokeWidth="7" strokeLinecap="round"/><path d="M54 84V101M72 87V103M88 86V103M101 81V99" stroke="#fff" strokeWidth="3" strokeLinecap="round"/>\n          <rect x="112" y="87" width="25" height="17" rx="3" fill="#0b0d1a" stroke="#6366f1"/><path d="M117 94H123M126 94H132" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"/>',
+              '<path d="M57 84V101M73 87V103M88 86V101M99 81V98" stroke="#111827" strokeWidth="6" strokeLinecap="round"/><path d="M57 84V101M73 87V103M88 86V101M99 81V98" stroke="#fff" strokeWidth="2.5" strokeLinecap="round"/>',
+              1,
+          )
+          s = s.replace(
+              'text-[9px] font-semibold text-[var(--text)] opacity-75',
+              'text-[7px] font-semibold text-[var(--text)] opacity-60',
+              1,
+          )
+          p.write_text(s, encoding="utf-8")
+
+      - name: Verify and commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q 'Security Audits' src/app/page.tsx
+          ! grep -q 'Cyber News</a>' src/app/page.tsx
+          ! grep -q 'rgba(255, 70, 70' src/styles/globals.css
+          grep -q 'const catWidth = 86' src/components/site-footer.tsx
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/app/page.tsx src/styles/globals.css src/components/site-footer.tsx
+          git rm .github/workflows/website-ui-tweaks.yml
+          git commit -m "fix: refine homepage hover effects and footer cat"
+          git push origin main
