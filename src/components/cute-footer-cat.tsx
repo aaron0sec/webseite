@@ -19,7 +19,6 @@ export function CuteFooterCat() {
   const frameRef = useRef<number | null>(null);
   const activeRef = useRef(false);
   const [visible, setVisible] = useState(false);
-  const [walking, setWalking] = useState(false);
 
   useEffect(() => {
     const footer = document.querySelector("footer");
@@ -45,6 +44,10 @@ export function CuteFooterCat() {
       cat.style.top = `${y}px`;
     };
 
+    const setWalking = (walking: boolean) => {
+      cat.classList.toggle("cute-cat-walk", walking);
+    };
+
     const animate = () => {
       const current = positionRef.current;
       const target = targetRef.current;
@@ -53,11 +56,11 @@ export function CuteFooterCat() {
       const distance = Math.hypot(dx, dy);
 
       if (activeRef.current) {
-        const nextX = current.x + dx * FOLLOW_SPEED;
-        const nextY = current.y + dy * FOLLOW_SPEED;
-        setPosition(nextX, nextY);
+        setPosition(current.x + dx * FOLLOW_SPEED, current.y + dy * FOLLOW_SPEED);
         cat.style.setProperty("--walk-direction", dx < -1 ? "-1" : "1");
         setWalking(distance > 3);
+      } else {
+        setWalking(false);
       }
 
       frameRef.current = window.requestAnimationFrame(animate);
@@ -72,10 +75,10 @@ export function CuteFooterCat() {
       const maxTop = Math.min(window.innerHeight - CAT_HEIGHT - EDGE_PADDING, rect.bottom - CAT_HEIGHT - EDGE_PADDING);
       const minTop = Math.max(EDGE_PADDING, rect.top + EDGE_PADDING);
 
-      const targetX = clamp(event.clientX + CAT_CURSOR_GAP - CAT_WIDTH / 2, minLeft, maxLeft);
-      const targetY = clamp(event.clientY - CAT_HEIGHT / 2, minTop, maxTop);
-
-      targetRef.current = { x: targetX, y: targetY };
+      targetRef.current = {
+        x: clamp(event.clientX + CAT_CURSOR_GAP - CAT_WIDTH / 2, minLeft, maxLeft),
+        y: clamp(event.clientY - CAT_HEIGHT / 2, minTop, maxTop),
+      };
       activeRef.current = true;
       setVisible(true);
     };
@@ -94,8 +97,7 @@ export function CuteFooterCat() {
       if (nextTarget instanceof Node && footer.contains(nextTarget)) return;
       activeRef.current = false;
       setWalking(false);
-      const resting = getRestingPosition();
-      targetRef.current = resting;
+      targetRef.current = getRestingPosition();
     };
 
     const handleResize = () => {
@@ -251,19 +253,16 @@ export function CuteFooterCat() {
       <div
         ref={catRef}
         aria-hidden="true"
-        className={`cute-footer-cat ${visible ? "is-visible" : ""} ${walking ? "cute-cat-walk" : ""}`}
+        className={`cute-footer-cat ${visible ? "is-visible" : ""}`}
       >
         <svg width="82" height="74" viewBox="0 0 132 118" fill="none" xmlns="http://www.w3.org/2000/svg">
           <ellipse cx="66" cy="111" rx="35" ry="5" fill="rgba(0,0,0,.2)"/>
-
           <g className="cute-cat-body">
             <g className="cute-cat-tail">
               <path d="M91 57C112 45 126 54 122 69C119 80 109 82 101 75" stroke="#fff" strokeWidth="8" strokeLinecap="round"/>
               <path d="M91 57C112 45 126 54 122 69C119 80 109 82 101 75" stroke="#172033" strokeWidth="2.4" strokeLinecap="round"/>
             </g>
-
             <path d="M34 57C34 37 46 27 66 27C86 27 98 38 98 58C98 79 85 91 66 91C47 91 34 78 34 57Z" fill="#fff" stroke="#172033" strokeWidth="2.4"/>
-
             <g className="cute-cat-ear">
               <path d="M39 43L35 14L57 32Z" fill="#fff" stroke="#172033" strokeWidth="2.4" strokeLinejoin="round"/>
               <path d="M41 37L39 23L51 33Z" fill="#f5a9bf"/>
@@ -272,7 +271,6 @@ export function CuteFooterCat() {
               <path d="M75 32L97 14L93 44Z" fill="#fff" stroke="#172033" strokeWidth="2.4" strokeLinejoin="round"/>
               <path d="M81 33L94 23L92 38Z" fill="#f5a9bf"/>
             </g>
-
             <g className="cute-cat-eye">
               <ellipse cx="53" cy="56" rx="5" ry="6" fill="#172033"/>
               <circle cx="54.5" cy="54" r="1.7" fill="#fff"/>
@@ -281,24 +279,17 @@ export function CuteFooterCat() {
               <ellipse cx="79" cy="56" rx="5" ry="6" fill="#172033"/>
               <circle cx="80.5" cy="54" r="1.7" fill="#fff"/>
             </g>
-
             <path d="M63 65L69 65L66 69Z" fill="#ef9fb6" stroke="#172033" strokeWidth="1.1"/>
             <path d="M66 69C63 73 59 73 57 70M66 69C69 73 73 73 75 70" stroke="#172033" strokeWidth="1.7" strokeLinecap="round"/>
             <path d="M37 68L18 64M37 74L17 75M95 68L114 64M95 74L116 75" stroke="#172033" strokeWidth="1.2" strokeLinecap="round" opacity=".65"/>
-
             <path d="M48 83C47 91 43 96 37 100C45 105 55 106 66 106C77 106 87 105 95 100C89 96 85 91 84 83C79 88 73 91 66 91C59 91 53 88 48 83Z" fill="#fff" stroke="#172033" strokeWidth="2.4"/>
-
             <g className="cute-cat-paw cute-cat-paw-left">
               <ellipse cx="47" cy="99" rx="9" ry="11" fill="#fff" stroke="#172033" strokeWidth="2.2"/>
-              <circle cx="43" cy="95" r="1.8" fill="#f2a5ba"/>
-              <circle cx="47" cy="93" r="1.8" fill="#f2a5ba"/>
-              <circle cx="51" cy="95" r="1.8" fill="#f2a5ba"/>
+              <circle cx="43" cy="95" r="1.8" fill="#f2a5ba"/><circle cx="47" cy="93" r="1.8" fill="#f2a5ba"/><circle cx="51" cy="95" r="1.8" fill="#f2a5ba"/>
             </g>
             <g className="cute-cat-paw cute-cat-paw-right">
               <ellipse cx="85" cy="99" rx="9" ry="11" fill="#fff" stroke="#172033" strokeWidth="2.2"/>
-              <circle cx="81" cy="95" r="1.8" fill="#f2a5ba"/>
-              <circle cx="85" cy="93" r="1.8" fill="#f2a5ba"/>
-              <circle cx="89" cy="95" r="1.8" fill="#f2a5ba"/>
+              <circle cx="81" cy="95" r="1.8" fill="#f2a5ba"/><circle cx="85" cy="93" r="1.8" fill="#f2a5ba"/><circle cx="89" cy="95" r="1.8" fill="#f2a5ba"/>
             </g>
           </g>
         </svg>
