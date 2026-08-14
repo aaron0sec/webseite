@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import { Reveal } from "@/components/reveal";
 
 export const metadata: Metadata = {
-  title: "Über mich",
+  title: "Joscha Schmidt | Über mich",
   description:
-    "Joscha Aaron Schmidt: Full Stack Development, Webdesign, Cloud, Linux, OSINT, Cybersecurity, Programmierung, Netzwerktechnik und technische Recherche.",
+    "Joscha Schmidt, auch Joscha Aaron Schmidt: Full Stack Development, Webdesign, Cloud, Linux, OSINT, Cybersecurity, Programmierung und technische Recherche.",
+  alternates: { canonical: "/ueber-mich" },
 };
 
 const skills = [
@@ -28,14 +29,17 @@ export default function About() {
     <main className="container py-20 sm:py-28">
       <Reveal>
         <p className="font-mono text-xs text-[var(--accent)]">03 / ABOUT</p>
-        <h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-6xl">Über mich</h1>
+        <h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-6xl">Joscha Schmidt</h1>
+        <p className="mt-5 max-w-3xl text-lg leading-8 text-[var(--muted)]">
+          Joscha Schmidt, vollständig Joscha Aaron Schmidt, arbeitet an technischen Projekten rund um Webentwicklung, Linux, OSINT und Cybersecurity.
+        </p>
       </Reveal>
 
       <div className="mt-12 grid gap-10 md:grid-cols-[1.4fr_.6fr]">
         <Reveal>
           <div className="space-y-6 text-lg leading-8 text-[var(--muted)]">
             <p>
-              Technik begleitet mich seit meiner Kindheit. Aus meiner frühen
+              Ich bin <strong className="font-medium text-[var(--text)]">Joscha Schmidt</strong>. Technik begleitet mich seit meiner Kindheit. Aus meiner frühen
               Begeisterung für Computer und Betriebssysteme hat sich über Jahre
               ein breites, praktisch orientiertes technisches Profil entwickelt.
               Ich arbeite mich gerne tief in Systeme ein, verstehe Zusammenhänge
