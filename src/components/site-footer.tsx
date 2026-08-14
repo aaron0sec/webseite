@@ -27,8 +27,8 @@ export function SiteFooter() {
     let frame = 0;
     let lastPointerAt = 0;
     let idleTarget = { x: 0, y: 0 };
-    const catWidth = 190;
-    const catHeight = 155;
+    const catWidth = 120;
+    const catHeight = 92;
     const padding = 12;
     const getBounds = () => {
       const rect = footer.getBoundingClientRect();
@@ -111,7 +111,7 @@ export function SiteFooter() {
   return (
     <footer ref={footerRef} className="relative overflow-hidden border-t border-[var(--border)]">
       <div ref={catRef} aria-hidden="true" className="footer-cat-live pointer-events-none absolute left-0 top-0 z-50 block select-none will-change-transform">
-        <svg width="190" height="145" viewBox="0 0 150 115" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-[0_16px_28px_rgba(0,0,0,0.5)]">
+        <svg width="120" height="92" viewBox="0 0 150 115" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-[0_10px_18px_rgba(0,0,0,0.4)]">
           <ellipse cx="74" cy="103" rx="45" ry="7" fill="rgba(0,0,0,0.32)"/>
           <path d="M105 60C131 48 143 61 137 78C134 88 124 88 119 81" stroke="#fff" strokeWidth="9" strokeLinecap="round"/><path d="M105 60C131 48 143 61 137 78C134 88 124 88 119 81" stroke="#111827" strokeWidth="3" strokeLinecap="round"/>
           <path d="M45 55C45 38 58 29 78 31C98 33 108 48 104 67C101 83 90 91 70 90C51 89 43 77 45 55Z" fill="#fff" stroke="#111827" strokeWidth="3"/>
@@ -122,7 +122,7 @@ export function SiteFooter() {
           <path d="M54 84V101M72 87V103M88 86V103M101 81V99" stroke="#111827" strokeWidth="7" strokeLinecap="round"/><path d="M54 84V101M72 87V103M88 86V103M101 81V99" stroke="#fff" strokeWidth="3" strokeLinecap="round"/>
           <rect x="112" y="87" width="25" height="17" rx="3" fill="#0b0d1a" stroke="#6366f1"/><path d="M117 94H123M126 94H132" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"/>
         </svg>
-        <span className="mt-1 block text-center font-mono text-[10px] font-semibold text-[var(--text)] opacity-80">git push --follow-the-cat</span>
+        <span className="mt-1 block text-center font-mono text-[9px] font-semibold text-[var(--text)] opacity-75">git push --follow-the-cat</span>
       </div>
       <div className="container relative z-20 py-10">
         <div className="mb-8 rounded-2xl border border-[var(--accent)]/30 bg-[var(--surface)] p-5 sm:p-6"><div className="flex items-center gap-2 text-[var(--accent)]"><Mail size={16}/><p className="font-mono text-xs tracking-[0.18em]">WEBENTWICKLUNG</p></div><h2 className="mt-2 text-lg font-semibold text-[var(--text)]">Professionelle Website ohne unnötigen Agentur-Overhead.</h2><p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--muted)]">Individuelle Landingpages und Business-Websites mit responsive Design, Performance, SEO-Basis und sicherem Deployment. Faire Festpreise und klare Leistungsumfänge.</p><div className="mt-4 flex flex-col gap-2 sm:flex-row"><a href="/webentwicklung" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-5 text-sm font-semibold text-black hover:brightness-110">Webentwicklung ansehen <ArrowRight size={15}/></a><a href="/buchung" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-[var(--border)] px-5 text-sm font-medium text-[var(--text)] hover:border-[var(--accent)]">Projekt anfragen</a></div></div>
