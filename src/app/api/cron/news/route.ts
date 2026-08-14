@@ -17,7 +17,7 @@ export async function GET(request: Request) {
     return new Response("Unauthorized", { status: 401 });
   }
 
-  const items = await getCyberNews(30);
+  const items = await getCyberNews(30, true);
   const refreshedAt = new Date().toISOString();
 
   revalidatePath("/news/rss.xml");
