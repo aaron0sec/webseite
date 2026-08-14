@@ -28,6 +28,15 @@
 </script>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="liquid-goo">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="blur" />
+      <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -10" result="goo" />
+      <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+    </filter>
+  </defs>
+</svg>
 <audio id="bg-audio" loop preload="none"><source src="audio/ambient.mp3" type="audio/mpeg"></audio>
 <header>
 <nav>
@@ -81,20 +90,22 @@
 </main>
 <footer>
 <div class="footer-cat" id="footer-cat" aria-hidden="true">
-  <div class="cat-orbit"></div>
   <div class="cat-shadow"></div>
-  <div class="cat-body">
-    <span class="cat-tail"></span>
-    <span class="cat-leg cat-leg-a"></span>
-    <span class="cat-leg cat-leg-b"></span>
-    <span class="cat-leg cat-leg-c"></span>
-    <span class="cat-leg cat-leg-d"></span>
-    <div class="cat-head">
-      <span class="cat-ear cat-ear-a"></span>
-      <span class="cat-ear cat-ear-b"></span>
-      <span class="cat-face"><span class="cat-eye cat-eye-a"></span><span class="cat-eye cat-eye-b"></span><span class="cat-nose"></span></span>
-    </div>
-  </div>
+  <svg class="cat-svg" viewBox="0 0 64 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path class="cat-tail" d="M56 34c6 1.5 8 8 4.5 12.5-2.6 3.3-7.4 3.6-10.4.6" stroke-linecap="round"/>
+    <ellipse class="cat-body-shape" cx="30" cy="46" rx="15" ry="9"/>
+    <path class="cat-ear-fill" d="M17 20 22 6 28 18Z"/>
+    <path class="cat-ear-fill" d="M47 20 42 6 36 18Z"/>
+    <circle class="cat-head-shape" cx="32" cy="29" r="18"/>
+    <ellipse class="cat-eye" cx="25" cy="28" rx="2.3" ry="2.9"/>
+    <ellipse class="cat-eye" cx="39" cy="28" rx="2.3" ry="2.9"/>
+    <path class="cat-nose" d="M32 33.5c1.1 0 2 .6 2 1.4 0 1.1-2 2.6-2 2.6s-2-1.5-2-2.6c0-.8.9-1.4 2-1.4Z"/>
+    <path class="cat-mouth" d="M32 37.5v1.3M32 38.8c-1.5 1.7-3.6 2-4.9 1M32 38.8c1.5 1.7 3.6 2 4.9 1" stroke-linecap="round" stroke-linejoin="round"/>
+    <g class="cat-whiskers" stroke-linecap="round">
+      <path d="M19 30h-7M19.5 33.5l-6.3 2M19.5 26.5l-6-2.2"/>
+      <path d="M45 30h7M44.5 33.5l6.3 2M44.5 26.5l6-2.2"/>
+    </g>
+  </svg>
   <span class="cat-label">git push --follow-the-cat</span>
 </div>
 <div class="wrap"><div class="footer-top"><div class="donate-block"><p class="title">Open-Source unterstützen</p><p class="desc">Wer meine quelloffenen Projekte unterstützen möchte, kann das gerne per Krypto-Spende tun — komplett freiwillig. Die folgenden Adressen sind direkt anklickbar bzw. per Klick kopierbar.</p><div class="donate-row"><span class="label">Bitcoin (BTC)</span><code onclick="copyAddress(this, 'bc1qmqdka29u7e6n5ypyfq6rldl429kcgpha792yzp')" style="cursor:pointer;">bc1qmqdka29u7e6n5ypyfq6rldl429kcgpha792yzp</code><a href="bitcoin:bc1qmqdka29u7e6n5ypyfq6rldl429kcgpha792yzp" class="btn-secondary">Spenden →</a></div><div class="donate-row"><span class="label">Zcash (ZEC)</span><code onclick="copyAddress(this, 't1gp5ffT9KTcoeRsdZaA4Sq3se3NWJ3acPt')" style="cursor:pointer;">t1gp5ffT9KTcoeRsdZaA4Sq3se3NWJ3acPt</code><a href="zcash:t1gp5ffT9KTcoeRsdZaA4Sq3se3NWJ3acPt" class="btn-secondary">Spenden →</a></div><div class="donate-row"><span class="label">Ethereum (ETH)</span><code onclick="copyAddress(this, '0x6aCB5b9165952fAE8D88d4c776dF9e47Bd0CB194')" style="cursor:pointer;">0x6aCB5b9165952fAE8D88d4c776dF9e47Bd0CB194</code><a href="ethereum:0x6aCB5b9165952fAE8D88d4c776dF9e47Bd0CB194" class="btn-secondary">Spenden →</a></div></div><div class="footer-cols"><div><p class="head">Navigation</p><a href="#leistungen">Leistungen</a><a href="grundlagen.html">IT-Grundlagen</a><a href="blog-linux-commands.html">Blog</a><a href="#premium">Premium</a></div><div><p class="head">Verbinden</p><a href="https://www.tiktok.com/@linux_aaron" target="_blank" rel="noopener noreferrer">TikTok</a><a href="https://www.instagram.com/linux_aaron" target="_blank" rel="noopener noreferrer">Instagram</a><a href="https://github.com/aaron0sec" target="_blank" rel="noopener noreferrer">GitHub</a></div></div></div><div class="footer-bottom"><span>© 2026 Joscha Aaron Schmidt — IT Security &amp; Netzwerktechnik</span><div class="right"><a href="impressum.html">Impressum</a><span>Ludwigsburg, DE</span></div></div></div></footer>
