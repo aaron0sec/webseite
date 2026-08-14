@@ -2,7 +2,7 @@ import { ArrowUpRight, Radio } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { getCyberNews } from "@/lib/cyber-news";
 
-export const revalidate = 900;
+export const revalidate = 86400;
 
 export const metadata = {
   title: "Cyber News",
@@ -44,7 +44,7 @@ export default async function NewsPage() {
 
       <div className="mt-8 flex items-center gap-3 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 text-sm text-[var(--muted)]">
         <Radio size={18} className="text-[var(--accent)]" />
-        <span>Aktualisierung alle 15 Minuten.</span>
+        <span>Aktualisierung alle 24 Stunden.</span>
       </div>
 
       <div className="mt-10 grid gap-4 lg:grid-cols-2">
