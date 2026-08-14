@@ -5,6 +5,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { CookieConsent } from "@/components/cookie-consent";
 import { BitcoinTicker } from "@/components/bitcoin-ticker";
 import { CursorLiquid } from "@/components/cursor-liquid";
+import { CuteFooterCat } from "@/components/cute-footer-cat";
 
 const siteUrl = "https://joschaschmidt.com";
 const siteName = "Joscha Aaron Schmidt | Webentwicklung, IT, OSINT und Cybersecurity";
@@ -80,6 +81,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <BitcoinTicker />
         {children}
         <SiteFooter />
+        <CuteFooterCat />
         <CookieConsent />
       </body>
     </html>
