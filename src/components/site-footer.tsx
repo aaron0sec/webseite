@@ -17,6 +17,7 @@ export function SiteFooter() {
   const catRef = useRef<HTMLDivElement>(null);
   const target = useRef({ x: 0, y: 0 });
   const current = useRef({ x: 0, y: 0 });
+  const velocity = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     const footer = footerRef.current;
@@ -28,29 +29,67 @@ export function SiteFooter() {
     if (reduced || touch) return;
 
     let frame = 0;
+    let active = false;
+    const catWidth = 150;
+    const catHeight = 125;
+    const padding = 12;
+
+    const onEnter = () => {
+      active = true;
+    };
+
     const onMove = (event: PointerEvent) => {
       const rect = footer.getBoundingClientRect();
-      const dx = event.clientX - (rect.left + rect.width / 2);
-      const dy = event.clientY - (rect.top + rect.height / 2);
-      target.current.x = Math.max(-115, Math.min(115, dx * 0.11));
-      target.current.y = Math.max(-28, Math.min(28, dy * 0.07));
+      const maxX = Math.max(padding, rect.width - catWidth - padding);
+      const maxY = Math.max(padding, rect.height - catHeight - padding);
+
+      target.current.x = Math.max(
+        padding,
+        Math.min(maxX, event.clientX - rect.left - catWidth / 2),
+      );
+      target.current.y = Math.max(
+        padding,
+        Math.min(maxY, event.clientY - rect.top - catHeight / 2),
+      );
     };
+
     const onLeave = () => {
-      target.current.x = 0;
-      target.current.y = 0;
+      active = false;
+      target.current.x = Math.max(padding, Math.min(260, footer.clientWidth * 0.12));
+      target.current.y = Math.max(padding, footer.clientHeight - catHeight - padding);
     };
+
     const animate = () => {
-      current.current.x += (target.current.x - current.current.x) * 0.075;
-      current.current.y += (target.current.y - current.current.y) * 0.075;
-      cat.style.transform = `translate3d(${current.current.x}px, ${current.current.y}px, 0)`;
+      const dx = target.current.x - current.current.x;
+      const dy = target.current.y - current.current.y;
+
+      velocity.current.x += dx * 0.075;
+      velocity.current.y += dy * 0.075;
+      velocity.current.x *= 0.78;
+      velocity.current.y *= 0.78;
+
+      current.current.x += velocity.current.x;
+      current.current.y += velocity.current.y;
+
+      const tilt = Math.max(-8, Math.min(8, velocity.current.x * 0.8));
+      const scale = active ? 1 : 0.96;
+      cat.style.transform = `translate3d(${current.current.x}px, ${current.current.y}px, 0) rotate(${tilt}deg) scale(${scale})`;
       frame = requestAnimationFrame(animate);
     };
 
+    const rect = footer.getBoundingClientRect();
+    current.current.x = Math.max(padding, Math.min(260, rect.width * 0.12));
+    current.current.y = Math.max(padding, rect.height - catHeight - padding);
+    target.current.x = current.current.x;
+    target.current.y = current.current.y;
+
+    footer.addEventListener("pointerenter", onEnter, { passive: true });
     footer.addEventListener("pointermove", onMove, { passive: true });
     footer.addEventListener("pointerleave", onLeave, { passive: true });
     frame = requestAnimationFrame(animate);
 
     return () => {
+      footer.removeEventListener("pointerenter", onEnter);
       footer.removeEventListener("pointermove", onMove);
       footer.removeEventListener("pointerleave", onLeave);
       cancelAnimationFrame(frame);
@@ -105,7 +144,7 @@ export function SiteFooter() {
 
   return (
     <footer ref={footerRef} className="relative overflow-hidden border-t border-[var(--border)]">
-      <div ref={catRef} aria-hidden="true" className="footer-cat-live pointer-events-none absolute bottom-5 left-[7%] z-10 hidden md:block">
+      <div ref={catRef} aria-hidden="true" className="footer-cat-live pointer-events-none absolute left-0 top-0 z-10 hidden md:block will-change-transform">
         <svg width="150" height="115" viewBox="0 0 150 115" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-[0_12px_20px_rgba(0,0,0,0.35)]">
           <ellipse cx="74" cy="103" rx="45" ry="7" fill="rgba(0,0,0,0.32)"/>
           <path d="M105 60C131 48 143 61 137 78C134 88 124 88 119 81" stroke="#fff" strokeWidth="9" strokeLinecap="round"/>
