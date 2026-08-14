@@ -10,6 +10,16 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "linuxaaron.dpdns.org" }],
+        destination: "https://www.joschaschmidt.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {
