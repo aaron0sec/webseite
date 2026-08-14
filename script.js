@@ -107,8 +107,8 @@
       const pointerX = event.clientX - (rect.left + rect.width / 2);
       const pointerY = event.clientY - (rect.top + rect.height / 2);
 
-      targetX = Math.max(-90, Math.min(90, pointerX * 0.12));
-      targetY = Math.max(-26, Math.min(26, pointerY * 0.10));
+      targetX = Math.max(-70, Math.min(70, pointerX * 0.12));
+      targetY = Math.max(-20, Math.min(20, pointerY * 0.10));
     }
 
     function resetTarget() {
@@ -215,3 +215,45 @@ window.copyAddress = function (el, text) {
     setTimeout(() => { el.textContent = original; }, 1500);
   });
 };
+
+// ---------- Wasser-Hover-Effekt für Buttons ----------
+(function () {
+  document.addEventListener("DOMContentLoaded", function () {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const coarsePointer = window.matchMedia("(hover: none) and (pointer: coarse)");
+    if (coarsePointer.matches) return;
+
+    const buttons = document.querySelectorAll(".btn-primary, .btn-secondary, .nav-cta");
+
+    buttons.forEach(function (btn) {
+      // Liquid-Wrapper einmalig einfügen (Füllfläche + Tropfen im selben Goo-Filter-Kontext)
+      if (!btn.querySelector(".liquid-fx")) {
+        const fx = document.createElement("span");
+        fx.className = "liquid-fx";
+        fx.setAttribute("aria-hidden", "true");
+        const fill = document.createElement("span");
+        fill.className = "liquid-fill";
+        const drop = document.createElement("span");
+        drop.className = "liquid-drop";
+        fx.appendChild(fill);
+        fx.appendChild(drop);
+        btn.prepend(fx);
+      }
+
+      const drop = btn.querySelector(".liquid-drop");
+
+      btn.addEventListener("pointerenter", function (event) {
+        if (reducedMotion.matches) return;
+        const rect = btn.getBoundingClientRect();
+        const xPercent = ((event.clientX - rect.left) / rect.width) * 100;
+        const clamped = Math.max(8, Math.min(92, xPercent));
+        btn.style.setProperty("--drop-x", clamped + "%");
+
+        // Restart der Animation bei erneutem Hover
+        drop.style.animation = "none";
+        void drop.offsetWidth;
+        drop.style.animation = "";
+      }, { passive: true });
+    });
+  });
+})();
