@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import "@/styles/globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -6,6 +7,20 @@ import { CookieConsent } from "@/components/cookie-consent";
 import { BitcoinTicker } from "@/components/bitcoin-ticker";
 import { CursorLiquid } from "@/components/cursor-liquid";
 import { CuteFooterCat } from "@/components/cute-footer-cat";
+
+const plexSans = IBM_Plex_Sans({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-plex-sans",
+  weight: ["400", "500", "600", "700"],
+});
+
+const plexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-plex-mono",
+  weight: ["400", "500", "600"],
+});
 
 const siteUrl = "https://www.joschaschmidt.com";
 const siteName = "Joscha Schmidt | Webentwicklung & Cybersecurity";
@@ -80,7 +95,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
       </head>
-      <body>
+      <body className={`${plexSans.variable} ${plexMono.variable}`}>
         <CursorLiquid />
         <SiteHeader />
         <BitcoinTicker />
