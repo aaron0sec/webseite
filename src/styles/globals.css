@@ -38,14 +38,12 @@ a { color: inherit; text-decoration: none; }
 .grid-bg { background-image: linear-gradient(to right, color-mix(in srgb, var(--border) 48%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in srgb, var(--border) 48%, transparent) 1px, transparent 1px); background-size: 44px 44px; }
 .hero-glow { background-image: radial-gradient(circle at 72% 4%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 34%), linear-gradient(to right, color-mix(in srgb, var(--border) 48%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in srgb, var(--border) 48%, transparent) 1px, transparent 1px); background-size: auto, 44px 44px, 44px 44px; }
 
-/* Subtle section contrast with an indigo/cool visual rhythm. */
 main > section:nth-of-type(2) { background: var(--section-warm); }
 main > section:nth-of-type(3) { background: var(--bg); }
 main > section:nth-of-type(4) { background: var(--section-cool); }
 main > section:nth-of-type(2), main > section:nth-of-type(3), main > section:nth-of-type(4) { position: relative; }
 main > section:nth-of-type(2)::before, main > section:nth-of-type(4)::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at 8% 20%, color-mix(in srgb, var(--accent) 6%, transparent), transparent 28%); }
 
-/* Authentic Linux terminal presentation with real command names. */
 .hero-glow .container > div:nth-child(2) .p-5 > * { display: none; }
 .hero-glow .container > div:nth-child(2) .p-5::before {
   content: "$ whoami\A joscha\A\A$ id\A uid=1000(joscha) gid=1000(joscha) groups=1000(joscha),27(sudo)\A\A$ uname -sr\A Linux 6.12.0 x86_64\A\A$ hostnamectl --static\A linux\A\A$ ip -br addr\A lo       UNKNOWN        127.0.0.1/8\A eth0     UP             192.168.1.42/24\A\A$ ss -tulpen\A Netid State  Local Address:Port\A tcp   LISTEN 0.0.0.0:22\A tcp   LISTEN 0.0.0.0:443\A\A$ _";
@@ -54,6 +52,9 @@ main > section:nth-of-type(2)::before, main > section:nth-of-type(4)::before { c
   color: var(--muted);
   line-height: 1.75;
 }
+
+/* Webentwicklung wird auf der Startseite prominent gezeigt; im Footer bleibt nur der eigentliche Footer Inhalt. */
+footer > .container > div:first-child { display: none; }
 
 .prose { line-height: 1.75; color: var(--muted); }
 .prose h2, .prose h3 { color: var(--text); margin-top: 2rem; }
