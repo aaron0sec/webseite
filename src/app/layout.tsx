@@ -7,6 +7,11 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://joscha-sec.vercel.app"),
   title: { default: "Joscha Aaron Schmidt — OSINT & Web Security", template: "%s | Joscha Aaron Schmidt" },
   description: "OSINT Specialist und IT-Security-orientierter Entwickler mit Fokus auf Web Security, Linux und technische Analyse.",
+  icons: {
+    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+    shortcut: ["/favicon.svg"],
+    apple: ["/favicon.svg"],
+  },
   openGraph: { title: "Joscha Aaron Schmidt — OSINT & Web Security", description: "OSINT, Web Security, Linux und technische Projekte.", type: "website" },
   robots: { index: true, follow: true },
 };
