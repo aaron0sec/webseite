@@ -4,75 +4,131 @@ import { useEffect, useRef, useState } from "react";
 
 const CAT_WIDTH = 82;
 const CAT_HEIGHT = 74;
-const EDGE_PADDING = 12;
-const POINTER_GAP = 140;
-const CANDIDATE_COUNT = 24;
+const EDGE_PADDING = 18;
+const CAT_CURSOR_GAP = 92;
+const FOLLOW_SPEED = 0.075;
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
 }
 
-function distanceToRect(pointX: number, pointY: number, left: number, top: number, width: number, height: number) {
-  const closestX = clamp(pointX, left, left + width);
-  const closestY = clamp(pointY, top, top + height);
-  return Math.hypot(pointX - closestX, pointY - closestY);
-}
-
 export function CuteFooterCat() {
   const catRef = useRef<HTMLDivElement>(null);
+  const targetRef = useRef({ x: 0, y: 0 });
+  const positionRef = useRef({ x: 0, y: 0 });
+  const frameRef = useRef<number | null>(null);
+  const activeRef = useRef(false);
   const [visible, setVisible] = useState(false);
+  const [walking, setWalking] = useState(false);
 
   useEffect(() => {
     const footer = document.querySelector("footer");
     const cat = catRef.current;
     if (!footer || !cat) return;
 
-    const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { threshold: 0.05 });
-    observer.observe(footer);
-
-    const placeCatSafely = (event: PointerEvent) => {
+    const getRestingPosition = () => {
       const rect = footer.getBoundingClientRect();
-      if (
-        event.clientX < rect.left ||
-        event.clientX > rect.right ||
-        event.clientY < rect.top ||
-        event.clientY > rect.bottom
-      ) return;
-
-      const minLeft = Math.max(EDGE_PADDING, rect.left);
-      const minTop = Math.max(EDGE_PADDING, rect.top);
-      const maxLeft = Math.min(window.innerWidth - CAT_WIDTH - EDGE_PADDING, rect.right - CAT_WIDTH - EDGE_PADDING);
-      const maxTop = Math.min(window.innerHeight - CAT_HEIGHT - EDGE_PADDING, rect.bottom - CAT_HEIGHT - EDGE_PADDING);
-
-      if (maxLeft < minLeft || maxTop < minTop) return;
-
-      const pointerX = event.clientX;
-      const pointerY = event.clientY;
-      const startAngle = Math.atan2(pointerY - (rect.top + rect.height / 2), pointerX - (rect.left + rect.width / 2));
-
-      let best: { left: number; top: number; distance: number } | null = null;
-
-      for (let index = 0; index < CANDIDATE_COUNT; index += 1) {
-        const angle = startAngle + (Math.PI * 2 * index) / CANDIDATE_COUNT;
-        const centerX = pointerX + Math.cos(angle) * POINTER_GAP;
-        const centerY = pointerY + Math.sin(angle) * POINTER_GAP;
-        const left = clamp(centerX - CAT_WIDTH / 2, minLeft, maxLeft);
-        const top = clamp(centerY - CAT_HEIGHT / 2, minTop, maxTop);
-        const distance = distanceToRect(pointerX, pointerY, left, top, CAT_WIDTH, CAT_HEIGHT);
-
-        if (!best || distance > best.distance) best = { left, top, distance };
-      }
-
-      if (best) {
-        cat.style.left = `${best.left}px`;
-        cat.style.top = `${best.top}px`;
-      }
+      return {
+        x: clamp(rect.right - CAT_WIDTH - EDGE_PADDING, EDGE_PADDING, window.innerWidth - CAT_WIDTH - EDGE_PADDING),
+        y: clamp(rect.bottom - CAT_HEIGHT - EDGE_PADDING, EDGE_PADDING, window.innerHeight - CAT_HEIGHT - EDGE_PADDING),
+      };
     };
 
-    window.addEventListener("pointermove", placeCatSafely, { passive: true });
+    const isInsideFooter = (x: number, y: number) => {
+      const rect = footer.getBoundingClientRect();
+      return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+    };
+
+    const setPosition = (x: number, y: number) => {
+      positionRef.current = { x, y };
+      cat.style.left = `${x}px`;
+      cat.style.top = `${y}px`;
+    };
+
+    const animate = () => {
+      const current = positionRef.current;
+      const target = targetRef.current;
+      const dx = target.x - current.x;
+      const dy = target.y - current.y;
+      const distance = Math.hypot(dx, dy);
+
+      if (activeRef.current) {
+        const nextX = current.x + dx * FOLLOW_SPEED;
+        const nextY = current.y + dy * FOLLOW_SPEED;
+        setPosition(nextX, nextY);
+        cat.style.setProperty("--walk-direction", dx < -1 ? "-1" : "1");
+        setWalking((previous) => previous || distance > 3);
+      } else {
+        setWalking(false);
+      }
+
+      frameRef.current = window.requestAnimationFrame(animate);
+    };
+
+    const moveToCursor = (event: PointerEvent) => {
+      if (!isInsideFooter(event.clientX, event.clientY)) return;
+
+      const rect = footer.getBoundingClientRect();
+      const maxLeft = Math.min(window.innerWidth - CAT_WIDTH - EDGE_PADDING, rect.right - CAT_WIDTH - EDGE_PADDING);
+      const minLeft = Math.max(EDGE_PADDING, rect.left + EDGE_PADDING);
+      const maxTop = Math.min(window.innerHeight - CAT_HEIGHT - EDGE_PADDING, rect.bottom - CAT_HEIGHT - EDGE_PADDING);
+      const minTop = Math.max(EDGE_PADDING, rect.top + EDGE_PADDING);
+
+      // The cat approaches from the right side of the cursor.
+      const targetX = clamp(event.clientX + CAT_CURSOR_GAP - CAT_WIDTH / 2, minLeft, maxLeft);
+      const targetY = clamp(event.clientY - CAT_HEIGHT / 2, minTop, maxTop);
+
+      targetRef.current = { x: targetX, y: targetY };
+      activeRef.current = true;
+      setVisible(true);
+    };
+
+    const enterFooter = (event: PointerEvent) => {
+      if (!isInsideFooter(event.clientX, event.clientY)) return;
+      const resting = getRestingPosition();
+      setPosition(resting.x, resting.y);
+      targetRef.current = resting;
+      activeRef.current = true;
+      setVisible(true);
+    };
+
+    const leaveFooter = (event: PointerEvent) => {
+      const nextTarget = event.relatedTarget;
+      if (nextTarget instanceof Node && footer.contains(nextTarget)) return;
+      activeRef.current = false;
+      setWalking(false);
+      const resting = getRestingPosition();
+      targetRef.current = resting;
+    };
+
+    const handleResize = () => {
+      const resting = getRestingPosition();
+      if (!activeRef.current) setPosition(resting.x, resting.y);
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setVisible(entry.isIntersecting),
+      { threshold: 0.05 },
+    );
+    observer.observe(footer);
+
+    footer.addEventListener("pointerenter", enterFooter, { passive: true });
+    footer.addEventListener("pointermove", moveToCursor, { passive: true });
+    footer.addEventListener("pointerleave", leaveFooter, { passive: true });
+    window.addEventListener("resize", handleResize, { passive: true });
+
+    const initial = getRestingPosition();
+    setPosition(initial.x, initial.y);
+    targetRef.current = initial;
+    frameRef.current = window.requestAnimationFrame(animate);
+
     return () => {
       observer.disconnect();
-      window.removeEventListener("pointermove", placeCatSafely);
+      footer.removeEventListener("pointerenter", enterFooter);
+      footer.removeEventListener("pointermove", moveToCursor);
+      footer.removeEventListener("pointerleave", leaveFooter);
+      window.removeEventListener("resize", handleResize);
+      if (frameRef.current !== null) window.cancelAnimationFrame(frameRef.current);
     };
   }, []);
 
@@ -81,64 +137,147 @@ export function CuteFooterCat() {
       <style>{`
         .cute-footer-cat {
           position: fixed;
-          left: 20px;
-          top: calc(100vh - 95px);
+          left: 0;
+          top: 0;
           width: ${CAT_WIDTH}px;
           height: ${CAT_HEIGHT}px;
-          z-index: 40;
+          z-index: 10;
           border: 0;
           padding: 0;
           margin: 0;
           background: transparent;
           opacity: 0;
           pointer-events: none !important;
-          transform: scale(.96);
-          transition: opacity .2s ease, transform .2s ease;
+          transform: translate3d(0, 0, 0) scale(.94);
+          transform-origin: center bottom;
+          transition: opacity .35s ease, transform .35s ease;
+          will-change: left, top, transform;
         }
+
         .cute-footer-cat.is-visible {
           opacity: 1;
-          transform: scale(1);
+          transform: translate3d(0, 0, 0) scale(1);
         }
-        .cute-cat-paw { transform-box: fill-box; transform-origin: center; }
-        .cute-cat-puff { animation: cute-puff .75s ease-out both; }
-        @keyframes cute-puff { 0% { opacity: .8; transform: scale(.3); } 100% { opacity: 0; transform: scale(1.5) translateY(-4px); } }
+
+        .cute-cat-body {
+          transform-origin: center bottom;
+          animation: cute-cat-breathe 2.2s ease-in-out infinite;
+        }
+
+        .cute-cat-tail {
+          transform-box: fill-box;
+          transform-origin: 18% 70%;
+          animation: cute-cat-tail 1.8s ease-in-out infinite;
+        }
+
+        .cute-cat-paw {
+          transform-box: fill-box;
+          transform-origin: center top;
+        }
+
+        .cute-cat-walk .cute-cat-paw-left {
+          animation: cute-cat-step-left .42s ease-in-out infinite alternate;
+        }
+
+        .cute-cat-walk .cute-cat-paw-right {
+          animation: cute-cat-step-right .42s ease-in-out infinite alternate;
+        }
+
+        .cute-cat-ear {
+          transform-box: fill-box;
+          transform-origin: bottom center;
+          animation: cute-cat-ear 3.8s ease-in-out infinite;
+        }
+
+        @keyframes cute-cat-breathe {
+          0%, 100% { transform: translateY(0) scaleY(1); }
+          50% { transform: translateY(-1px) scaleY(1.015); }
+        }
+
+        @keyframes cute-cat-tail {
+          0%, 100% { transform: rotate(-4deg); }
+          50% { transform: rotate(13deg); }
+        }
+
+        @keyframes cute-cat-step-left {
+          from { transform: translateY(0) rotate(5deg); }
+          to { transform: translateY(-3px) rotate(-7deg); }
+        }
+
+        @keyframes cute-cat-step-right {
+          from { transform: translateY(-3px) rotate(-7deg); }
+          to { transform: translateY(0) rotate(5deg); }
+        }
+
+        @keyframes cute-cat-ear {
+          0%, 88%, 100% { transform: rotate(0); }
+          92% { transform: rotate(-5deg); }
+          96% { transform: rotate(3deg); }
+        }
+
         @media (prefers-reduced-motion: reduce) {
-          .cute-footer-cat { transition: none; transform: none; }
-          .cute-cat-puff { animation: none; }
+          .cute-footer-cat,
+          .cute-cat-body,
+          .cute-cat-tail,
+          .cute-cat-walk .cute-cat-paw-left,
+          .cute-cat-walk .cute-cat-paw-right,
+          .cute-cat-ear {
+            animation: none;
+            transition: none;
+          }
         }
       `}</style>
+
       <div
         ref={catRef}
         aria-hidden="true"
-        className={`cute-footer-cat ${visible ? "is-visible" : ""}`}
+        className={`cute-footer-cat ${visible ? "is-visible" : ""} ${walking ? "cute-cat-walk" : ""}`}
       >
         <svg width="82" height="74" viewBox="0 0 132 118" fill="none" xmlns="http://www.w3.org/2000/svg">
           <ellipse cx="66" cy="111" rx="35" ry="5" fill="rgba(0,0,0,.2)"/>
-          <path d="M91 57C112 45 126 54 122 69C119 80 109 82 101 75" stroke="#fff" strokeWidth="8" strokeLinecap="round"/>
-          <path d="M91 57C112 45 126 54 122 69C119 80 109 82 101 75" stroke="#172033" strokeWidth="2.4" strokeLinecap="round"/>
-          <path d="M34 57C34 37 46 27 66 27C86 27 98 38 98 58C98 79 85 91 66 91C47 91 34 78 34 57Z" fill="#fff" stroke="#172033" strokeWidth="2.4"/>
-          <path d="M39 43L35 14L57 32Z" fill="#fff" stroke="#172033" strokeWidth="2.4" strokeLinejoin="round"/>
-          <path d="M75 32L97 14L93 44Z" fill="#fff" stroke="#172033" strokeWidth="2.4" strokeLinejoin="round"/>
-          <path d="M41 37L39 23L51 33Z" fill="#f5a9bf"/>
-          <path d="M81 33L94 23L92 38Z" fill="#f5a9bf"/>
-          <ellipse cx="53" cy="56" rx="5" ry="6" fill="#172033"/>
-          <ellipse cx="79" cy="56" rx="5" ry="6" fill="#172033"/>
-          <circle cx="54.5" cy="54" r="1.7" fill="#fff"/>
-          <circle cx="80.5" cy="54" r="1.7" fill="#fff"/>
-          <path d="M63 65L69 65L66 69Z" fill="#ef9fb6" stroke="#172033" strokeWidth="1.1"/>
-          <path d="M66 69C63 73 59 73 57 70M66 69C69 73 73 73 75 70" stroke="#172033" strokeWidth="1.7" strokeLinecap="round"/>
-          <path d="M37 68L18 64M37 74L17 75M95 68L114 64M95 74L116 75" stroke="#172033" strokeWidth="1.2" strokeLinecap="round" opacity=".65"/>
-          <path d="M48 83C47 91 43 96 37 100C45 105 55 106 66 106C77 106 87 105 95 100C89 96 85 91 84 83C79 88 73 91 66 91C59 91 53 88 48 83Z" fill="#fff" stroke="#172033" strokeWidth="2.4"/>
-          <g className="cute-cat-paw">
-            <ellipse cx="47" cy="99" rx="9" ry="11" fill="#fff" stroke="#172033" strokeWidth="2.2"/>
-            <circle cx="43" cy="95" r="1.8" fill="#f2a5ba"/><circle cx="47" cy="93" r="1.8" fill="#f2a5ba"/><circle cx="51" cy="95" r="1.8" fill="#f2a5ba"/>
-          </g>
-          <g className="cute-cat-paw">
-            <ellipse cx="85" cy="99" rx="9" ry="11" fill="#fff" stroke="#172033" strokeWidth="2.2"/>
-            <circle cx="81" cy="95" r="1.8" fill="#f2a5ba"/><circle cx="85" cy="93" r="1.8" fill="#f2a5ba"/><circle cx="89" cy="95" r="1.8" fill="#f2a5ba"/>
+
+          <g className="cute-cat-body">
+            <g className="cute-cat-tail">
+              <path d="M91 57C112 45 126 54 122 69C119 80 109 82 101 75" stroke="#fff" strokeWidth="8" strokeLinecap="round"/>
+              <path d="M91 57C112 45 126 54 122 69C119 80 109 82 101 75" stroke="#172033" strokeWidth="2.4" strokeLinecap="round"/>
+            </g>
+
+            <path d="M34 57C34 37 46 27 66 27C86 27 98 38 98 58C98 79 85 91 66 91C47 91 34 78 34 57Z" fill="#fff" stroke="#172033" strokeWidth="2.4"/>
+
+            <g className="cute-cat-ear">
+              <path d="M39 43L35 14L57 32Z" fill="#fff" stroke="#172033" strokeWidth="2.4" strokeLinejoin="round"/>
+              <path d="M41 37L39 23L51 33Z" fill="#f5a9bf"/>
+            </g>
+            <g className="cute-cat-ear">
+              <path d="M75 32L97 14L93 44Z" fill="#fff" stroke="#172033" strokeWidth="2.4" strokeLinejoin="round"/>
+              <path d="M81 33L94 23L92 38Z" fill="#f5a9bf"/>
+            </g>
+
+            <ellipse cx="53" cy="56" rx="5" ry="6" fill="#172033"/>
+            <ellipse cx="79" cy="56" rx="5" ry="6" fill="#172033"/>
+            <circle cx="54.5" cy="54" r="1.7" fill="#fff"/>
+            <circle cx="80.5" cy="54" r="1.7" fill="#fff"/>
+            <path d="M63 65L69 65L66 69Z" fill="#ef9fb6" stroke="#172033" strokeWidth="1.1"/>
+            <path d="M66 69C63 73 59 73 57 70M66 69C69 73 73 73 75 70" stroke="#172033" strokeWidth="1.7" strokeLinecap="round"/>
+            <path d="M37 68L18 64M37 74L17 75M95 68L114 64M95 74L116 75" stroke="#172033" strokeWidth="1.2" strokeLinecap="round" opacity=".65"/>
+
+            <path d="M48 83C47 91 43 96 37 100C45 105 55 106 66 106C77 106 87 105 95 100C89 96 85 91 84 83C79 88 73 91 66 91C59 91 53 88 48 83Z" fill="#fff" stroke="#172033" strokeWidth="2.4"/>
+
+            <g className="cute-cat-paw cute-cat-paw-left">
+              <ellipse cx="47" cy="99" rx="9" ry="11" fill="#fff" stroke="#172033" strokeWidth="2.2"/>
+              <circle cx="43" cy="95" r="1.8" fill="#f2a5ba"/>
+              <circle cx="47" cy="93" r="1.8" fill="#f2a5ba"/>
+              <circle cx="51" cy="95" r="1.8" fill="#f2a5ba"/>
+            </g>
+            <g className="cute-cat-paw cute-cat-paw-right">
+              <ellipse cx="85" cy="99" rx="9" ry="11" fill="#fff" stroke="#172033" strokeWidth="2.2"/>
+              <circle cx="81" cy="95" r="1.8" fill="#f2a5ba"/>
+              <circle cx="85" cy="93" r="1.8" fill="#f2a5ba"/>
+              <circle cx="89" cy="95" r="1.8" fill="#f2a5ba"/>
+            </g>
           </g>
         </svg>
-        <span className="sr-only">Dekorative Katze im Footer</span>
+        <span className="sr-only">Dekorative, animierte Katze im Footer</span>
       </div>
     </>
   );
