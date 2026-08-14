@@ -1,103 +1,46 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
-:root {
-  --bg: #f5f3ff;
-  --surface: #ffffff;
-  --surface-2: #eeecff;
-  --text: #11112a;
-  --muted: #5f6280;
-  --border: #d9d6f2;
-  --accent: #6366f1;
-  --accent-soft: #e0e7ff;
-  --section-warm: #f5f3ff;
-  --section-cool: #f1f3ff;
-}
-
-.dark {
-  --bg: #050711;
-  --surface: #0b0d1a;
-  --surface-2: #11142a;
-  --text: #f4f4ff;
-  --muted: #a5aac8;
-  --border: #292e52;
-  --accent: #6366f1;
-  --accent-soft: #312e81;
-  --section-warm: #0b0d1b;
-  --section-cool: #080b17;
-}
-
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; overflow-x: clip; }
-body { margin: 0; background: var(--bg); color: var(--text); font-family: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; text-rendering: optimizeLegibility; overflow-x: hidden; }
-code, pre, .font-mono { font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
-a { color: inherit; text-decoration: none; -webkit-tap-highlight-color: transparent; }
-button, a, input { touch-action: manipulation; }
-::selection { background: var(--accent-soft); color: var(--text); }
-
-.container { width: min(1160px, calc(100% - 32px)); margin-inline: auto; }
-.grid-bg { background-image: linear-gradient(to right, color-mix(in srgb, var(--border) 48%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in srgb, var(--border) 48%, transparent) 1px, transparent 1px); background-size: 44px 44px; }
-.hero-glow { background-image: radial-gradient(circle at 72% 4%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 34%), linear-gradient(to right, color-mix(in srgb, var(--border) 48%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in srgb, var(--border) 48%, transparent) 1px, transparent 1px); background-size: auto, 44px 44px, 44px 44px; }
-
-main > section:nth-of-type(2) { background: var(--section-warm); }
-main > section:nth-of-type(3) { background: var(--bg); }
-main > section:nth-of-type(4) { background: var(--section-cool); }
-main > section:nth-of-type(2), main > section:nth-of-type(3), main > section:nth-of-type(4) { position: relative; }
-main > section:nth-of-type(2)::before, main > section:nth-of-type(4)::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at 8% 20%, color-mix(in srgb, var(--accent) 6%, transparent), transparent 28%); }
-
-.hero-glow .container > div:nth-child(2) .p-5 > * { display: none; }
-.hero-glow .container > div:nth-child(2) .p-5::before {
-  content: "$ whoami\A joscha\A\A$ id\A uid=1000(joscha) gid=1000(joscha) groups=1000(joscha),27(sudo)\A\A$ uname -sr\A Linux 6.12.0 x86_64\A\A$ hostnamectl --static\A linux\A\A$ ip -br addr\A lo       UNKNOWN        127.0.0.1/8\A eth0     UP             192.168.1.42/24\A\A$ ss -tulpen\A Netid State  Local Address:Port\A tcp   LISTEN 0.0.0.0:22\A tcp   LISTEN 0.0.0.0:443\A\A$ _";
-  display: block;
-  white-space: pre-wrap;
-  color: var(--muted);
-  line-height: 1.75;
-}
-
-footer > .container > div:first-child { display: none; }
-
-footer {
-  position: relative;
-  z-index: 10;
-  isolation: isolate;
-  pointer-events: auto;
-}
-footer .container {
-  position: relative;
-  z-index: 20;
-  pointer-events: auto;
-}
-footer a,
-footer button,
-footer input,
-footer form {
-  position: relative;
-  z-index: 30;
-  pointer-events: auto;
-}
-footer .footer-cat-live,
-.cute-footer-cat {
-  pointer-events: none !important;
-}
-.cute-footer-cat { z-index: 40 !important; }
-
-.prose { line-height: 1.75; color: var(--muted); }
-.prose h2, .prose h3 { color: var(--text); margin-top: 2rem; }
-.prose code { border: 1px solid var(--border); background: var(--surface-2); padding: .15rem .35rem; border-radius: .35rem; }
-.prose pre { max-width: 100%; overflow-x: auto; }
-
-@media (max-width: 640px) {
-  .container { width: calc(100% - 24px); }
-  main > section:nth-of-type(2) { background: var(--section-warm); }
-  main > section:nth-of-type(4) { background: var(--section-cool); }
-  h1, h2, h3 { overflow-wrap: anywhere; }
-  .prose { font-size: .98rem; }
-  .prose pre { margin-inline: 0; border-radius: .75rem; }
-  footer .container { padding-top: 2rem; padding-bottom: 2rem; }
-  footer .grid { min-width: 0; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  main a:not(.no-liquid), main button:not(.no-liquid) { animation: none !important; transition: none !important; }
-}
+:root { --bg:#f5f3ff; --surface:#fff; --surface-2:#eeecff; --text:#11112a; --muted:#5f6280; --border:#d9d6f2; --accent:#6366f1; --accent-soft:#e0e7ff; --section-warm:#f5f3ff; --section-cool:#f1f3ff; }
+.dark { --bg:#050711; --surface:#0b0d1a; --surface-2:#11142a; --text:#f4f4ff; --muted:#a5aac8; --border:#292e52; --accent:#6366f1; --accent-soft:#312e81; --section-warm:#0b0d1b; --section-cool:#080b17; }
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; overflow-x:clip; }
+body { margin:0; background:var(--bg); color:var(--text); font-family:"Inter",ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; text-rendering:optimizeLegibility; overflow-x:hidden; }
+code,pre,.font-mono { font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; }
+a { color:inherit; text-decoration:none; -webkit-tap-highlight-color:transparent; }
+button,a,input { touch-action:manipulation; }
+::selection { background:var(--accent-soft); color:var(--text); }
+.container { width:min(1160px,calc(100% - 32px)); margin-inline:auto; }
+.grid-bg { background-image:linear-gradient(to right,color-mix(in srgb,var(--border) 48%,transparent) 1px,transparent 1px),linear-gradient(to bottom,color-mix(in srgb,var(--border) 48%,transparent) 1px,transparent 1px); background-size:44px 44px; }
+.hero-glow { isolation:isolate; background-image:radial-gradient(circle at 72% 4%,color-mix(in srgb,var(--accent) 18%,transparent),transparent 34%),linear-gradient(to right,color-mix(in srgb,var(--border) 48%,transparent) 1px,transparent 1px),linear-gradient(to bottom,color-mix(in srgb,var(--border) 48%,transparent) 1px,transparent 1px); background-size:auto,44px 44px,44px 44px; }
+.hero-glow::after { content:""; position:absolute; inset:0; pointer-events:none; opacity:.55; background:radial-gradient(circle at 80% 55%,color-mix(in srgb,var(--accent) 9%,transparent),transparent 24%); mask-image:linear-gradient(to bottom,transparent,black 18%,black 82%,transparent); z-index:-1; }
+.hero-glow h1 { text-wrap:balance; }
+.hero-glow .container > div:first-child { position:relative; }
+.hero-glow .container > div:first-child::before { content:"SYSTEM / HUMAN / SECURITY"; position:absolute; top:-2rem; right:0; font-family:"JetBrains Mono",monospace; font-size:9px; letter-spacing:.18em; color:var(--muted); opacity:.65; }
+.hero-glow .container > div:nth-child(2) > div { position:relative; box-shadow:0 28px 80px color-mix(in srgb,#000 32%,transparent); }
+.hero-glow .container > div:nth-child(2) > div::after { content:""; position:absolute; left:0; right:0; top:42px; height:1px; background:color-mix(in srgb,var(--accent) 35%,transparent); animation:hero-scan 4.6s ease-in-out infinite; }
+.hero-glow .container > div:nth-child(2) .p-5 { position:relative; }
+.hero-glow .container > div:nth-child(2) .p-5::before { content:"$ whoami\\A joscha\\A\\A$ profile --mode=security\\A FULL STACK / OSINT / WEB SECURITY\\A\\A$ status\\A [ONLINE] analysis ready\\A [READY] scoped security review\\A [READY] open source tooling\\A\\A$ _"; display:block; white-space:pre-wrap; color:var(--muted); line-height:1.85; }
+.hero-glow .container > div:nth-child(2) .p-5 > * { display:none; }
+main > section { scroll-margin-top:5rem; }
+main > section:nth-of-type(2) { background:var(--section-warm); }
+main > section:nth-of-type(3) { background:var(--bg); }
+main > section:nth-of-type(4) { background:var(--section-cool); }
+main > section:nth-of-type(2),main > section:nth-of-type(3),main > section:nth-of-type(4) { position:relative; }
+main > section:nth-of-type(2)::before,main > section:nth-of-type(4)::before { content:""; position:absolute; inset:0; pointer-events:none; background:radial-gradient(circle at 8% 20%,color-mix(in srgb,var(--accent) 6%,transparent),transparent 28%); }
+main article { transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .35s ease,background-color .35s ease,box-shadow .35s ease; }
+main article:hover { box-shadow:0 18px 45px color-mix(in srgb,#000 15%,transparent); }
+main a:focus-visible,main button:focus-visible,footer a:focus-visible,footer button:focus-visible,footer input:focus-visible { outline:2px solid var(--accent); outline-offset:4px; }
+footer { position:relative; z-index:10; isolation:isolate; pointer-events:auto; background:var(--bg); }
+footer::before { content:""; position:absolute; inset:0; pointer-events:none; background:radial-gradient(circle at 85% 18%,color-mix(in srgb,var(--accent) 11%,transparent),transparent 25%),linear-gradient(to bottom,color-mix(in srgb,var(--surface) 45%,transparent),transparent 65%); }
+footer .container { position:relative; z-index:20; pointer-events:auto; }
+footer a,footer button,footer input,footer form { position:relative; z-index:30; pointer-events:auto; }
+footer .footer-cat-live,.cute-footer-cat { pointer-events:none!important; }
+.cute-footer-cat { z-index:40!important; }
+.prose { line-height:1.75; color:var(--muted); }
+.prose h2,.prose h3 { color:var(--text); margin-top:2rem; }
+.prose code { border:1px solid var(--border); background:var(--surface-2); padding:.15rem .35rem; border-radius:.35rem; }
+.prose pre { max-width:100%; overflow-x:auto; }
+@keyframes hero-scan { 0%,100% { transform:translateY(0); opacity:.15; } 50% { transform:translateY(260px); opacity:.55; } }
+@media (max-width:640px) { .container{width:calc(100% - 24px);} h1,h2,h3{overflow-wrap:anywhere;} .prose{font-size:.98rem;} .prose pre{margin-inline:0;border-radius:.75rem;} footer .container{padding-top:2rem;padding-bottom:2rem;} footer .grid{min-width:0;} .hero-glow .container > div:first-child::before{position:static;display:block;margin-bottom:1.25rem;} }
+@media (prefers-reduced-motion:reduce) { html{scroll-behavior:auto;} main a,main button,main article,footer a,footer button{animation:none!important;transition:none!important;} .hero-glow::after,.hero-glow .container > div:nth-child(2) > div::after{animation:none!important;} }
