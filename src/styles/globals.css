@@ -56,6 +56,27 @@ main > section:nth-of-type(2)::before, main > section:nth-of-type(4)::before { c
 /* Webentwicklung wird auf der Startseite prominent gezeigt; im Footer bleibt nur der eigentliche Footer Inhalt. */
 footer > .container > div:first-child { display: none; }
 
+/* Flüssiger Button Effekt: leichtes Verformen, Glanz und organische Bewegung beim Hover. */
+main a:not(.no-liquid), main button:not(.no-liquid) {
+  transform-origin: center;
+  transition: transform 220ms cubic-bezier(.22, 1, .36, 1), border-radius 360ms ease, box-shadow 360ms ease, background-position 500ms ease;
+}
+
+main a:not(.no-liquid):hover, main button:not(.no-liquid):hover {
+  transform: translateY(-2px) scale(1.015) rotate(-0.25deg);
+  border-radius: 46% 54% 51% 49% / 52% 45% 55% 48%;
+  background-image: radial-gradient(circle at 20% 20%, rgba(255, 70, 70, .20), transparent 34%), radial-gradient(circle at 80% 70%, rgba(255, 20, 35, .14), transparent 38%);
+  background-size: 150% 150%;
+  box-shadow: 0 8px 30px rgba(255, 30, 45, .10), inset 0 0 20px rgba(255, 60, 60, .05);
+  animation: liquid-button 1.8s ease-in-out infinite alternate;
+}
+
+@keyframes liquid-button {
+  0% { border-radius: 46% 54% 51% 49% / 52% 45% 55% 48%; background-position: 0% 20%; }
+  50% { border-radius: 54% 46% 47% 53% / 45% 56% 44% 55%; background-position: 70% 60%; }
+  100% { border-radius: 49% 51% 55% 45% / 57% 46% 54% 43%; background-position: 100% 20%; }
+}
+
 .prose { line-height: 1.75; color: var(--muted); }
 .prose h2, .prose h3 { color: var(--text); margin-top: 2rem; }
 .prose code { border: 1px solid var(--border); background: var(--surface-2); padding: .15rem .35rem; border-radius: .35rem; }
@@ -67,4 +88,5 @@ footer > .container > div:first-child { display: none; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  main a:not(.no-liquid), main button:not(.no-liquid) { animation: none !important; transition: none !important; }
 }
