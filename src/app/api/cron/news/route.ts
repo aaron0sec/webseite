@@ -20,6 +20,6 @@ export async function GET(request: Request) {
     ok: true,
     refreshed: items.length,
     refreshedAt,
-    nextExpectedRun: new Date(Date.now() + 15 * 60 * 1000).toISOString(),
+    nextExpectedRun: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
   });
 }
