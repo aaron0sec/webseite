@@ -73,7 +73,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
     author: { "@type": "Person", name: "Joscha Aaron Schmidt", url: "https://linuxaaron.dpdns.org" },
     publisher: { "@type": "Person", name: "Joscha Aaron Schmidt" },
     mainEntityOfPage: `https://linuxaaron.dpdns.org/blog/${slug}`,
-    inLanguage: "de-DE",
+    inLanguage: "de DE",
   };
 
   return <main className="container py-20 sm:py-28"><article className="mx-auto max-w-3xl"><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} /><div className="font-mono text-xs text-[var(--muted)]"><span>{frontmatter.date}</span> · <span className="text-[var(--accent)]">{frontmatter.category}</span></div><h1 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">{frontmatter.title}</h1><div className="mt-10">{renderMarkdown(body)}</div></article></main>;

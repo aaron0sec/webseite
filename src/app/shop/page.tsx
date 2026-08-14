@@ -3,7 +3,7 @@ import { ArrowRight, Check, FileText, Globe, ShieldCheck, Terminal } from "lucid
 
 export const metadata: Metadata = {
   title: "Shop – Linux Aaron Security & Web Services",
-  description: "Digitale Security-Ressourcen sowie professionelle Webentwicklung und Hosting von Linux Aaron.",
+  description: "Digitale Security Ressourcen sowie professionelle Webentwicklung und Hosting von Linux Aaron.",
 };
 
 const fieldManualCheckoutUrl = "https://schmidt.lemonsqueezy.com/checkout/buy/d5b413c9-1901-4189-b4c9-108fd68e2dce";
@@ -11,10 +11,10 @@ const cyberSecurityStartCheckoutUrl = "https://schmidt.lemonsqueezy.com/checkout
 
 const fieldManualContents = [
   "Linux-Systemcheck und Hardening",
-  "Netzwerk-, Prozess- und Log-Analyse",
+  "Netzwerk-, Prozess- und Log Analyse",
   "OSINT-Workflows und digitale Recherche",
-  "Web-Security-Quickcheck",
-  "Incident-Response-Kurzcheck",
+  "Web Security-Quickcheck",
+  "Incident Response-Kurzcheck",
   "Checklisten und Command Reference",
 ];
 
@@ -37,7 +37,7 @@ const websitePackages = [
       "Individuelles modernes Design",
       "Responsive für Smartphone, Tablet und Desktop",
       "Hero-, Leistungs-, Über-uns- und Kontaktbereiche",
-      "Basis-SEO und saubere technische Struktur",
+      "SEO Grundlagen und saubere technische Struktur",
       "Performance- und Security-Basischecks",
       "Deployment und Übergabe",
       "2 Korrekturrunden",
@@ -53,7 +53,7 @@ const websitePackages = [
       "Bis zu 5 Unterseiten",
       "Individuelle Navigation und Seitenstruktur",
       "Kontaktformular nach vereinbartem Umfang",
-      "Basis-SEO für die wichtigsten Seiten",
+      "SEO Grundlagen für die wichtigsten Seiten",
       "Performance- und Security-Basischecks",
       "3 Korrekturrunden",
     ],
@@ -68,7 +68,7 @@ const websitePackages = [
       "Bis zu 10 Seiten",
       "Individuelle Funktionen nach Absprache",
       "Technische Optimierung",
-      "Erweiterte SEO-Basis",
+      "Erweiterte SEO Grundlagen",
       "Performance- und Security-Basischecks",
       "4 Korrekturrunden",
     ],
@@ -82,8 +82,8 @@ export default function ShopPage() {
         <div className="container max-w-6xl">
           <p className="font-mono text-xs tracking-[0.2em] text-[var(--accent)]">DIGITAL PRODUCTS · WEBENTWICKLUNG · CYBERSECURITY</p>
           <div className="mt-5 max-w-3xl">
-            <h1 className="text-4xl font-semibold tracking-tight sm:text-6xl">Technische Lösungen ohne unnötigen Agentur-Aufschlag.</h1>
-            <p className="mt-6 text-lg leading-8 text-[var(--muted)]">Professionelle Websites, technische Security-Ressourcen und Hosting zu transparenten, fair kalkulierten Preisen.</p>
+            <h1 className="text-4xl font-semibold tracking-tight sm:text-6xl">Technische Lösungen ohne unnötigen Agentur Aufschlag.</h1>
+            <p className="mt-6 text-lg leading-8 text-[var(--muted)]">Professionelle Websites, technische Security Ressourcen und Hosting zu transparenten, fair kalkulierten Preisen.</p>
           </div>
         </div>
       </section>
@@ -138,9 +138,9 @@ export default function ShopPage() {
                 <li className="flex gap-3"><Check className="mt-0.5 shrink-0 text-[var(--accent)]" size={17} /><span>Deployment und technischer Betrieb</span></li>
                 <li className="flex gap-3"><Check className="mt-0.5 shrink-0 text-[var(--accent)]" size={17} /><span>HTTPS/SSL</span></li>
                 <li className="flex gap-3"><Check className="mt-0.5 shrink-0 text-[var(--accent)]" size={17} /><span>Technische Basiswartung im vereinbarten Umfang</span></li>
-                <li className="flex gap-3"><Check className="mt-0.5 shrink-0 text-[var(--accent)]" size={17} /><span>Kein eigenes Hosting-Setup beim Kunden erforderlich</span></li>
+                <li className="flex gap-3"><Check className="mt-0.5 shrink-0 text-[var(--accent)]" size={17} /><span>Kein eigenes Hosting Setup beim Kunden erforderlich</span></li>
               </ul>
-              <p className="mt-5 text-xs leading-5 text-[var(--muted)]">Domainregistrierung, kostenpflichtige Drittanbieter-Dienste, umfangreiche Änderungen und zusätzliche Entwicklungsleistungen sind nicht automatisch enthalten und werden vorab vereinbart.</p>
+              <p className="mt-5 text-xs leading-5 text-[var(--muted)]">Domainregistrierung, kostenpflichtige Drittanbieter Dienste, umfangreiche Änderungen und zusätzliche Entwicklungsleistungen sind nicht automatisch enthalten und werden vorab vereinbart.</p>
             </article>
 
             <article className="rounded-3xl border border-[var(--border)] bg-[var(--surface-2)] p-7 sm:p-8">
@@ -162,8 +162,8 @@ export default function ShopPage() {
         <div className="container max-w-6xl">
           <div className="mb-8 max-w-3xl">
             <p className="font-mono text-xs tracking-[0.18em] text-[var(--accent)]">DIGITALE PRODUKTE</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Security-Wissen, das du benutzen kannst.</h2>
-            <p className="mt-4 leading-7 text-[var(--muted)]">Vom verständlichen Einstieg bis zur technischen Arbeitsunterlage: Wähle den passenden Einstieg in die Security-Welt von Linux Aaron.</p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Security Wissen, das du benutzen kannst.</h2>
+            <p className="mt-4 leading-7 text-[var(--muted)]">Vom verständlichen Einstieg bis zur technischen Arbeitsunterlage: Wähle den passenden Einstieg in die Security Welt von Linux Aaron.</p>
           </div>
           <div className="grid gap-6 lg:grid-cols-2">
             <article className="flex flex-col rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-7 sm:p-8">
@@ -173,7 +173,7 @@ export default function ShopPage() {
                   <h3 className="text-2xl font-semibold sm:text-3xl">Cybersecurity Start</h3>
                   <p className="text-4xl font-bold tracking-tight sm:text-5xl">14,99 €</p>
                 </div>
-                <p className="mt-4 leading-7 text-[var(--muted)]">Das E-Book für alle, die Cybersecurity systematisch verstehen und sich Schritt für Schritt ein solides Fundament aufbauen möchten.</p>
+                <p className="mt-4 leading-7 text-[var(--muted)]">Das E Book für alle, die Cybersecurity systematisch verstehen und sich Schritt für Schritt ein solides Fundament aufbauen möchten.</p>
               </div>
               <ul className="mt-7 grid gap-3">
                 {ebookContents.map((item) => (<li key={item} className="flex gap-3 text-sm leading-6"><Check className="mt-0.5 shrink-0 text-[var(--accent)]" size={17} /><span>{item}</span></li>))}
@@ -188,7 +188,7 @@ export default function ShopPage() {
                   <h3 className="text-2xl font-semibold sm:text-3xl">Linux Security Field Manual</h3>
                   <p className="text-4xl font-bold tracking-tight sm:text-5xl">29,00 €</p>
                 </div>
-                <p className="mt-4 leading-7 text-[var(--muted)]">Eine technische Arbeitsunterlage für Linux, OSINT und Security-Analyse. Nicht nur lesen – prüfen, einordnen und dokumentieren.</p>
+                <p className="mt-4 leading-7 text-[var(--muted)]">Eine technische Arbeitsunterlage für Linux, OSINT und Security Analyse. Nicht nur lesen – prüfen, einordnen und dokumentieren.</p>
               </div>
               <ul className="mt-7 grid gap-3">
                 {fieldManualContents.map((item) => (<li key={item} className="flex gap-3 text-sm leading-6"><Check className="mt-0.5 shrink-0 text-[var(--accent)]" size={17} /><span>{item}</span></li>))}
@@ -202,7 +202,7 @@ export default function ShopPage() {
       <section className="border-b border-[var(--border)] py-16 sm:py-20">
         <div className="container max-w-6xl">
           <div className="grid gap-5 md:grid-cols-3">
-            <article className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6"><Terminal className="text-[var(--accent)]" size={22} /><h2 className="mt-6 text-xl font-semibold">Praxis statt Buzzwords</h2><p className="mt-3 text-sm leading-6 text-[var(--muted)]">Konkrete Inhalte und nachvollziehbare Arbeitsweisen statt leerer Security-Begriffe.</p></article>
+            <article className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6"><Terminal className="text-[var(--accent)]" size={22} /><h2 className="mt-6 text-xl font-semibold">Praxis statt Buzzwords</h2><p className="mt-3 text-sm leading-6 text-[var(--muted)]">Konkrete Inhalte und nachvollziehbare Arbeitsweisen statt leerer Security Begriffe.</p></article>
             <article className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6"><ShieldCheck className="text-[var(--accent)]" size={22} /><h2 className="mt-6 text-xl font-semibold">Defensiv und nachvollziehbar</h2><p className="mt-3 text-sm leading-6 text-[var(--muted)]">Die Inhalte legen Wert auf Scope, Einordnung, Dokumentation und sichere Praxis.</p></article>
             <article className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6"><FileText className="text-[var(--accent)]" size={22} /><h2 className="mt-6 text-xl font-semibold">Digitale Arbeitsunterlagen</h2><p className="mt-3 text-sm leading-6 text-[var(--muted)]">Für Lernen, Nachschlagen und die praktische Arbeit am eigenen System.</p></article>
           </div>

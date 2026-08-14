@@ -26,7 +26,7 @@ export default function LegalNotice() {
           </p>
 
           <p>
-            Sicherheitsprüfungen, Penetrationstests, OSINT-Untersuchungen oder
+            Sicherheitsprüfungen, Penetrationstests, OSINT Untersuchungen oder
             sonstige Zugriffe auf Systeme und Daten dürfen ausschließlich mit
             ausdrücklicher Genehmigung des jeweiligen Eigentümers und innerhalb
             eines klar definierten und vereinbarten Scopes durchgeführt werden.

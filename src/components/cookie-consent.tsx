@@ -44,9 +44,9 @@ export function CookieConsent() {
             <h2 className="font-semibold text-[var(--text)]">Cookies &amp; Datenschutz</h2>
           </div>
           <p id="cookie-consent-description" className="mt-2 text-sm leading-6 text-[var(--muted)]">
-            Diese Website verwendet keine eigenen Werbe- oder Tracking-Cookies. Technisch notwendige
+            Diese Website verwendet keine eigenen Werbe- oder Tracking Cookies. Technisch notwendige
             Cookies können durch Hosting- und Sicherheitsdienste wie Cloudflare gesetzt werden.
-            Optionale Analyse- oder Marketing-Cookies werden derzeit nicht eingesetzt.
+            Optionale Analyse- oder Marketing Cookies werden derzeit nicht eingesetzt.
           </p>
           <p className="mt-2 text-xs leading-5 text-[var(--muted)]">
             Mehr Informationen findest du in der <a href="/datenschutz" className="text-[var(--accent)] hover:underline">Datenschutzerklärung</a>.

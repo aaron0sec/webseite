@@ -11,7 +11,7 @@ export default function Impressum() {
     <main className="container py-20 sm:py-28">
       <article className="prose max-w-3xl">
         <h1>Impressum</h1>
-        <p><strong>Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG)</strong></p>
+        <p><strong>Angaben gemäß § 5 Digitale Dienste Gesetz (DDG)</strong></p>
 
         <h2>Diensteanbieter</h2>
         <p>
@@ -23,10 +23,10 @@ export default function Impressum() {
 
         <h2>Kontakt</h2>
         <p>
-          E-Mail: <a href="mailto:joschaschmidt@mail.de">joschaschmidt@mail.de</a>
+          E Mail: <a href="mailto:joschaschmidt@mail.de">joschaschmidt@mail.de</a>
         </p>
 
-        <h2>Verantwortlich für journalistisch-redaktionelle Inhalte</h2>
+        <h2>Verantwortlich für journalistisch redaktionelle Inhalte</h2>
         <p><strong>Verantwortlich gemäß § 18 Abs. 2 Medienstaatsvertrag (MStV):</strong></p>
         <p>
           Joscha Aaron Schmidt<br />
@@ -35,12 +35,12 @@ export default function Impressum() {
           Deutschland
         </p>
 
-        <h2>Umsatzsteuer-Identifikationsnummer</h2>
+        <h2>Umsatzsteuer Identifikationsnummer</h2>
         <p>
-          Eine Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG oder eine
-          Wirtschafts-Identifikationsnummer gemäß § 139c AO wird nur angegeben, sofern eine solche
+          Eine Umsatzsteuer Identifikationsnummer gemäß § 27a UStG oder eine
+          Wirtschafts Identifikationsnummer gemäß § 139c AO wird nur angegeben, sofern eine solche
           Nummer tatsächlich vorhanden ist. Die persönliche steuerliche Identifikationsnummer
-          (Steuer-ID) wird nicht veröffentlicht.
+          (Steuer ID) wird nicht veröffentlicht.
         </p>
 
         <h2>Verbraucherstreitbeilegung</h2>
