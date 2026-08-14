@@ -56,6 +56,15 @@ main > section:nth-of-type(2)::before, main > section:nth-of-type(4)::before { c
 /* Webentwicklung wird auf der Startseite prominent gezeigt; im Footer bleibt nur der eigentliche Footer Inhalt. */
 footer > .container > div:first-child { display: none; }
 
+/* Footer navigation must remain interactive above decorative effects. */
+footer,
+footer .container,
+footer a,
+footer button { pointer-events: auto; }
+footer a,
+footer button { position: relative; z-index: 30; }
+footer > .container { position: relative; z-index: 20; }
+
 /* Alte rote Hover Animation entfernt. Wasser Effekte werden ausschließlich über CursorLiquid gesteuert. */
 
 .prose { line-height: 1.75; color: var(--muted); }
