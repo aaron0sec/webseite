@@ -24,16 +24,14 @@ export function SiteFooter() {
     const cat = catRef.current;
     if (!footer || !cat) return;
 
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     let frame = 0;
-    let active = false;
-    let idleTime = 0;
+    let lastPointerAt = 0;
+    let idleTarget = { x: 0, y: 0 };
     const catWidth = 150;
     const catHeight = 125;
     const padding = 12;
-    const idleTarget = { x: 0, y: 0 };
 
     const getBounds = () => {
       const rect = footer.getBoundingClientRect();
@@ -44,72 +42,59 @@ export function SiteFooter() {
       };
     };
 
-    const setTargetFromPoint = (clientX: number, clientY: number) => {
+    const moveToPoint = (clientX: number, clientY: number) => {
       const { rect, maxX, maxY } = getBounds();
-      target.current.x = Math.max(
-        padding,
-        Math.min(maxX, clientX - rect.left - catWidth / 2),
-      );
-      target.current.y = Math.max(
-        padding,
-        Math.min(maxY, clientY - rect.top - catHeight / 2),
-      );
-      idleTime = 0;
+      target.current.x = Math.max(padding, Math.min(maxX, clientX - rect.left - catWidth / 2));
+      target.current.y = Math.max(padding, Math.min(maxY, clientY - rect.top - catHeight / 2));
+      lastPointerAt = performance.now();
     };
 
     const onPointerMove = (event: PointerEvent) => {
       const { rect } = getBounds();
-      const inside =
-        event.clientX >= rect.left &&
-        event.clientX <= rect.right &&
-        event.clientY >= rect.top &&
-        event.clientY <= rect.bottom;
+      if (
+        event.clientX < rect.left || event.clientX > rect.right ||
+        event.clientY < rect.top || event.clientY > rect.bottom
+      ) return;
 
-      if (!inside) {
-        active = false;
-        return;
+      // Works for mouse, pen and touch. On phones this fires while the finger moves.
+      moveToPoint(event.clientX, event.clientY);
+    };
+
+    const onPointerDown = (event: PointerEvent) => {
+      const { rect } = getBounds();
+      if (
+        event.clientX >= rect.left && event.clientX <= rect.right &&
+        event.clientY >= rect.top && event.clientY <= rect.bottom
+      ) {
+        moveToPoint(event.clientX, event.clientY);
       }
-
-      active = event.pointerType !== "touch";
-      setTargetFromPoint(event.clientX, event.clientY);
-    };
-
-    const onPointerEnter = () => {
-      active = true;
-    };
-
-    const onPointerLeave = () => {
-      active = false;
-      idleTime = 0;
     };
 
     const chooseIdleTarget = () => {
       const { maxX, maxY } = getBounds();
-      idleTarget.x = padding + Math.random() * Math.max(1, maxX - padding);
-      idleTarget.y = padding + Math.random() * Math.max(1, maxY - padding);
+      idleTarget = {
+        x: padding + Math.random() * Math.max(1, maxX - padding),
+        y: padding + Math.random() * Math.max(1, maxY - padding),
+      };
     };
 
     const animate = () => {
-      idleTime += 1;
+      const now = performance.now();
 
-      // On touch devices there is no permanent cursor, so the cat wanders gently.
-      // Touch movement can still take control immediately when the user drags.
-      if (!active && idleTime > 180) {
-        const idleDx = idleTarget.x - target.current.x;
-        const idleDy = idleTarget.y - target.current.y;
-        if (Math.abs(idleDx) < 8 && Math.abs(idleDy) < 8) chooseIdleTarget();
-        target.current.x += (idleTarget.x - target.current.x) * 0.012;
-        target.current.y += (idleTarget.y - target.current.y) * 0.012;
+      // On touch devices there is no cursor to follow. After a short pause,
+      // let the cat wander slowly through the footer by itself.
+      if (now - lastPointerAt > 1800) {
+        const dx = idleTarget.x - target.current.x;
+        const dy = idleTarget.y - target.current.y;
+        if (Math.abs(dx) < 10 && Math.abs(dy) < 10) chooseIdleTarget();
+        target.current.x += (idleTarget.x - target.current.x) * 0.008;
+        target.current.y += (idleTarget.y - target.current.y) * 0.008;
       }
 
       const dx = target.current.x - current.current.x;
       const dy = target.current.y - current.current.y;
-
-      velocity.current.x += dx * 0.085;
-      velocity.current.y += dy * 0.085;
-      velocity.current.x *= 0.78;
-      velocity.current.y *= 0.78;
-
+      velocity.current.x = (velocity.current.x + dx * 0.09) * 0.76;
+      velocity.current.y = (velocity.current.y + dy * 0.09) * 0.76;
       current.current.x += velocity.current.x;
       current.current.y += velocity.current.y;
 
@@ -119,35 +104,27 @@ export function SiteFooter() {
 
       const speed = Math.hypot(velocity.current.x, velocity.current.y);
       const tilt = Math.max(-10, Math.min(10, velocity.current.x * 0.65));
-      const scale = 0.97 + Math.min(speed / 80, 0.03);
+      const scale = 0.98 + Math.min(speed / 100, 0.02);
       cat.style.transform = `translate3d(${current.current.x}px, ${current.current.y}px, 0) rotate(${tilt}deg) scale(${scale})`;
+
       frame = requestAnimationFrame(animate);
     };
 
     const rect = footer.getBoundingClientRect();
-    current.current.x = Math.max(padding, Math.min(260, rect.width * 0.12));
+    current.current.x = Math.max(padding, Math.min(rect.width - catWidth - padding, 20));
     current.current.y = Math.max(padding, rect.height - catHeight - padding);
     target.current.x = current.current.x;
     target.current.y = current.current.y;
+    lastPointerAt = performance.now();
     chooseIdleTarget();
 
-    footer.addEventListener("pointerenter", onPointerEnter, { passive: true });
-    footer.addEventListener("pointerleave", onPointerLeave, { passive: true });
     window.addEventListener("pointermove", onPointerMove, { passive: true });
-    footer.addEventListener("touchmove", (event) => {
-      const touch = event.touches[0];
-      if (touch) {
-        active = true;
-        setTargetFromPoint(touch.clientX, touch.clientY);
-      }
-    }, { passive: true });
-
+    window.addEventListener("pointerdown", onPointerDown, { passive: true });
     frame = requestAnimationFrame(animate);
 
     return () => {
-      footer.removeEventListener("pointerenter", onPointerEnter);
-      footer.removeEventListener("pointerleave", onPointerLeave);
       window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointerdown", onPointerDown);
       cancelAnimationFrame(frame);
     };
   }, []);
@@ -169,17 +146,11 @@ export function SiteFooter() {
       window.clearTimeout(timeout);
 
       let data: { ok?: boolean; message?: string } = {};
-      try {
-        data = await response.json();
-      } catch {
-        // Server returned no JSON; use the HTTP status below.
-      }
-
+      try { data = await response.json(); } catch { /* ignore invalid JSON */ }
       if (!response.ok) {
         setMessage(data.message || `Die Newsletter-Anmeldung konnte nicht verarbeitet werden (HTTP ${response.status}).`);
         return;
       }
-
       setMessage(data.message || "Bitte prüfe dein Postfach.");
       if (data.ok) setEmail("");
     } catch (error) {
@@ -200,7 +171,7 @@ export function SiteFooter() {
 
   return (
     <footer ref={footerRef} className="relative overflow-hidden border-t border-[var(--border)]">
-      <div ref={catRef} aria-hidden="true" className="footer-cat-live pointer-events-none absolute left-0 top-0 z-10 block will-change-transform">
+      <div ref={catRef} aria-hidden="true" className="footer-cat-live pointer-events-none absolute left-0 top-0 z-40 block will-change-transform">
         <svg width="150" height="115" viewBox="0 0 150 115" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-[0_12px_20px_rgba(0,0,0,0.35)]">
           <ellipse cx="74" cy="103" rx="45" ry="7" fill="rgba(0,0,0,0.32)"/>
           <path d="M105 60C131 48 143 61 137 78C134 88 124 88 119 81" stroke="#fff" strokeWidth="9" strokeLinecap="round"/>
@@ -253,19 +224,17 @@ export function SiteFooter() {
           <p className="mt-3 max-w-xl text-[11px] leading-5 text-[var(--muted)]">Nur Newsletter-Versand · Double-Opt-in · jederzeit abmeldbar · <a href="/datenschutz" className="underline underline-offset-2">Datenschutz</a></p>
         </div>
 
-        <div className="mb-8 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-6">
-          <p className="font-mono text-xs tracking-[0.18em] text-[var(--accent)]">PRIVACY · FREIES INTERNET</p>
-          <h2 className="mt-2 text-lg font-semibold text-[var(--text)]">Ich unterstütze das Tor Project</h2>
-          <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--muted)]">Für ein freies Internet und digitale Privatsphäre. Das Tor Project entwickelt freie und quelloffene Technologien, die Menschen helfen, ihre Privatsphäre zu schützen, Überwachung zu erschweren und Zensur zu umgehen.</p>
-          <a href="https://www.torproject.org/de/" target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-[var(--accent)] hover:underline">Zum Tor Project <ExternalLink size={15}/></a>
+        <div className="grid gap-8 border-t border-[var(--border)] pt-8 sm:grid-cols-2 lg:grid-cols-4">
+          <div><p className="font-semibold">Linux Aaron</p><p className="mt-2 text-sm text-[var(--muted)]">IT, Linux, Cybersecurity, OSINT und Webentwicklung.</p></div>
+          <div><p className="font-semibold">Navigation</p><div className="mt-2 grid gap-1 text-sm text-[var(--muted)]"><a href="/">Startseite</a><a href="/ueber-mich">Über mich</a><a href="/projekte">Projekte</a><a href="/blog">Blog</a><a href="/news">Cyber News</a></div></div>
+          <div><p className="font-semibold">Angebot</p><div className="mt-2 grid gap-1 text-sm text-[var(--muted)]"><a href="/webentwicklung">Webentwicklung</a><a href="/buchung">Projekt anfragen</a><a href="/shop">Shop</a><a href="/kontakt">Kontakt</a></div></div>
+          <div><p className="font-semibold">Rechtliches</p><div className="mt-2 grid gap-1 text-sm text-[var(--muted)]"><a href="/impressum">Impressum</a><a href="/datenschutz">Datenschutz</a><a href="/rechtlicher-hinweis">Rechtlicher Hinweis</a><button type="button" onClick={openPrivacyNotice} className="text-left">Cookie-Einstellungen</button></div></div>
         </div>
-        <div className="mb-8 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-6">
-          <p className="font-mono text-xs tracking-[0.18em] text-[var(--accent)]">VOLUNTÄR · OPEN SOURCE</p>
-          <h2 className="mt-2 text-lg font-semibold text-[var(--text)]">Meine Arbeit unterstützen</h2>
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--muted)]">Wenn dir meine Open-Source-Projekte, Security-Artikel oder Tools gefallen, kannst du meine Arbeit freiwillig per Kryptowährung unterstützen.</p>
-          <div className="mt-5 grid gap-3 lg:grid-cols-3">{donations.map((donation) => <div key={donation.name} className="rounded-xl border border-[var(--border)] bg-[var(--bg)] p-4"><p className="text-sm font-medium text-[var(--text)]">{donation.name}</p><button type="button" onClick={() => navigator.clipboard?.writeText(donation.address)} className="mt-2 block w-full break-all text-left font-mono text-[11px] leading-5 text-[var(--muted)] hover:text-[var(--accent)]" title="Adresse kopieren" aria-label={`${donation.name} Adresse kopieren`}>{donation.address}</button><a href={`${donation.scheme}:${donation.address}`} className="mt-3 inline-flex min-h-9 items-center rounded-full border border-[var(--border)] px-3 py-1.5 text-xs font-medium text-[var(--text)] hover:border-[var(--accent)]">Wallet öffnen →</a></div>)}</div>
+
+        <div className="mt-8 flex flex-col gap-4 border-t border-[var(--border)] pt-6 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-xs text-[var(--muted)]">© {new Date().getFullYear()} Linux Aaron. Alle Rechte vorbehalten.</p>
+          <div className="flex items-center gap-3 text-[var(--muted)]"><a href="https://github.com/linuxaaron" aria-label="GitHub"><Github size={18}/></a><a href="https://www.instagram.com/linux_aaron/" aria-label="Instagram"><Instagram size={18}/></a><a href="https://open.spotify.com/" aria-label="Spotify"><Music2 size={18}/></a><a href="/kontakt" aria-label="Kontakt"><ExternalLink size={18}/></a></div>
         </div>
-        <div className="flex flex-col gap-4 text-sm text-[var(--muted)] sm:flex-row sm:items-center sm:justify-between"><span>© 2026 Joscha Aaron Schmidt</span><div className="flex flex-wrap items-center gap-5"><a href="/impressum">Impressum</a><a href="/datenschutz">Datenschutz</a><a href="/newsletter">Newsletter</a><button type="button" onClick={openPrivacyNotice} className="transition hover:text-[var(--text)]">Cookie-Hinweis</button><a href="https://github.com/linuxaaron" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profil"><Github size={16}/></a><a href="https://www.instagram.com/linux_aaron/" target="_blank" rel="noreferrer" aria-label="Instagram"><Instagram size={16}/></a><a href="https://www.tiktok.com/@linux_aaron" target="_blank" rel="noreferrer" aria-label="TikTok"><Music2 size={16}/></a></div></div>
       </div>
     </footer>
   );
