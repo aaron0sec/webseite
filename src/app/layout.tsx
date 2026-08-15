@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
+import { Karla, IBM_Plex_Mono } from "next/font/google";
 import "@/styles/globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -8,10 +8,10 @@ import { BitcoinTicker } from "@/components/bitcoin-ticker";
 import { CursorLiquid } from "@/components/cursor-liquid";
 import { CuteFooterCat } from "@/components/cute-footer-cat";
 
-const plexSans = IBM_Plex_Sans({
+const karla = Karla({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-plex-sans",
+  variable: "--font-karla",
   weight: ["400", "500", "600", "700"],
 });
 
@@ -95,7 +95,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
       </head>
-      <body className={`${plexSans.variable} ${plexMono.variable}`}>
+      <body className={`${karla.variable} ${plexMono.variable}`}>
         <CursorLiquid />
         <SiteHeader />
         <BitcoinTicker />
