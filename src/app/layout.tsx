@@ -25,6 +25,7 @@ const plexMono = IBM_Plex_Mono({
 const siteUrl = "https://www.joschaschmidt.com";
 const siteName = "Joscha Schmidt | Webentwicklung & Cybersecurity";
 const siteDescription = "Joscha Schmidt, auch Joscha Aaron Schmidt, entwickelt professionelle Websites und Webanwendungen und arbeitet mit Linux, OSINT, Web Security und Cybersecurity.";
+const favicon = "/favicon.svg?v=2";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -40,9 +41,10 @@ export const metadata: Metadata = {
     "OSINT", "Linux", "Cloud Computing", "Security Audit", "IT Beratung", "Linux Aaron"
   ],
   icons: {
-    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
-    shortcut: ["/favicon.svg"]
+    icon: [{ url: favicon, type: "image/svg+xml", sizes: "any" }],
+    shortcut: [{ url: favicon, type: "image/svg+xml" }],
   },
+  manifest: "/manifest.webmanifest",
   alternates: { canonical: "/" },
   robots: {
     index: true,
